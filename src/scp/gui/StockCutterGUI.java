@@ -1,5 +1,6 @@
 package scp.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -13,7 +14,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
 
 /**
  *
@@ -74,6 +78,35 @@ public class StockCutterGUI extends JFrame implements ActionListener {
 
     setJMenuBar(menuBar);
 
+    //--------------------------------------------------------------------------
+
+    JPanel unsortedPanel = new JPanel();
+    unsortedPanel.setBackground(Color.white);
+    unsortedPanel.setToolTipText("unsorted ScrollPanel");
+    JScrollPane unsortedScrollPane = new JScrollPane(unsortedPanel);
+    unsortedScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+    JPanel navigation = new JPanel();
+    navigation.setBackground(Color.white);
+    navigation.setToolTipText("Navigation");
+
+    JPanel sortedPanel = new JPanel();
+    sortedPanel.setBackground(Color.white);
+    sortedPanel.setToolTipText("sorted ScrollPanel");
+    JScrollPane sortedScrollPane = new JScrollPane(sortedPanel);
+    sortedScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+    setLayout(null);
+    
+    unsortedScrollPane.setBounds(10, 10, 300, 300);
+    add(unsortedScrollPane);
+    
+    navigation.setBounds(10, 320, 300, 221);
+    add(navigation);
+    
+    sortedScrollPane.setBounds(320, 10, 465, 533);
+    add(sortedScrollPane);
+    
   }
 
   public void actionPerformed(ActionEvent e) {
