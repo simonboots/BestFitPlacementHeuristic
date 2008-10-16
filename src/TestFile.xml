@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:problem xmlns:p="http://www.stiefels.net/StockCuttingProblem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.stiefels.net/StockCuttingProblem StockCuttingProblem.xsd ">
+  <stockroll width="0"/>
+  <shapes>
+    <shape id="1">
+      <height>50</height>
+      <width>100</width>
+    </shape>
+  </shapes>
+</p:problem>
