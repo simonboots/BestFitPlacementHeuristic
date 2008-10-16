@@ -2,11 +2,13 @@ package scp.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -18,13 +20,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
+import scp.common.Shape;
+import scp.common.xml.Parser;
 
 /**
  *
  * @author Benjamin Clauss
  */
 public class StockCutterGUI extends JFrame implements ActionListener {
-
+  
   private JMenuBar menuBar;
   private JMenu fileMenu;
   private JMenu extrasMenu;
@@ -33,6 +37,13 @@ public class StockCutterGUI extends JFrame implements ActionListener {
   private JMenuItem closeItem;
   private JMenuItem extrasItem;
   private JMenuItem aboutItem;
+  
+  private JPanel leftShapeList;
+  private JScrollPane leftScrollPanel;
+  
+  private ShapeGetter sg = new ShapeGetter();
+  
+  private ArrayList<Shape> shapeList = new ArrayList<Shape>();
 
   public StockCutterGUI() {
     super("Das Stock-Cutting Problem");
@@ -41,7 +52,7 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     Toolkit toolkit = Toolkit.getDefaultToolkit();
     Dimension screenSize = toolkit.getScreenSize();
 
-    setSize(800, 600);
+    setSize(800, 550);
 
     int x = (screenSize.width - getWidth()) / 2;
     int y = (screenSize.height - getHeight()) / 2;
@@ -80,56 +91,70 @@ public class StockCutterGUI extends JFrame implements ActionListener {
 
     //--------------------------------------------------------------------------
 
-    JPanel unsortedPanel = new JPanel();
-    unsortedPanel.setBackground(Color.white);
-    unsortedPanel.setToolTipText("unsorted ScrollPanel");
-    JScrollPane unsortedScrollPane = new JScrollPane(unsortedPanel);
-    unsortedScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    leftShapeList = new LeftDrawingPane(shapeList);
+    leftShapeList.setBackground(Color.white);
+    leftScrollPanel = new JScrollPane(leftShapeList);
+    leftScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    leftScrollPanel.setPreferredSize(new Dimension(300, 350));
 
-    JPanel navigation = new JPanel();
-    navigation.setBackground(Color.white);
-    navigation.setToolTipText("Navigation");
+    JPanel navigationPanel = new JPanel(new FlowLayout());
+    navigationPanel.setBackground(Color.white);
 
-    JPanel sortedPanel = new JPanel();
-    sortedPanel.setBackground(Color.white);
-    sortedPanel.setToolTipText("sorted ScrollPanel");
-    JScrollPane sortedScrollPane = new JScrollPane(sortedPanel);
-    sortedScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    JPanel rightShapeList = new JPanel();
+    rightShapeList.setBackground(Color.white);
+    JScrollPane rightScrollPanel = new JScrollPane(rightShapeList);
+    rightScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
     setLayout(null);
-    
-    unsortedScrollPane.setBounds(10, 10, 300, 300);
-    add(unsortedScrollPane);
-    
-    navigation.setBounds(10, 320, 300, 221);
-    add(navigation);
-    
-    sortedScrollPane.setBounds(320, 10, 465, 533);
-    add(sortedScrollPane);
-    
+
+    leftScrollPanel.setBounds(10, 10, 300, 350);
+    add(leftScrollPanel);
+
+    navigationPanel.setBounds(10, 370, 300, 122);
+    add(navigationPanel);
+
+    rightScrollPanel.setBounds(320, 10, 465, 483);
+    add(rightScrollPanel);
+
   }
 
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == openItem) {
-      final JFileChooser fc = new JFileChooser();
+      final JFileChooser fc = new JFileChooser(".");
 
       fc.setFileFilter(new FileFilter() {
 
         @Override
         public boolean accept(File f) {
-          return f.isDirectory() || f.getName().toLowerCase().endsWith(".scp");
+          return f.isDirectory() || f.getName().toLowerCase().endsWith(".xml") || f.getName().toLowerCase().endsWith(".scp");
         }
 
         @Override
         public String getDescription() {
-          return "SCP Dateien (*.scp)";
+          return "SCP Dateien (*.scp, *.xml)";
         }
       });
 
       int returnVal = fc.showOpenDialog(this);
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         File file = fc.getSelectedFile();
-        System.out.println("Opening: " + file.getName());
+        
+        System.out.println("Opening: " + file.getAbsolutePath());
+
+        Parser p = new Parser(file.getAbsolutePath());
+		p.setSchemaFilename("src/StockCuttingProblem.xsd");
+		p.setShapeDelegate(sg);
+        try {
+          p.parse();
+        } catch (Exception ex) {
+          JOptionPane.showMessageDialog(null, ex.toString(), "Fehler beim Parsen!", JOptionPane.ERROR_MESSAGE);
+          ex.printStackTrace();
+        }
+        shapeList = sg.getShapeList();
+        
+        leftScrollPanel.revalidate();
+        leftScrollPanel.repaint();
+        
       } else {
         System.out.println("Open command cancelled by user.");
       }
