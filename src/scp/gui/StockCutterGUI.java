@@ -150,7 +150,10 @@ public class StockCutterGUI extends JFrame implements ActionListener {
           JOptionPane.showMessageDialog(null, ex.toString(), "Fehler beim Parsen!", JOptionPane.ERROR_MESSAGE);
           ex.printStackTrace();
         }
-        shapeList = sg.getShapeList();
+        
+        for (Shape shape : sg.getShapeList()) {
+          shapeList.add(shape);
+        }
         
         leftScrollPanel.revalidate();
         leftScrollPanel.repaint();

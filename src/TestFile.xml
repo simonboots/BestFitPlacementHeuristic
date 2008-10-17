@@ -6,5 +6,25 @@
       <height>50</height>
       <width>100</width>
     </shape>
+    <shape id="47">
+      <height>20</height>
+      <width>50</width>
+    </shape>
+    <shape id="11">
+      <height>40</height>
+      <width>50</width>
+    </shape>
+    <shape id="0">
+      <height>50</height>
+      <width>100</width>
+    </shape>
+    <shape id="8">
+      <height>20</height>
+      <width>50</width>
+    </shape>
+    <shape id="15">
+      <height>40</height>
+      <width>50</width>
+    </shape>
   </shapes>
 </p:problem>
