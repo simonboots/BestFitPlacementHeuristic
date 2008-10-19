@@ -2,9 +2,9 @@ package scp.gui;
 
 import java.util.ArrayList;
 import scp.common.Shape;
-import scp.common.xml.IShapeDelegate;
+import scp.common.xml.IShapeCallback;
 
-public class ShapeGetter implements IShapeDelegate {
+public class ShapeGetter implements IShapeCallback {
 
   private ArrayList<Shape> shapeList = new ArrayList<Shape>();
 

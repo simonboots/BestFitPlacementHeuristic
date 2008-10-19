@@ -2,7 +2,7 @@ package scp.common.xml;
 
 import scp.common.Shape;
 
-public class ShapeDelegateDemo implements IShapeDelegate {
+public class ShapeDelegateDemo implements IShapeCallback {
 
 	public void newShape(Integer id, Integer width, Integer height) {
 		Shape s = new Shape(id, height, width);

@@ -11,14 +11,14 @@ import javax.xml.stream.events.XMLEvent;
 
 public class ShapeParser {
 	
-	private IShapeDelegate shapeDelegate = null;
+	private IShapeCallback shapeDelegate = null;
 	private Vector<QName> stack = new Vector<QName>();
 	private String characters = null;
 	private int shapeid = 0;
 	private int height = 0;
 	private int width = 0;
 	
-	public ShapeParser(IShapeDelegate delegate) {
+	public ShapeParser(IShapeCallback delegate) {
 		this.shapeDelegate = delegate;
 	}
 

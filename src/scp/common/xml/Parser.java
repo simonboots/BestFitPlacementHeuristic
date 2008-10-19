@@ -12,7 +12,7 @@ public class Parser {
 
 	String documentFilename = null;
 	String schemaFilename = null;
-	IShapeDelegate shapeDelegate = null;
+	IShapeCallback shapeDelegate = null;
 
 	public Parser(String filename) {
 		this.documentFilename = filename;
@@ -22,7 +22,7 @@ public class Parser {
 		this.schemaFilename = filename;
 	}
 
-	public void setShapeDelegate(IShapeDelegate delegate) {
+	public void setShapeDelegate(IShapeCallback delegate) {
 		this.shapeDelegate = delegate;
 	}
 
