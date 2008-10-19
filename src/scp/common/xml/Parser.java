@@ -8,24 +8,47 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.*;
 
+import scp.common.xml.states.BeginState;
+import scp.common.xml.states.IParserState;
+
 public class Parser {
 
 	String documentFilename = null;
 	String schemaFilename = null;
-	IShapeCallback shapeDelegate = null;
+	IShapeCallback shapeCallback = null;
+	IParserState state = null;
+	ShapeDataCollector shapeDataCollector = null;
 
 	public Parser(String filename) {
 		this.documentFilename = filename;
+		this.state = new BeginState();
+		this.shapeCallback = new ShapeNullCallback();
+	}
+
+	public ShapeDataCollector getShapeDataCollector() {
+		return shapeDataCollector;
+	}
+
+	public void setShapeDataCollector(ShapeDataCollector shapeDataCollector) {
+		this.shapeDataCollector = shapeDataCollector;
 	}
 
 	public void setSchemaFilename(String filename) {
 		this.schemaFilename = filename;
 	}
 
-	public void setShapeDelegate(IShapeCallback delegate) {
-		this.shapeDelegate = delegate;
+	public IShapeCallback getShapeCallback() {
+		return shapeCallback;
 	}
 
+	public void setShapeCallback(IShapeCallback callback) {
+		this.shapeCallback = callback;
+	}
+	
+	public void setParserState(IParserState state) {
+		this.state = state;
+	}
+	
 	public int parse() throws FileNotFoundException, XMLStreamException {
 		if (!validate()) {
 			return 0;
@@ -34,13 +57,15 @@ public class Parser {
 		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 		XMLEventReader reader = inputFactory.createXMLEventReader(new FileReader(documentFilename));
 
-		ShapeParser shapeParser = null;
-		if (shapeDelegate != null)
-			shapeParser = new ShapeParser(shapeDelegate);
-
 		while (reader.hasNext()) {
 			XMLEvent event = reader.nextEvent();
-			if (shapeParser != null) shapeParser.event(event);
+			if (event.isStartElement()) {
+				state.startElement(this, (StartElement)event);
+			} else if (event.isEndElement()) {
+				state.endElement(this, (EndElement)event);
+			} else if (event.isCharacters()) {
+				state.characters(this, (Characters)event);
+			}
 		}
 
 		return 0;
@@ -58,21 +83,5 @@ public class Parser {
 		}
 
 		return true;
-	}
-	
-	public static void main(String[] args) {
-		Parser p = new Parser("src/TestFile.xml");
-		p.setSchemaFilename("src/StockCuttingProblem.xsd");
-		p.setShapeDelegate(new ShapeDelegateDemo());
-		
-		try {
-			p.parse();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

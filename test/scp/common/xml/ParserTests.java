@@ -18,7 +18,7 @@ public class ParserTests implements IShapeCallback {
 	public void setUp() throws Exception {
 		p = new Parser("test/scp/common/xml/TestFile.xml");
 		p.setSchemaFilename("StockCuttingProblem.xsd");
-		p.setShapeDelegate(this);
+		p.setShapeCallback(this);
 	}
 
 	@Test
@@ -36,7 +36,6 @@ public class ParserTests implements IShapeCallback {
 	}
 
 	public void newShape(Integer id, Integer width, Integer height) {
-		System.out.println("called");
 		assertTrue((id == 1) && (width == 100) && (height == 50));
 	}
 

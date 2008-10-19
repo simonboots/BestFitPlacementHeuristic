@@ -143,7 +143,7 @@ public class StockCutterGUI extends JFrame implements ActionListener {
 
         Parser p = new Parser(file.getAbsolutePath());
 		p.setSchemaFilename("src/StockCuttingProblem.xsd");
-		p.setShapeDelegate(sg);
+		p.setShapeCallback(sg);
         try {
           p.parse();
         } catch (Exception ex) {
