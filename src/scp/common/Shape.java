@@ -1,12 +1,13 @@
 package scp.common;
 
+import java.util.Collection;
+import java.util.Collections;
+
 public class Shape implements Comparable<Shape> {
 
     private Integer id;
     private Integer height;
     private Integer width;
-    private Integer x = null;
-    private Integer y = null;
 
     public Shape(Integer id, Integer height, Integer width) {
         this.id = id;
@@ -32,22 +33,6 @@ public class Shape implements Comparable<Shape> {
 
     protected void setWidth(Integer newWidth) {
         this.width = newWidth;
-    }
-
-    public Integer getX() {
-        return x;
-    }
-
-    public void setX(Integer x) {
-        this.x = x;
-    }
-
-    public Integer getY() {
-        return y;
-    }
-
-    public void setY(Integer y) {
-        this.y = y;
     }
 
     public void rotate() {
