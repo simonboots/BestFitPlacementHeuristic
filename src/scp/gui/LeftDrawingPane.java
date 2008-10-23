@@ -3,15 +3,15 @@ package scp.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.Vector;
 import javax.swing.JPanel;
 import scp.common.Shape;
 
 public class LeftDrawingPane extends JPanel {
 
-  private ArrayList<Shape> shapeList = new ArrayList<Shape>();
+  private Vector<Shape> shapeList = new Vector<Shape>();
 
-  public LeftDrawingPane(ArrayList<Shape> shapeList) {
+  public LeftDrawingPane(Vector<Shape> shapeList) {
     this.shapeList = shapeList;
   }
 
