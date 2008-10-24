@@ -23,8 +23,14 @@ public class RightDrawingPane extends JPanel {
     
     while(itr.hasNext()) {
       Object key = itr.next();
-      g.setColor(Color.black);
+      g.setColor(Color.lightGray);
       g.fillRect(sortedList.get(key).getX(), 
+              sortedList.get(key).getY(), 
+              sortedList.get(key).getWidth(), 
+              sortedList.get(key).getHeight());
+      
+      g.setColor(Color.black);
+      g.drawRect(sortedList.get(key).getX(), 
               sortedList.get(key).getY(), 
               sortedList.get(key).getWidth(), 
               sortedList.get(key).getHeight());

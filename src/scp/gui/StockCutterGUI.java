@@ -3,6 +3,7 @@ package scp.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -52,6 +53,9 @@ public class StockCutterGUI extends JFrame implements ActionListener {
   private JTextArea logPanel;
   private JScrollPane logScrollPanel;
   private JPanel leftPanel;
+  private int counter = 0;
+  private int xCoord = 0;
+  private int yCoord = 0;
 
   public StockCutterGUI() {
     super("Das Stock-Cutting Problem");
@@ -164,9 +168,15 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     } else if (e.getSource() == aboutItem) {
       JOptionPane.showMessageDialog(null, "(c)2008 by Simon Stiefel & Benjamin Clauss", "Über", JOptionPane.INFORMATION_MESSAGE);
     } else if (e.getSource() == next) {
-      sortedList.put(1, new PlacedShape(12, 50, 100, 0, 0));
-      rightScrollPanel.revalidate();
-      rightScrollPanel.repaint();
+      if (counter++ < 20) {
+        sortedList.put(counter, new PlacedShape(counter, 50, 100, xCoord, yCoord));
+        rightShapeList.setPreferredSize(new Dimension(0, yCoord + 300));
+        rightScrollPanel.getVerticalScrollBar().setValue(rightScrollPanel.getVerticalScrollBar().getMaximum()); 
+        rightScrollPanel.revalidate();
+        rightScrollPanel.repaint();
+        yCoord += 50;
+        xCoord += 10;
+      }
     } else if (e.getSource() == playStop) {
       if (playStop.getText().equals("play")) {
         playStop.setText("stop");
@@ -174,9 +184,7 @@ public class StockCutterGUI extends JFrame implements ActionListener {
         playStop.setText("play");
       }
     } else if (e.getSource() == previous) {
-      sortedList.remove(1);
-      rightScrollPanel.revalidate();
-      rightScrollPanel.repaint();
+      System.out.println("No net imblemendiert ...");
     }
   }
 
