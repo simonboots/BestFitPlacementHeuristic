@@ -11,6 +11,13 @@ public class PlacedShape extends Shape {
 		this.setY(y);
 	}
 	
+	public PlacedShape(Shape shape, Integer x, Integer y) {
+		super(shape.getId(), shape.getHeight(), shape.getWidth());
+		if (shape.isRotated()) this.rotate();
+		this.setX(x);
+		this.setY(y);
+	}
+	
     public Integer getX() {
         return x;
     }

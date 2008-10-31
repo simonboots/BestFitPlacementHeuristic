@@ -62,5 +62,15 @@ public class ShapeTests {
 		assertTrue(shape.compareTo(largerWidthShape) == -1);
 	}
 	
+	@Test
+	public void rotationFlag() {
+		Shape rotatedShape = new Shape(7, 10, 30);
+		assertFalse(rotatedShape.isRotated());
+		rotatedShape.rotate();
+		assertTrue(rotatedShape.isRotated());
+		rotatedShape.rotate();
+		assertFalse(rotatedShape.isRotated());
+	}
+	
 
 }

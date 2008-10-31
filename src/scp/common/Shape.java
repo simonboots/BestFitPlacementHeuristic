@@ -8,11 +8,14 @@ public class Shape implements Comparable<Shape> {
     private Integer id;
     private Integer height;
     private Integer width;
+    
+    private Boolean rotated;
 
     public Shape(Integer id, Integer height, Integer width) {
         this.id = id;
         this.height = height;
         this.width = width;
+        this.rotated = new Boolean(false);
     }
 
     public int getId() {
@@ -39,6 +42,11 @@ public class Shape implements Comparable<Shape> {
         Integer oldWidth = this.getWidth();
         this.setWidth(this.getHeight());
         this.setHeight(oldWidth);
+        this.rotated = ! this.rotated;
+    }
+    
+    public Boolean isRotated() {
+    	return this.rotated;
     }
 
     public boolean isWiderThanHigher() {
