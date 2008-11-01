@@ -3,6 +3,7 @@ package scp.common.xml;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -273,4 +274,17 @@ public class XMLBridge {
 		
 		return sorting;
 	}
+	
+//	class SortById implements Comparator<Shape> {
+//
+//		public int compare(Shape s1, Shape s2) {
+//			if (s1.getId() < s2.getId()) {
+//				return 1;
+//			} else if (s1.getId() > s2.getId()) {
+//				return -1;
+//			}
+//			
+//			return 0;
+//		}
+//	}
 }
