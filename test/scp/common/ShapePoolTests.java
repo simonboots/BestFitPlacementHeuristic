@@ -1,12 +1,12 @@
 package scp.common;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import static org.junit.Assert.*;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import scp.logic.ShapePool;
 
 public class ShapePoolTests {
 	
