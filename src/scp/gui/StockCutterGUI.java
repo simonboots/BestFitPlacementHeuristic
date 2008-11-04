@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.JFileChooser;
@@ -22,9 +23,10 @@ import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+import javax.xml.bind.JAXBException;
 import scp.common.PlacedShape;
 import scp.common.Shape;
-import scp.common.xml.Parser;
+import scp.common.xml.XMLBridge;
 
 /**
  *
@@ -70,10 +72,6 @@ public class StockCutterGUI extends JFrame implements ActionListener {
    */
   private JTextArea logPanel;
   private JScrollPane logScrollPanel;
-  /**
-   * others
-   */
-  private ShapeGetter sg = new ShapeGetter();
 
   public StockCutterGUI() {
     super("Das Stock-Cutting Problem");
@@ -188,15 +186,14 @@ public class StockCutterGUI extends JFrame implements ActionListener {
         File file = fc.getSelectedFile();
         System.out.println("Opening: " + file.getAbsolutePath());
 
-        Parser p = new Parser(file.getAbsolutePath());
-        p.setSchemaFilename("src/StockCuttingProblem.xsd");
-        p.setShapeCallback(sg);
+        XMLBridge bridge;
         try {
-          p.parse();
-        } catch (Exception ex) {
+          bridge = new XMLBridge();
+          bridge.loadFile(file);
+          loadShapeMagazine(bridge.getShapeMap());
+        } catch (JAXBException ex) {
           ex.printStackTrace();
         }
-        loadShapeMagazine(sg.getShapeList());
       }
     } else if (e.getSource() == closeItem) {
       System.exit(0);
@@ -211,8 +208,9 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     }
   }
 
-  public void loadShapeMagazine(HashMap<Integer, Shape> hm) {
+  public void loadShapeMagazine(Map<Integer, Shape> hm) {
     leftList.putAll(hm);
+    appendToLog("loaded Shapes from XML");
   }
 
   public void placeShape(PlacedShape ps) {
