@@ -3,13 +3,11 @@ package scp.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.HashMap;
-import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.JFileChooser;
@@ -23,8 +21,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import scp.common.PlacedShape;
 import scp.common.Shape;
+import scp.common.xml.Parser;
 
 /**
  *
@@ -32,6 +32,10 @@ import scp.common.Shape;
  */
 public class StockCutterGUI extends JFrame implements ActionListener {
 
+  private PlacedShape testPlacedShape = new PlacedShape(1, 30, 100, 0, 0);
+  /**
+   * MenuBar-Items
+   */
   private JMenuBar menuBar;
   private JMenu fileMenu;
   private JMenu extrasMenu;
@@ -40,22 +44,36 @@ public class StockCutterGUI extends JFrame implements ActionListener {
   private JMenuItem closeItem;
   private JMenuItem extrasItem;
   private JMenuItem aboutItem;
+  /**
+   * (Scroll-)Panels
+   */
+  private JPanel leftPanel;
   private JPanel leftShapeList;
   private JScrollPane leftScrollPanel;
-  private JPanel navigationPanel;
   private JPanel rightShapeList;
   private JScrollPane rightScrollPanel;
-  private Vector<Shape> shapeList = new Vector<Shape>();
-  private HashMap<Integer, PlacedShape> sortedList = new HashMap<Integer, PlacedShape>();
+  /**
+   * Lists for ScrollPanels
+   */
+  private HashMap<Integer, Shape> leftList = new HashMap<Integer, Shape>();
+  private HashMap<Integer, PlacedShape> rightList = new HashMap<Integer, PlacedShape>();
+  /**
+   * Navigation-Items
+   */
+  private JPanel navigationPanel;
   private JButton next;
   private JButton playStop;
   private JButton previous;
+  private JButton reset;
+  /**
+   * Logger
+   */
   private JTextArea logPanel;
   private JScrollPane logScrollPanel;
-  private JPanel leftPanel;
-  private int counter = 0;
-  private int xCoord = 0;
-  private int yCoord = 0;
+  /**
+   * others
+   */
+  private ShapeGetter sg = new ShapeGetter();
 
   public StockCutterGUI() {
     super("Das Stock-Cutting Problem");
@@ -92,7 +110,7 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     setJMenuBar(menuBar);
 
 
-    leftShapeList = new LeftDrawingPane(shapeList);
+    leftShapeList = new LeftDrawingPane(leftList);
     leftShapeList.setBackground(Color.white);
     leftScrollPanel = new JScrollPane(leftShapeList);
     leftScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -113,23 +131,28 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     previous.setPreferredSize(new Dimension(75, 26));
     previous.addActionListener(this);
 
+    reset = new JButton("reset");
+    reset.setPreferredSize(new Dimension(75, 26));
+    reset.addActionListener(this);
+
     navigationPanel.add(previous);
     navigationPanel.add(playStop);
     navigationPanel.add(next);
+    navigationPanel.add(reset);
 
     leftPanel = new JPanel(new BorderLayout());
     leftPanel.add(leftScrollPanel, BorderLayout.NORTH);
     leftPanel.add(navigationPanel, BorderLayout.CENTER);
 
-    rightShapeList = new RightDrawingPane(sortedList);
+    rightShapeList = new RightDrawingPane(rightList);
     rightShapeList.setBackground(Color.white);
     rightScrollPanel = new JScrollPane(rightShapeList);
     rightScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     rightScrollPanel.setPreferredSize(new Dimension(418, 450));
 
-    logPanel = new JTextArea("=== MESSAGE LOG ===\n\nhier\nsoll\nd'r\nLog\nrein!");
+    logPanel = new JTextArea();
     logPanel.setEditable(false);
-    logPanel.setRows(4);
+    logPanel.setRows(5);
     logScrollPanel = new JScrollPane(logPanel);
     logScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -139,6 +162,8 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     add(rightScrollPanel, BorderLayout.CENTER);
     add(logScrollPanel, BorderLayout.SOUTH);
 
+    pack();
+    setVisible(true);
   }
 
   public void actionPerformed(ActionEvent e) {
@@ -162,35 +187,60 @@ public class StockCutterGUI extends JFrame implements ActionListener {
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         File file = fc.getSelectedFile();
         System.out.println("Opening: " + file.getAbsolutePath());
+
+        Parser p = new Parser(file.getAbsolutePath());
+        p.setSchemaFilename("src/StockCuttingProblem.xsd");
+        p.setShapeCallback(sg);
+        try {
+          p.parse();
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+        loadShapeMagazine(sg.getShapeList());
       }
     } else if (e.getSource() == closeItem) {
       System.exit(0);
     } else if (e.getSource() == aboutItem) {
       JOptionPane.showMessageDialog(null, "(c)2008 by Simon Stiefel & Benjamin Clauss", "Über", JOptionPane.INFORMATION_MESSAGE);
     } else if (e.getSource() == next) {
-      if (counter++ < 20) {
-        sortedList.put(counter, new PlacedShape(counter, 50, 100, xCoord, yCoord));
-        rightShapeList.setPreferredSize(new Dimension(0, yCoord + 300));
-        rightScrollPanel.getVerticalScrollBar().setValue(rightScrollPanel.getVerticalScrollBar().getMaximum()); 
-        rightScrollPanel.revalidate();
-        rightScrollPanel.repaint();
-        yCoord += 50;
-        xCoord += 10;
-      }
-    } else if (e.getSource() == playStop) {
-      if (playStop.getText().equals("play")) {
-        playStop.setText("stop");
-      } else if (playStop.getText().equals("stop")) {
-        playStop.setText("play");
-      }
+      placeShape(testPlacedShape);
     } else if (e.getSource() == previous) {
-      System.out.println("No net imblemendiert ...");
+      removeShape(testPlacedShape);
+    } else if (e.getSource() == reset) {
+      resetAll();
     }
   }
 
+  public void loadShapeMagazine(HashMap<Integer, Shape> hm) {
+    leftList.putAll(hm);
+  }
+
+  public void placeShape(PlacedShape ps) {
+    rightList.put(ps.getId(), ps);
+    appendToLog("placed Shape (ID: " + ps.getId() + " @ " + ps.getX() + "," + ps.getY() + ")");
+  }
+
+  public void removeShape(PlacedShape ps) {
+    rightList.remove(ps.getId());
+    appendToLog("removed Shape (ID: " + ps.getId() + " @ " + ps.getX() + "," + ps.getY() + ")");
+  }
+
+  public void resetAll() {
+    logPanel.setText("");
+    rightList.clear();
+    leftList.clear();
+  }
+
+  public void appendToLog(String s) {
+    logPanel.append(s + "\n");
+  }
+
   public static void main(String[] args) {
-    StockCutterGUI scg = new StockCutterGUI();
-    scg.pack();
-    scg.setVisible(true);
+    SwingUtilities.invokeLater(new Runnable() {
+
+      public void run() {
+        new StockCutterGUI();
+      }
+    });
   }
 }

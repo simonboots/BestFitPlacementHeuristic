@@ -34,7 +34,8 @@ public class RightDrawingPane extends JPanel {
               sortedList.get(key).getY(), 
               sortedList.get(key).getWidth(), 
               sortedList.get(key).getHeight());
-      revalidate();
     }
+    revalidate();
+    repaint();
   }
 }
