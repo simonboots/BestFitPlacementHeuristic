@@ -50,7 +50,16 @@ public class StockRoll {
 			}
 		}
 		
-		return new Gap(location, width, height);
+		// Check left and right height
+		// left height
+		int leftheight = 0;
+		if (location != 0) leftheight = skyline[location - 1]; 
+		
+		// right height
+		int rightheight = 0;
+		if (location + width < this.width) rightheight = skyline[location + width];
+		
+		return new Gap(location, width, height, leftheight, rightheight);
 	}
 	
 	public void raiseGap(Gap gap) throws WrongPlacementException {

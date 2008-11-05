@@ -5,6 +5,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import scp.common.PlacedShape;
+import scp.common.Shape;
+import scp.logic.policies.INichePlacementPolicy;
+import scp.logic.policies.PlaceAtLeftmostPolicy;
+import scp.logic.policies.PlaceAtRightmostPolicy;
+import scp.logic.policies.PlaceNextToShortestNeighbourPolicy;
+import scp.logic.policies.PlaceNextToTallestNeighbourPolicy;
 
 public class StockRollTests {
 
@@ -178,5 +184,112 @@ public class StockRollTests {
 		}
 		
 		assertEquals("0 0 0 0 0 0 0 0 0 0", stockRoll.skylineToString());
+	}
+	
+	@Test
+	public void gapHeightsTest() {
+		PlacedShape s1 = new PlacedShape(1, 3, 2, 0, 0);
+		PlacedShape s2 = new PlacedShape(2, 4, 5, 5, 0);
+		
+		try {
+			stockRoll.placeShape(s1);
+			stockRoll.placeShape(s2);
+		} catch (WrongPlacementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Gap g = stockRoll.getLowestGap();
+		
+		assertEquals(3, g.getLeftHeight());
+		assertEquals(4, g.getRightHeight());
+	}
+	
+	@Test
+	public void leftmostPolicyTest() {
+		PlacedShape s1 = new PlacedShape(1, 3, 2, 0, 0);
+		PlacedShape s2 = new PlacedShape(2, 4, 5, 5, 0);
+		
+		try {
+			stockRoll.placeShape(s1);
+			stockRoll.placeShape(s2);
+		} catch (WrongPlacementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Gap g = stockRoll.getLowestGap();
+		INichePlacementPolicy pp = new PlaceAtLeftmostPolicy();
+		
+		Shape s = new Shape(3, 5, 1);
+		PlacedShape newPlacedShape = pp.placeShape(s, g);
+		
+		assertEquals(2, newPlacedShape.getX());
+	}
+	
+	@Test
+	public void rightmostPolicyTest() {
+		PlacedShape s1 = new PlacedShape(1, 3, 2, 0, 0);
+		PlacedShape s2 = new PlacedShape(2, 4, 5, 5, 0);
+		
+		try {
+			stockRoll.placeShape(s1);
+			stockRoll.placeShape(s2);
+		} catch (WrongPlacementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Gap g = stockRoll.getLowestGap();
+		INichePlacementPolicy pp = new PlaceAtRightmostPolicy();
+		
+		Shape s = new Shape(3, 5, 1);
+		PlacedShape newPlacedShape = pp.placeShape(s, g);
+		
+		assertEquals(4, newPlacedShape.getX());
+	}
+	
+	@Test
+	public void tallestNeighbourPolicyTest() {
+		PlacedShape s1 = new PlacedShape(1, 3, 2, 0, 0);
+		PlacedShape s2 = new PlacedShape(2, 4, 5, 5, 0);
+		
+		try {
+			stockRoll.placeShape(s1);
+			stockRoll.placeShape(s2);
+		} catch (WrongPlacementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Gap g = stockRoll.getLowestGap();
+		INichePlacementPolicy pp = new PlaceNextToTallestNeighbourPolicy();
+		
+		Shape s = new Shape(3, 5, 1);
+		PlacedShape newPlacedShape = pp.placeShape(s, g);
+		
+		assertEquals(4, newPlacedShape.getX());
+	}
+	
+	@Test
+	public void shortestNeighbourPolicyTest() {
+		PlacedShape s1 = new PlacedShape(1, 3, 2, 0, 0);
+		PlacedShape s2 = new PlacedShape(2, 4, 5, 5, 0);
+		
+		try {
+			stockRoll.placeShape(s1);
+			stockRoll.placeShape(s2);
+		} catch (WrongPlacementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Gap g = stockRoll.getLowestGap();
+		INichePlacementPolicy pp = new PlaceNextToShortestNeighbourPolicy();
+		
+		Shape s = new Shape(3, 5, 1);
+		PlacedShape newPlacedShape = pp.placeShape(s, g);
+		
+		assertEquals(2, newPlacedShape.getX());
 	}
 }

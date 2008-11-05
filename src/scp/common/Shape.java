@@ -37,6 +37,10 @@ public class Shape implements Comparable<Shape> {
     protected void setWidth(Integer newWidth) {
         this.width = newWidth;
     }
+    
+    public int getArea() {
+    	return getWidth() * getHeight();
+    }
 
     public void rotate() {
         Integer oldWidth = this.getWidth();
@@ -63,19 +67,23 @@ public class Shape implements Comparable<Shape> {
     public int compareTo(Shape s) {
         // Breite vergleichen
         if (this.getWidth() > s.getWidth()) {
-            return 1;
-        } else if (this.getWidth() < s.getWidth()) {
             return -1;
+        } else if (this.getWidth() < s.getWidth()) {
+            return 1;
         } else {
             // Breite ist identisch; Höhe vergleichen
             if (this.getHeight() > s.getHeight()) {
-                return 1;
-            } else if (this.getHeight() < s.getHeight()) {
                 return -1;
+            } else if (this.getHeight() < s.getHeight()) {
+                return 1;
             } else {
                 // Beide Shapes sind identisch
                 return 0;
             }
         }
+    }
+    
+    public String toString() {
+    	return "" + getId() + "<" + getHeight() + "," + getWidth() + ">";
     }
 }
