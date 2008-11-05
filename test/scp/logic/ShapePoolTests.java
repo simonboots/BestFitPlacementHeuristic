@@ -73,14 +73,14 @@ public class ShapePoolTests {
 		
 		sp.sort();
 		
-		Shape bestFit = sp.findBestShapeforGap(gap);
+		Shape bestFit = sp.findBestShapeforWidth(gap.getWidth());
 		System.out.println(sp.toString());
 		
 		assertEquals(1, bestFit.getId());
 		
 		gap = new Gap(0, 2, 0, 0, 0);
 		
-		bestFit = sp.findBestShapeforGap(gap);
+		bestFit = sp.findBestShapeforWidth(gap.getWidth());
 		
 		assertEquals(2, bestFit.getId());
 		

@@ -46,9 +46,8 @@ public class ShapePool implements Iterable<Shape> {
     	Collections.sort(shapeList);
     }
     
-    public Shape findBestShapeforGap(Gap gap) {
+    public Shape findBestShapeforWidth(int width) {
     	Shape bestFit = null;
-    	int width = gap.getWidth();
     	
     	for (Shape s : shapeList) {  
     		

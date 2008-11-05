@@ -16,5 +16,4 @@ public class PlaceNextToShortestNeighbourPolicy implements INichePlacementPolicy
 		}
 		return new PlacedShape(s, newX, g.getHeight());
 	}
-
 }
