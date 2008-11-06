@@ -98,7 +98,7 @@ public class XMLBridge {
 	}
 	
 	public Map<Integer, scp.common.Shape> getSortedShapeMap() throws JAXBException {
-		ArrayList<scp.common.Shape> shapelist = (ArrayList<scp.common.Shape>) getShapeList();
+		ArrayList<scp.common.Shape> shapelist = (ArrayList<scp.common.Shape>) getSortedShapeList();
 		Map<Integer, scp.common.Shape> shapemap = new HashMap<Integer, scp.common.Shape>();
 		for (scp.common.Shape shape : shapelist) {
 			shapemap.put(new Integer(shape.getId()), shape);
@@ -135,14 +135,26 @@ public class XMLBridge {
 		Placements placements = getPlacements(solution);
 		
 		List<scp.common.PlacedShape> placedlist = new ArrayList<scp.common.PlacedShape>();
-		Map<Integer, scp.common.Shape> shapemap = getSortedShapeMap();
+		Map<Integer, scp.common.Shape> shapemap = getShapeMap();
 		
 		for (Placement placement : placements.getPlacement()) {
 			scp.common.Shape shape = shapemap.get(new Integer(placement.getShapeid()));
-			placedlist.add(new scp.common.PlacedShape(shape, placement.getCoords().getX(), placement.getCoords().getY()));
+			scp.common.PlacedShape placedShape = new scp.common.PlacedShape(shape, placement.getCoordinates().getX(), placement.getCoordinates().getY());
+			if (placement.isRotated()) placedShape.rotate();
+			placedlist.add(placedShape);
 		}
 		
 		return placedlist;
+	}
+	
+	public Map<Integer, scp.common.PlacedShape> getPlacedShapeMap() throws JAXBException {
+		ArrayList<scp.common.PlacedShape> shapelist = (ArrayList<scp.common.PlacedShape>) getPlacedShapeList();
+		Map<Integer, scp.common.PlacedShape> shapemap = new HashMap<Integer, scp.common.PlacedShape>();
+		for (scp.common.PlacedShape shape : shapelist) {
+			shapemap.put(new Integer(shape.getId()), shape);
+		}
+		
+		return shapemap;
 	}
 
 	public void setPlacedShapeList(List<scp.common.PlacedShape> placedList) throws JAXBException {
@@ -162,10 +174,11 @@ public class XMLBridge {
 			Placement placement = new Placement();
 			placement.setId(counter++);
 			placement.setShapeid(s.getId());
+			placement.setRotated(s.isRotated());
 			Coordinates coordinates = new Coordinates();
 			coordinates.setX(s.getX());
 			coordinates.setY(s.getY());
-			placement.setCoords(coordinates);
+			placement.setCoordinates(coordinates);
 			placementlist.add(placement);
 		}
 	}
@@ -176,7 +189,7 @@ public class XMLBridge {
 		Optimizations optimizations = getOptimizations(solution);
 		
 		List<scp.common.PlacedShape> optimizelist = new ArrayList<scp.common.PlacedShape>();
-		Map<Integer, scp.common.Shape> shapemap = getSortedShapeMap();
+		Map<Integer, scp.common.PlacedShape> shapemap = getPlacedShapeMap();
 		
 		for (Optimization optimization : optimizations.getOptimization()) {
 			scp.common.Shape shape = shapemap.get(new Integer(optimization.getShapeid()));
