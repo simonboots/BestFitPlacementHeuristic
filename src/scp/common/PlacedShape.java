@@ -13,7 +13,7 @@ public class PlacedShape extends Shape {
 	
 	public PlacedShape(Shape shape, Integer x, Integer y) {
 		super(shape.getId(), shape.getHeight(), shape.getWidth());
-		if (shape.isRotated()) this.rotate();
+		if (shape.isRotated()) this.setRotated(true);
 		this.setX(x);
 		this.setY(y);
 	}
@@ -32,5 +32,17 @@ public class PlacedShape extends Shape {
 
     public void setY(Integer y) {
         this.y = y;
+    }
+    
+    public Object clone() {
+    	PlacedShape clone = new PlacedShape(this, this.getX(), this.getY());
+    	if (this.isRotated()) clone.setRotated(true);
+    	
+    	return clone;
+    }
+    
+    public boolean equals(Object x) {
+    	if (! x.getClass().equals(this.getClass())) return false;
+    	return ((PlacedShape) x).getId() == this.getId();
     }
 }

@@ -3,7 +3,7 @@ package scp.common;
 import java.util.Collection;
 import java.util.Collections;
 
-public class Shape implements Comparable<Shape> {
+public class Shape implements Comparable<Shape>, Cloneable {
 
     private Integer id;
     private Integer height;
@@ -49,6 +49,10 @@ public class Shape implements Comparable<Shape> {
         this.rotated = ! this.rotated;
     }
     
+    protected void setRotated(boolean rotated) {
+    	this.rotated = rotated;
+    }
+    
     public Boolean isRotated() {
     	return this.rotated;
     }
@@ -85,5 +89,17 @@ public class Shape implements Comparable<Shape> {
     
     public String toString() {
     	return "" + getId() + "<" + getHeight() + "," + getWidth() + ">";
+    }
+    
+    public Object clone() {
+    	Shape clone = new Shape(this.getId(), this.getHeight(), this.getWidth());
+    	if (this.isRotated()) clone.setRotated(true);
+    	
+    	return clone;
+    }
+    
+    public boolean equals(Object x) {
+    	if (! x.getClass().equals(this.getClass())) return false;
+    	return ((Shape) x).getId() == this.getId();
     }
 }

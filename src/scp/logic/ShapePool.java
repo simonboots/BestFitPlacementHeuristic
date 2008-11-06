@@ -101,6 +101,7 @@ public class ShapePool implements Iterable<Shape> {
     		}
     	}
     	
+    	shapeList.remove(bestFit);
     	return bestFit;
     }
     
