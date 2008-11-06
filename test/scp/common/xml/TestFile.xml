@@ -1,10 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:problem xmlns:p="http://www.stiefels.net/StockCuttingProblem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.stiefels.net/StockCuttingProblem StockCuttingProblem.xsd ">
-  <stockroll width="0"/>
+<scp:problem xmlns:scp="http://www.stiefels.net/StockCuttingProblem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.stiefels.net/StockCuttingProblem ../../../../src/StockCuttingProblem.xsd ">
   <shapes>
     <shape id="1">
-      <height>50</height>
-      <width>100</width>
+      <height>10</height>
+      <width>5</width>
+    </shape>
+    <shape id="2">
+    	<height>32</height>
+    	<width>8</width>
+    </shape>
+    <shape id="3">
+    	<height>12</height><width>23</width>
+    	
     </shape>
   </shapes>
-</p:problem>
+  <solution>
+  	<sorting>
+  		<sort id="1">
+  			<shapeid>2</shapeid>
+  			<rotated>true</rotated>
+  		</sort>
+  		<sort id="2">
+  			<shapeid>3</shapeid>
+  			<rotated>false</rotated>
+  		</sort>
+  		<sort id="3">
+  			<shapeid>1</shapeid>
+  			<rotated>true</rotated>
+  		</sort>
+  	</sorting>
+  	<placements>
+  		<placement id="1">
+  			<shapeid>1</shapeid>
+  			<coordinates>
+  				<x>0</x>
+  				<y>0</y>
+  			</coordinates>
+  			<rotated>true</rotated>
+  		</placement>
+  		<placement id="2">
+  			<shapeid>2</shapeid>
+  			<coordinates>
+  				<x>0</x>
+  				<y>0</y>
+  			</coordinates>
+  			<rotated>true</rotated>
+  		</placement>
+  		<placement id="3">
+  			<shapeid>3</shapeid>
+  			<coordinates>
+  				<x>0</x>
+  				<y>0</y>
+  			</coordinates>
+  			<rotated>true</rotated>
+  		</placement>
+  	</placements>
+  	<optimize>
+  		<optimization id="1">
+  			<shapeid>2</shapeid>
+  			<coodinates>
+  				<x>0</x>
+  				<y>0</y>
+  			</coodinates>
+  		</optimization>
+  	</optimize>
+  </solution>
+</scp:problem>
