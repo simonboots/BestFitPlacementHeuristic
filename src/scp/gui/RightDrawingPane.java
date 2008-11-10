@@ -23,6 +23,7 @@ public class RightDrawingPane extends JPanel {
     
     while(itr.hasNext()) {
       Object key = itr.next();
+      System.out.println(key.toString());
       g.setColor(Color.lightGray);
       g.fillRect(sortedList.get(key).getX(), 
               sortedList.get(key).getY(), 
@@ -36,6 +37,5 @@ public class RightDrawingPane extends JPanel {
               sortedList.get(key).getHeight());
     }
     revalidate();
-    repaint();
   }
 }

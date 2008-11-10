@@ -112,12 +112,13 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     leftShapeList.setBackground(Color.white);
     leftScrollPanel = new JScrollPane(leftShapeList);
     leftScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-    leftScrollPanel.setPreferredSize(new Dimension(318, 300));
+    leftScrollPanel.setPreferredSize(new Dimension(268, 300));
 
     navigationPanel = new JPanel();
-    navigationPanel.setPreferredSize(new Dimension(318, 150));
+    navigationPanel.setPreferredSize(new Dimension(268, 150));
 
-    next = new JButton(">>");
+    next = new JButton(">");
+    next.setToolTipText("next step");
     next.setPreferredSize(new Dimension(75, 26));
     next.addActionListener(this);
 
@@ -125,7 +126,8 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     playStop.setPreferredSize(new Dimension(75, 26));
     playStop.addActionListener(this);
 
-    previous = new JButton("<<");
+    previous = new JButton("<");
+    previous.setToolTipText("previous step");
     previous.setPreferredSize(new Dimension(75, 26));
     previous.addActionListener(this);
 
@@ -146,7 +148,7 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     rightShapeList.setBackground(Color.white);
     rightScrollPanel = new JScrollPane(rightShapeList);
     rightScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-    rightScrollPanel.setPreferredSize(new Dimension(418, 450));
+    rightScrollPanel.setPreferredSize(new Dimension(468, 450));
 
     logPanel = new JTextArea();
     logPanel.setEditable(false);
@@ -183,14 +185,14 @@ public class StockCutterGUI extends JFrame implements ActionListener {
 
       int returnVal = fc.showOpenDialog(this);
       if (returnVal == JFileChooser.APPROVE_OPTION) {
-        File file = fc.getSelectedFile();
-        System.out.println("Opening: " + file.getAbsolutePath());
+        File xmlFile = fc.getSelectedFile();
+        System.out.println("Opening: " + xmlFile.getAbsolutePath());
 
         XMLBridge bridge;
         try {
           bridge = new XMLBridge();
-          bridge.loadFile(file);
-          loadShapeMagazine(bridge.getShapeMap());
+          bridge.loadFile(xmlFile);
+          loadShapeMagazine(bridge.getShapeMap(), xmlFile.getName());
         } catch (JAXBException ex) {
           ex.printStackTrace();
         }
@@ -208,25 +210,35 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     }
   }
 
-  public void loadShapeMagazine(Map<Integer, Shape> hm) {
+  public void loadShapeMagazine(Map<Integer, Shape> hm, String filename) {
     leftList.putAll(hm);
-    appendToLog("loaded Shapes from XML");
+    leftShapeList.revalidate();
+    leftShapeList.repaint();
+    appendToLog("loaded Shapes from XML " + filename);
   }
 
   public void placeShape(PlacedShape ps) {
     rightList.put(ps.getId(), ps);
+    rightShapeList.revalidate();
+    rightShapeList.repaint();
     appendToLog("placed Shape (ID: " + ps.getId() + " @ " + ps.getX() + "," + ps.getY() + ")");
   }
 
   public void removeShape(PlacedShape ps) {
     rightList.remove(ps.getId());
+    rightShapeList.revalidate();
+    rightShapeList.repaint();
     appendToLog("removed Shape (ID: " + ps.getId() + " @ " + ps.getX() + "," + ps.getY() + ")");
   }
 
   public void resetAll() {
     logPanel.setText("");
     rightList.clear();
+    rightShapeList.revalidate();
+    rightShapeList.repaint();
     leftList.clear();
+    leftShapeList.revalidate();
+    leftShapeList.repaint();
   }
 
   public void appendToLog(String s) {

@@ -11,6 +11,12 @@ import scp.common.Shape;
 public class LeftDrawingPane extends JPanel {
 
   private HashMap<Integer, Shape> leftList = new HashMap<Integer, Shape>();
+  //List-Settings
+  private static final int MAX = 50;         // length of longest shape side
+  private static final int VGAP = 40;         // vertical gap between shapes
+  private static final int INITX = 20;        // initial x-coordinate
+  private static final int INITY = 20;        // initial y-coordinate
+  private static final int PANELWIDTH = 250;
 
   public LeftDrawingPane(HashMap<Integer, Shape> leftList) {
     this.leftList = leftList;
@@ -20,32 +26,52 @@ public class LeftDrawingPane extends JPanel {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
 
-    int x = 20;
-    int y = 20;
-    
+    int xCoord = INITX;
+    int yCoord = INITY;
+
+    float scaledWidth = 0;
+    float scaledHeight = 0;
+
     setPreferredSize(new Dimension(0, 0));
-    
+
     Iterator itr = leftList.keySet().iterator();
 
-    while(itr.hasNext()) {
+    while (itr.hasNext()) {
       Object key = itr.next();
-      
+
+      System.out.println(key.toString());
+
+      // height && width < MAX
+      if ((leftList.get(key).getHeight() <= MAX) && (leftList.get(key).getWidth() <= MAX)) {
+        scaledWidth = leftList.get(key).getWidth();
+        scaledHeight = leftList.get(key).getHeight();
+      // width > height && width > MAX
+      } else if ((leftList.get(key).getWidth() >= leftList.get(key).getHeight()) && (leftList.get(key).getWidth() > MAX)) {
+        scaledWidth = MAX;
+        scaledHeight = ((float) (leftList.get(key).getHeight()) / (float) (leftList.get(key).getWidth())) * MAX;
+      // height > width && height > MAX
+      } else if ((leftList.get(key).getHeight() > leftList.get(key).getWidth()) && (leftList.get(key).getHeight() > MAX)) {
+        scaledHeight = MAX;
+        scaledWidth = ((float) (leftList.get(key).getWidth()) / (float) (leftList.get(key).getHeight())) * MAX;
+      }
+
+      g.setColor(Color.lightGray);
+      g.fillRect(PANELWIDTH - INITX - (int) scaledWidth, yCoord, (int) scaledWidth, (int) scaledHeight);
+
       g.setColor(Color.black);
-      g.drawString("ID: " + leftList.get(key).getId(), x, y + 9);
+      g.drawRect(PANELWIDTH - INITX - (int) scaledWidth, yCoord, (int) scaledWidth - 1, (int) scaledHeight - 1);
 
-      g.setColor(Color.lightGray);      
-      g.fillRect(260 - leftList.get(key).getWidth(), y, leftList.get(key).getWidth(), leftList.get(key).getHeight());      
-      g.drawLine(20, leftList.get(key).getHeight() + y + 20, 260, leftList.get(key).getHeight() + y + 20);
-      
-      g.setColor(Color.black);
-      g.drawRect(260 - leftList.get(key).getWidth(), y, leftList.get(key).getWidth(), leftList.get(key).getHeight());
+      g.drawString("SID: " + leftList.get(key).getId(), xCoord, yCoord + 9);
+      g.drawString(leftList.get(key).getHeight() + " x " + leftList.get(key).getWidth(), xCoord, yCoord + 25);
 
-      y += leftList.get(key).getHeight() + 40;
+      g.setColor(Color.lightGray);
+      g.drawLine(0, (int) scaledHeight + yCoord + VGAP / 2, PANELWIDTH, (int) scaledHeight + yCoord + VGAP / 2);
 
-      setPreferredSize(new Dimension(0, y));
-      revalidate();
+      yCoord += scaledHeight + VGAP;
+
+      setPreferredSize(new Dimension(0, yCoord));
+
     }
     revalidate();
-    repaint();
   }
 }
