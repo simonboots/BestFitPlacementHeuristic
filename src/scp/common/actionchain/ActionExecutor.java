@@ -3,6 +3,8 @@ package scp.common.actionchain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.xml.internal.ws.api.pipe.NextAction;
+
 public class ActionExecutor {
 
 	protected List<IAction> doQueue = null;
@@ -21,7 +23,12 @@ public class ActionExecutor {
 		if (hasNextAction()) {
 			IAction nextAction = doQueue.get(0);
 			nextAction.execute(magazine, placer);
-			undoQueue.add(nextAction.getReverseAction());
+			
+			IAction undoAction = nextAction.getReverseAction();
+			if (undoAction != null) {
+				undoQueue.add(undoAction);
+			}
+			
 			doQueue.remove(nextAction);
 		}
 	}
@@ -30,7 +37,12 @@ public class ActionExecutor {
 		if (hasPreviousAction()) {
 			IAction previousAction = undoQueue.get(undoQueue.size() -1);
 			previousAction.execute(magazine, placer);
-			doQueue.add(0, previousAction.getReverseAction());
+			
+			IAction doAction = previousAction.getReverseAction();
+			if (doAction != null) {
+				doQueue.add(0, doAction);
+			}
+			
 			undoQueue.remove(previousAction);
 		}
 	}

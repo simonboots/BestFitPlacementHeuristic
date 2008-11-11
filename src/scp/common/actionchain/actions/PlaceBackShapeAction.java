@@ -14,7 +14,9 @@ public class PlaceBackShapeAction implements IAction {
 	}
 	
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
-		// TODO Auto-generated method stub
+		placer.removeShape(s);
+		magazine.insertShape(s);
+		magazine.highlightShape(s);
 	}
 
 	public IAction getReverseAction() {

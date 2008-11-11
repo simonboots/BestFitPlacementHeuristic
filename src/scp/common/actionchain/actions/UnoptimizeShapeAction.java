@@ -14,8 +14,9 @@ public class UnoptimizeShapeAction implements IAction {
 	}
 
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
-		// TODO Auto-generated method stub
-
+		placer.removeShape(s); // †ber id!
+		placer.placeShape(s);
+		placer.highlightShape(s);
 	}
 
 	public IAction getReverseAction() {

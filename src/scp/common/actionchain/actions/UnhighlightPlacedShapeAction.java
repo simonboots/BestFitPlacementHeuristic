@@ -14,8 +14,7 @@ public class UnhighlightPlacedShapeAction implements IAction {
 	}
 
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
-		// TODO Auto-generated method stub
-
+		placer.unhighlightAllShapes();
 	}
 
 	public IAction getReverseAction() {

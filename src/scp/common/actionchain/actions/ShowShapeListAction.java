@@ -16,7 +16,7 @@ public class ShowShapeListAction implements IAction {
 	}
 	
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
-		// TODO Auto-generated method stub
+		magazine.loadMagazine(shapelist);
 	}
 
 	public IAction getReverseAction() {

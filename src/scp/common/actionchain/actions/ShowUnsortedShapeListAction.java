@@ -17,8 +17,7 @@ public class ShowUnsortedShapeListAction extends ShowShapeListAction implements 
 	}
 
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
-		// TODO Auto-generated method stub
-
+		magazine.loadMagazine(shapelist);
 	}
 
 	public IAction getReverseAction() {
