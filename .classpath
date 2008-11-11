@@ -4,7 +4,6 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/Users/sst/Documents/eclipse workspace/StockCutter/libs"/>
 	<classpathentry kind="lib" path="libs/commons-cli-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

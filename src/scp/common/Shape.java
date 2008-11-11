@@ -1,8 +1,5 @@
 package scp.common;
 
-import java.util.Collection;
-import java.util.Collections;
-
 public class Shape implements Cloneable {
 
     private Integer id;

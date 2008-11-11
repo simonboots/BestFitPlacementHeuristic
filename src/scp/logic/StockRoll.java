@@ -34,6 +34,7 @@ public class StockRoll {
 		
 		for (int i = 1; i < this.width; i++) {
 			if (skyline[i] < height) {
+				interrupted = false;
 				height = skyline[i];
 				location = i;
 				width = 1;
@@ -70,7 +71,7 @@ public class StockRoll {
 		}
 		
 		if (gap.getLocation() + gap.getWidth() < this.width) {
-			int rightraise = skyline[gap.getLocation() + gap.getWidth() + 1] - gap.getHeight();
+			int rightraise = skyline[gap.getLocation() + gap.getWidth()] - gap.getHeight();
 			if (raise == 0 || rightraise < raise) raise = rightraise;
 		}
 		
