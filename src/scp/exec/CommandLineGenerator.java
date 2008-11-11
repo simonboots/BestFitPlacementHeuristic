@@ -95,7 +95,7 @@ public class CommandLineGenerator {
 			return;
 		} catch (NoArgumentsException e) {
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("java -cp scp.jar scp.exec.CommandLineGenrator OUTPUTFILE [options]", clg.options);
+			formatter.printHelp("java -cp scp.jar scp.exec.CommandLineGenerator OUTPUTFILE [options]", clg.options);
 			return;
 		} catch (NoFileSpecifiedException e) {
 			System.out.println(e.getMessage());
