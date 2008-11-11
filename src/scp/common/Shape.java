@@ -3,7 +3,7 @@ package scp.common;
 import java.util.Collection;
 import java.util.Collections;
 
-public class Shape implements Comparable<Shape>, Cloneable {
+public class Shape implements Cloneable {
 
     private Integer id;
     private Integer height;
@@ -66,25 +66,6 @@ public class Shape implements Comparable<Shape>, Cloneable {
             this.rotate();
         }
         return this;
-    }
-
-    public int compareTo(Shape s) {
-        // Breite vergleichen
-        if (this.getWidth() > s.getWidth()) {
-            return -1;
-        } else if (this.getWidth() < s.getWidth()) {
-            return 1;
-        } else {
-            // Breite ist identisch; Höhe vergleichen
-            if (this.getHeight() > s.getHeight()) {
-                return -1;
-            } else if (this.getHeight() < s.getHeight()) {
-                return 1;
-            } else {
-                // Beide Shapes sind identisch
-                return 0;
-            }
-        }
     }
     
     public String toString() {

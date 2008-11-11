@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import scp.common.Shape;
+import scp.common.ShapeSortBySizeComparator;
 
 public class ShapePool implements Iterable<Shape> {
 	
@@ -43,7 +44,7 @@ public class ShapePool implements Iterable<Shape> {
 	
     public void sort() {
     	rotateIfNeeded();
-    	Collections.sort(shapeList);
+    	Collections.sort(shapeList, new ShapeSortBySizeComparator());
     }
     
     public Shape findBestShapeforWidth(int width) {

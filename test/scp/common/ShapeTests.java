@@ -35,31 +35,31 @@ public class ShapeTests {
 	@Test
 	public void compareToSmallerShape() {
 		Shape smallerShape = new Shape(2, 5, 20);
-		assertTrue(shape.compareTo(smallerShape) == -1);
+		assertTrue(new ShapeSortBySizeComparator().compare(shape, smallerShape) == -1);
 	}
 	
 	@Test
 	public void compareToLargerShape() {
 		Shape largerShape = new Shape(3, 20, 30);
-		assertTrue(shape.compareTo(largerShape) == 1);
+		assertTrue(new ShapeSortBySizeComparator().compare(shape, largerShape) == 1);
 	}
 	
 	@Test
 	public void compareToEqualShape() {
 		Shape equalShape = new Shape(4, 10, 20);
-		assertTrue(shape.compareTo(equalShape) == 0);
+		assertTrue(new ShapeSortBySizeComparator().compare(shape, equalShape) == 0);
 	}
 	
 	@Test
 	public void compareToSmallerWidthShape() {
 		Shape smallerWidthShape = new Shape(5, 10, 10);
-		assertTrue(shape.compareTo(smallerWidthShape) == -1);
+		assertTrue(new ShapeSortBySizeComparator().compare(shape, smallerWidthShape) == -1);
 	}
 	
 	@Test
 	public void compareToLargerWidthShape() {
 		Shape largerWidthShape = new Shape(6, 10, 30);
-		assertTrue(shape.compareTo(largerWidthShape) == 1);
+		assertTrue(new ShapeSortBySizeComparator().compare(shape, largerWidthShape) == 1);
 	}
 	
 	@Test
