@@ -6,21 +6,21 @@ import scp.common.actionchain.IShapeMagazine;
 import scp.common.actionchain.IShapePlacer;
 
 public class PlaceShapeAction implements IAction {
-	
-	protected PlacedShape s;
 
-	public PlaceShapeAction(PlacedShape s) {
-		this.s = s;
-	}
+  protected PlacedShape s;
 
-	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
-		magazine.removeShape(s);
-		placer.placeShape(s);
-		placer.highlightShape(s);
-	}
+  public PlaceShapeAction(PlacedShape s) {
+    this.s = s;
+  }
 
-	public IAction getReverseAction() {
-		return new PlaceBackShapeAction(s);
-	}
+  public void execute(IShapeMagazine magazine, IShapePlacer placer) {    
+    magazine.removeShape(s);
+    placer.unhighlightAllShapes();
+    placer.placeShape(s);
+    placer.highlightShape(s);
+  }
 
+  public IAction getReverseAction() {
+    return new PlaceBackShapeAction(s);
+  }
 }
