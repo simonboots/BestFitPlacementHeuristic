@@ -7,8 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.JFileChooser;
@@ -26,6 +28,9 @@ import javax.swing.SwingUtilities;
 import javax.xml.bind.JAXBException;
 import scp.common.PlacedShape;
 import scp.common.Shape;
+import scp.common.actionchain.ActionExecutor;
+import scp.common.actionchain.IAction;
+import scp.common.actionchain.actions.PlaceShapeAction;
 import scp.common.xml.XMLBridge;
 
 /**
@@ -34,7 +39,6 @@ import scp.common.xml.XMLBridge;
  */
 public class StockCutterGUI extends JFrame implements ActionListener {
 
-  private PlacedShape testPlacedShape = new PlacedShape(1, 30, 100, 0, 0);
   /**
    * MenuBar-Items
    */
@@ -57,8 +61,16 @@ public class StockCutterGUI extends JFrame implements ActionListener {
   /**
    * Lists for ScrollPanels
    */
-  private HashMap<Integer, Shape> leftList = new HashMap<Integer, Shape>();
-  private HashMap<Integer, PlacedShape> rightList = new HashMap<Integer, PlacedShape>();
+  private HashMap<Integer, ColoredShape> leftList = new HashMap<Integer, ColoredShape>();
+  private HashMap<Integer, ColoredPlacedShape> rightList = new HashMap<Integer, ColoredPlacedShape>();
+  /**
+   * ShapeMagazin, ShapePlacer, ActionExecutor
+   */
+  private List<Shape> shapelist = new ArrayList<Shape>();
+  private List<IAction> doQueue = new ArrayList<IAction>();
+  private ShapeMagazine magazine = new ShapeMagazine(this);
+  private ShapePlacer placer = new ShapePlacer(this);
+  private ActionExecutor executor = new ActionExecutor(doQueue, magazine, placer);
   /**
    * Navigation-Items
    */
@@ -74,7 +86,7 @@ public class StockCutterGUI extends JFrame implements ActionListener {
   private JScrollPane logScrollPanel;
 
   public StockCutterGUI() {
-    super("Das Stock-Cutting Problem");
+    super("The Stock-Cutting-Problem");
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     setLocation(250, 100);
@@ -82,11 +94,11 @@ public class StockCutterGUI extends JFrame implements ActionListener {
 
     menuBar = new JMenuBar();
 
-    fileMenu = new JMenu("Datei");
-    openItem = new JMenuItem("Öffnen", 'f');
+    fileMenu = new JMenu("File");
+    openItem = new JMenuItem("Open", 'f');
     openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
     openItem.addActionListener(this);
-    closeItem = new JMenuItem("Beenden", 'e');
+    closeItem = new JMenuItem("Close", 'e');
     closeItem.addActionListener(this);
     fileMenu.add(openItem);
     fileMenu.addSeparator();
@@ -97,7 +109,7 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     extrasMenu.add(extrasItem);
 
     aboutMenu = new JMenu("?");
-    aboutItem = new JMenuItem("Über", 'b');
+    aboutItem = new JMenuItem("About", 'b');
     aboutItem.addActionListener(this);
     aboutMenu.add(aboutItem);
 
@@ -192,7 +204,30 @@ public class StockCutterGUI extends JFrame implements ActionListener {
         try {
           bridge = new XMLBridge();
           bridge.loadFile(xmlFile);
-          loadShapeMagazine(bridge.getShapeMap(), xmlFile.getName());
+
+          // bridge.getLists to ActionGenerator
+          Shape s1 = new Shape(1, 20, 30);
+          Shape s2 = new Shape(2, 50, 100);
+
+          shapelist.add(s1);
+          shapelist.add(s2);
+
+          loadMagazine(shapelist);
+
+          removeColoredShape(s2);
+
+          PlacedShape tempShape1 = new PlacedShape(1, 12, 12, 0, 0);
+          PlacedShape tempShape2 = new PlacedShape(2, 24, 24, 12, 0);
+          PlacedShape tempShape3 = new PlacedShape(3, 77, 77, 36, 0);
+
+          PlaceShapeAction psa1 = new PlaceShapeAction(tempShape1);
+          PlaceShapeAction psa2 = new PlaceShapeAction(tempShape2);
+          PlaceShapeAction psa3 = new PlaceShapeAction(tempShape3);
+
+          doQueue.add(psa1);
+          doQueue.add(psa2);
+          doQueue.add(psa3);
+
         } catch (JAXBException ex) {
           ex.printStackTrace();
         }
@@ -202,35 +237,129 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     } else if (e.getSource() == aboutItem) {
       JOptionPane.showMessageDialog(null, "(c)2008 by Simon Stiefel & Benjamin Clauss", "Über", JOptionPane.INFORMATION_MESSAGE);
     } else if (e.getSource() == next) {
-      placeShape(testPlacedShape);
+      executor.executeNextAction();
     } else if (e.getSource() == previous) {
-      removeShape(testPlacedShape);
+      executor.executePreviousAction();
     } else if (e.getSource() == reset) {
       resetAll();
     }
   }
 
-  public void loadShapeMagazine(Map<Integer, Shape> hm, String filename) {
-    leftList.putAll(hm);
+  /**
+   * loads shapes out of xml into magazine
+   * @param shapelist 
+   */
+  public void loadMagazine(List<Shape> shapelist) {
+
+    int pos = 0;
+    for (Shape shape : shapelist) {
+      ColoredShape cs = new ColoredShape(shape);
+      cs.setColor(Color.lightGray);
+      leftList.put(pos++, cs);
+    }
+
     leftShapeList.revalidate();
     leftShapeList.repaint();
-    appendToLog("loaded Shapes from XML " + filename);
+    appendToLog("loaded Shapes from XML");
   }
 
-  public void placeShape(PlacedShape ps) {
-    rightList.put(ps.getId(), ps);
+  /**
+   * adds a shape to the stockroll
+   * @param s PlacedShape
+   */
+  public void placeColoredPlacedShape(PlacedShape s) {
+    ColoredPlacedShape cps = new ColoredPlacedShape(s);
+    cps.setColor(Color.lightGray);
+    rightList.put(s.getId(), cps);
     rightShapeList.revalidate();
     rightShapeList.repaint();
-    appendToLog("placed Shape (ID: " + ps.getId() + " @ " + ps.getX() + "," + ps.getY() + ")");
+    appendToLog("placed Shape (ID: " + s.getId() + " @ " + s.getX() + "," + s.getY() + ")");
   }
 
-  public void removeShape(PlacedShape ps) {
-    rightList.remove(ps.getId());
+  /**
+   * highlights a shape in the magazine
+   * @param s Shape
+   */
+  public void highlightColoredShape(Shape s) {
+    for (int i = 0; i < leftList.size(); i++) {
+      if (leftList.get(i).getId() == s.getId()) {
+        ColoredShape cs = new ColoredShape(s);
+        cs.setColor(Color.red);
+        leftList.put(i, cs);
+      }
+    }
+  }
+
+  /**
+   * highlights a shape on the stockroll
+   * @param s PlacedShape
+   */
+  public void highlightColoredPlacedShape(PlacedShape s) {
+    rightList.remove(s);
+    ColoredPlacedShape cps = new ColoredPlacedShape(s);
+    cps.setColor(Color.red);
+    rightList.put(s.getId(), cps);
+  }
+
+  /**
+   * unhighlights all shapes in the magazine
+   * @param s Shape
+   */
+  public void unhighlightColoredShapes() {
+    for (int i = 0; i < leftList.size(); i++) {
+      if (leftList.get(i).getColor().equals(Color.red)) {
+        leftList.get(i).setColor(Color.lightGray);
+      }
+    }
+  }
+  
+  /**
+   * unhighlights all shapes on the stockroll
+   */
+  public void unhighlightColoredPlacedShapes() {
+    Iterator itr = rightList.keySet().iterator();
+
+    while (itr.hasNext()) {
+      Object key = itr.next();
+      if (rightList.get(key).getColor().equals(Color.red)) {
+        rightList.get(key).setColor(Color.lightGray);
+      }
+    }
+  }
+  
+  /**
+   * removes a shape from the magazine
+   * @param s Shape
+   */
+  public void removeColoredShape(Shape s) {
+    for (int i = 0; i < leftList.size(); i++) {
+      if (leftList.get(i).getId() == s.getId()) {
+        leftList.remove(i);
+      }
+    }
+  }
+  
+  /**
+   * inserts a shape to the magazine
+   * @param s Shape
+   */
+  public void insertColoredShape(Shape s) {
+  }
+
+  /**
+   * removes a shape from the stockroll
+   * @param s PlacedShape
+   */
+  public void removeColoredPlacedShape(PlacedShape s) {
+    rightList.remove(s.getId());
     rightShapeList.revalidate();
     rightShapeList.repaint();
-    appendToLog("removed Shape (ID: " + ps.getId() + " @ " + ps.getX() + "," + ps.getY() + ")");
+    appendToLog("removed Shape (ID: " + s.getId() + " @ " + s.getX() + "," + s.getY() + ")");
   }
 
+  /**
+   * resets the GUI
+   */
   public void resetAll() {
     logPanel.setText("");
     rightList.clear();
@@ -241,6 +370,10 @@ public class StockCutterGUI extends JFrame implements ActionListener {
     leftShapeList.repaint();
   }
 
+  /**
+   * appends a String to the logger
+   * @param s String with message
+   */
   public void appendToLog(String s) {
     logPanel.append(s + "\n");
   }

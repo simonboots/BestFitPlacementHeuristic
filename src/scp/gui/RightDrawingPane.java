@@ -5,35 +5,34 @@ import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Iterator;
 import javax.swing.JPanel;
-import scp.common.PlacedShape;
 
 public class RightDrawingPane extends JPanel {
 
-  private HashMap<Integer, PlacedShape> sortedList = new HashMap<Integer, PlacedShape>();
+  private HashMap<Integer, ColoredPlacedShape> sortedList = new HashMap<Integer, ColoredPlacedShape>();
 
-  public RightDrawingPane(HashMap<Integer, PlacedShape> sortedList) {
+  public RightDrawingPane(HashMap<Integer, ColoredPlacedShape> sortedList) {
     this.sortedList = sortedList;
   }
 
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    
+
     Iterator itr = sortedList.keySet().iterator();
-    
-    while(itr.hasNext()) {
+
+    while (itr.hasNext()) {
       Object key = itr.next();
-      System.out.println(key.toString());
-      g.setColor(Color.lightGray);
-      g.fillRect(sortedList.get(key).getX(), 
-              sortedList.get(key).getY(), 
-              sortedList.get(key).getWidth(), 
+
+      g.setColor(sortedList.get(key).getColor());
+      g.fillRect(sortedList.get(key).getX(),
+              sortedList.get(key).getY(),
+              sortedList.get(key).getWidth(),
               sortedList.get(key).getHeight());
-      
+
       g.setColor(Color.black);
-      g.drawRect(sortedList.get(key).getX(), 
-              sortedList.get(key).getY(), 
-              sortedList.get(key).getWidth(), 
+      g.drawRect(sortedList.get(key).getX(),
+              sortedList.get(key).getY(),
+              sortedList.get(key).getWidth(),
               sortedList.get(key).getHeight());
     }
     revalidate();
