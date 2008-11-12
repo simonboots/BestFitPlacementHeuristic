@@ -3,8 +3,6 @@ package scp.common.actionchain;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.xml.internal.ws.api.pipe.NextAction;
-
 public class ActionExecutor {
 
 	protected List<IAction> doQueue = null;
