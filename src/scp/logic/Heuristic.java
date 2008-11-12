@@ -42,7 +42,7 @@ public class Heuristic {
 		// Sortiere pool
 		pool.sort();
 
-		// sortierte Shapes zurücksenden
+		// sortierte Shapes zuruecksenden
 		if (callback != null) {
 			for (Shape s : pool.getShapeList()) {
 				callback.sortedShapeCallback((Shape) s.clone());
@@ -63,7 +63,7 @@ public class Heuristic {
 			PlacedShape placedShape = policy.placeShape(shape, gap);
 			stockRoll.placeShape(placedShape);
 
-			// platziertes Shape zurücksenden
+			// platziertes Shape zuruecksenden
 			if (callback != null) callback.placedShapeCallback((PlacedShape) placedShape.clone());
 		}
 

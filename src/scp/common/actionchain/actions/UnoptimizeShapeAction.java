@@ -14,7 +14,7 @@ public class UnoptimizeShapeAction implements IAction {
 	}
 
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
-		placer.removeShape(s); // †ber id!
+		placer.removeShape(s); // ueber id!
 		placer.placeShape(s);
 		placer.highlightShape(s);
 	}
