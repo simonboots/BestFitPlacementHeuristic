@@ -65,5 +65,6 @@ public class LeftDrawingPane extends JPanel {
 
     }
     revalidate();
+    repaint();
   }
 }
