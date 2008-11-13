@@ -1,29 +1,172 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<p:problem xmlns:p="http://www.stiefels.net/StockCuttingProblem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.stiefels.net/StockCuttingProblem StockCuttingProblem.xsd ">
-  <shapes>
-    <shape id="1">
-      <height>50</height>
-      <width>100</width>
-    </shape>
-    <shape id="47">
-      <height>20</height>
-      <width>50</width>
-    </shape>
-    <shape id="11">
-      <height>40</height>
-      <width>50</width>
-    </shape>
-    <shape id="0">
-      <height>50</height>
-      <width>100</width>
-    </shape>
-    <shape id="8">
-      <height>20</height>
-      <width>50</width>
-    </shape>
-    <shape id="15">
-      <height>40</height>
-      <width>50</width>
-    </shape>
-  </shapes>
-</p:problem>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:problem xmlns:ns2="http://www.stiefels.net/StockCuttingProblem">
+    <shapes>
+        <shape id="0">
+            <height>20</height>
+            <width>51</width>
+        </shape>
+        <shape id="1">
+            <height>99</height>
+            <width>100</width>
+        </shape>
+        <shape id="2">
+            <height>18</height>
+            <width>44</width>
+        </shape>
+        <shape id="3">
+            <height>3</height>
+            <width>86</width>
+        </shape>
+        <shape id="4">
+            <height>22</height>
+            <width>93</width>
+        </shape>
+        <shape id="5">
+            <height>83</height>
+            <width>51</width>
+        </shape>
+        <shape id="6">
+            <height>55</height>
+            <width>20</width>
+        </shape>
+        <shape id="7">
+            <height>100</height>
+            <width>61</width>
+        </shape>
+        <shape id="8">
+            <height>81</height>
+            <width>1</width>
+        </shape>
+        <shape id="9">
+            <height>61</height>
+            <width>21</width>
+        </shape>
+    </shapes>
+    <solution>
+        <sorting>
+            <sort id="1">
+                <shapeid>1</shapeid>
+                <rotated>false</rotated>
+            </sort>
+            <sort id="2">
+                <shapeid>7</shapeid>
+                <rotated>true</rotated>
+            </sort>
+            <sort id="3">
+                <shapeid>4</shapeid>
+                <rotated>false</rotated>
+            </sort>
+            <sort id="4">
+                <shapeid>3</shapeid>
+                <rotated>false</rotated>
+            </sort>
+            <sort id="5">
+                <shapeid>5</shapeid>
+                <rotated>true</rotated>
+            </sort>
+            <sort id="6">
+                <shapeid>8</shapeid>
+                <rotated>true</rotated>
+            </sort>
+            <sort id="7">
+                <shapeid>9</shapeid>
+                <rotated>true</rotated>
+            </sort>
+            <sort id="8">
+                <shapeid>6</shapeid>
+                <rotated>true</rotated>
+            </sort>
+            <sort id="9">
+                <shapeid>0</shapeid>
+                <rotated>false</rotated>
+            </sort>
+            <sort id="10">
+                <shapeid>2</shapeid>
+                <rotated>false</rotated>
+            </sort>
+        </sorting>
+        <placements>
+            <placement id="1">
+                <shapeid>1</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>0</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <placement id="2">
+                <shapeid>7</shapeid>
+                <coordinates>
+                    <x>100</x>
+                    <y>0</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <placement id="3">
+                <shapeid>4</shapeid>
+                <coordinates>
+                    <x>100</x>
+                    <y>61</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <placement id="4">
+                <shapeid>3</shapeid>
+                <coordinates>
+                    <x>193</x>
+                    <y>61</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <placement id="5">
+                <shapeid>8</shapeid>
+                <coordinates>
+                    <x>196</x>
+                    <y>61</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <placement id="6">
+                <shapeid>5</shapeid>
+                <coordinates>
+                    <x>100</x>
+                    <y>83</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <placement id="7">
+                <shapeid>9</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>99</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <placement id="8">
+                <shapeid>6</shapeid>
+                <coordinates>
+                    <x>61</x>
+                    <y>99</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <placement id="9">
+                <shapeid>2</shapeid>
+                <coordinates>
+                    <x>81</x>
+                    <y>99</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <placement id="10">
+                <shapeid>0</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>120</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+        </placements>
+        <optimize/>
+    </solution>
+</ns2:problem>
