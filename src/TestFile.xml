@@ -86,7 +86,16 @@
             </sort>
         </sorting>
         <placements>
-            <placement id="1">
+            <gap id="1">
+                <width>200</width>
+                <leftheight>0</leftheight>
+                <rightheight>0</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>0</y>
+                </coordinates>
+            </gap>
+            <placement id="2">
                 <shapeid>1</shapeid>
                 <coordinates>
                     <x>0</x>
@@ -94,7 +103,16 @@
                 </coordinates>
                 <rotated>false</rotated>
             </placement>
-            <placement id="2">
+            <gap id="3">
+                <width>100</width>
+                <leftheight>99</leftheight>
+                <rightheight>0</rightheight>
+                <coordinates>
+                    <x>100</x>
+                    <y>0</y>
+                </coordinates>
+            </gap>
+            <placement id="4">
                 <shapeid>7</shapeid>
                 <coordinates>
                     <x>100</x>
@@ -102,7 +120,16 @@
                 </coordinates>
                 <rotated>true</rotated>
             </placement>
-            <placement id="3">
+            <gap id="5">
+                <width>100</width>
+                <leftheight>99</leftheight>
+                <rightheight>0</rightheight>
+                <coordinates>
+                    <x>100</x>
+                    <y>61</y>
+                </coordinates>
+            </gap>
+            <placement id="6">
                 <shapeid>4</shapeid>
                 <coordinates>
                     <x>100</x>
@@ -110,7 +137,16 @@
                 </coordinates>
                 <rotated>false</rotated>
             </placement>
-            <placement id="4">
+            <gap id="7">
+                <width>7</width>
+                <leftheight>83</leftheight>
+                <rightheight>0</rightheight>
+                <coordinates>
+                    <x>193</x>
+                    <y>61</y>
+                </coordinates>
+            </gap>
+            <placement id="8">
                 <shapeid>3</shapeid>
                 <coordinates>
                     <x>193</x>
@@ -118,7 +154,16 @@
                 </coordinates>
                 <rotated>true</rotated>
             </placement>
-            <placement id="5">
+            <gap id="9">
+                <width>4</width>
+                <leftheight>147</leftheight>
+                <rightheight>0</rightheight>
+                <coordinates>
+                    <x>196</x>
+                    <y>61</y>
+                </coordinates>
+            </gap>
+            <placement id="10">
                 <shapeid>8</shapeid>
                 <coordinates>
                     <x>196</x>
@@ -126,7 +171,25 @@
                 </coordinates>
                 <rotated>false</rotated>
             </placement>
-            <placement id="6">
+            <gap id="11">
+                <width>3</width>
+                <leftheight>142</leftheight>
+                <rightheight>0</rightheight>
+                <coordinates>
+                    <x>197</x>
+                    <y>61</y>
+                </coordinates>
+            </gap>
+            <gap id="12">
+                <width>93</width>
+                <leftheight>99</leftheight>
+                <rightheight>147</rightheight>
+                <coordinates>
+                    <x>100</x>
+                    <y>83</y>
+                </coordinates>
+            </gap>
+            <placement id="13">
                 <shapeid>5</shapeid>
                 <coordinates>
                     <x>100</x>
@@ -134,7 +197,25 @@
                 </coordinates>
                 <rotated>true</rotated>
             </placement>
-            <placement id="7">
+            <gap id="14">
+                <width>10</width>
+                <leftheight>134</leftheight>
+                <rightheight>147</rightheight>
+                <coordinates>
+                    <x>183</x>
+                    <y>83</y>
+                </coordinates>
+            </gap>
+            <gap id="15">
+                <width>100</width>
+                <leftheight>0</leftheight>
+                <rightheight>134</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>99</y>
+                </coordinates>
+            </gap>
+            <placement id="16">
                 <shapeid>9</shapeid>
                 <coordinates>
                     <x>0</x>
@@ -142,7 +223,16 @@
                 </coordinates>
                 <rotated>true</rotated>
             </placement>
-            <placement id="8">
+            <gap id="17">
+                <width>39</width>
+                <leftheight>120</leftheight>
+                <rightheight>134</rightheight>
+                <coordinates>
+                    <x>61</x>
+                    <y>99</y>
+                </coordinates>
+            </gap>
+            <placement id="18">
                 <shapeid>6</shapeid>
                 <coordinates>
                     <x>61</x>
@@ -150,7 +240,16 @@
                 </coordinates>
                 <rotated>false</rotated>
             </placement>
-            <placement id="9">
+            <gap id="19">
+                <width>19</width>
+                <leftheight>154</leftheight>
+                <rightheight>134</rightheight>
+                <coordinates>
+                    <x>81</x>
+                    <y>99</y>
+                </coordinates>
+            </gap>
+            <placement id="20">
                 <shapeid>2</shapeid>
                 <coordinates>
                     <x>81</x>
@@ -158,7 +257,25 @@
                 </coordinates>
                 <rotated>true</rotated>
             </placement>
-            <placement id="10">
+            <gap id="21">
+                <width>1</width>
+                <leftheight>143</leftheight>
+                <rightheight>134</rightheight>
+                <coordinates>
+                    <x>99</x>
+                    <y>99</y>
+                </coordinates>
+            </gap>
+            <gap id="22">
+                <width>61</width>
+                <leftheight>0</leftheight>
+                <rightheight>154</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>120</y>
+                </coordinates>
+            </gap>
+            <placement id="23">
                 <shapeid>0</shapeid>
                 <coordinates>
                     <x>0</x>
