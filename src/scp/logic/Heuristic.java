@@ -51,20 +51,24 @@ public class Heuristic {
 
 		while (pool.size() > 0) {
 			Gap gap = stockRoll.getLowestGap();
+			
+			// gefundenes Gap zurücksenden
+			if (callback != null) callback.placementsCallback(gap);
+			
 			Shape shape = pool.findBestShapeforWidth(gap.getWidth());
 
 			// Kein geeignetes Shape gefunden
 			if (shape == null) {
-				stockRoll.raiseGap(gap);
+				stockRoll.placeObject(gap);
 				continue;
 			}
 
 			// Platziere Shape
 			PlacedShape placedShape = policy.placeShape(shape, gap);
-			stockRoll.placeShape(placedShape);
+			stockRoll.placeObject(placedShape);
 
 			// platziertes Shape zuruecksenden
-			if (callback != null) callback.placedShapeCallback((PlacedShape) placedShape.clone());
+			if (callback != null) callback.placementsCallback((PlacedShape) placedShape.clone());
 		}
 
 		// Optimiere

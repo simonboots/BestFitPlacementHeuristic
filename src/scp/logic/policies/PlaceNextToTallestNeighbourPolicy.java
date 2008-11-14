@@ -1,8 +1,8 @@
 package scp.logic.policies;
 
+import scp.common.Gap;
 import scp.common.PlacedShape;
 import scp.common.Shape;
-import scp.logic.Gap;
 
 public class PlaceNextToTallestNeighbourPolicy implements INichePlacementPolicy {
 
@@ -10,11 +10,11 @@ public class PlaceNextToTallestNeighbourPolicy implements INichePlacementPolicy 
 		int newX = 0;
 		
 		if (g.getLeftHeight() > g.getRightHeight()) {
-			newX = g.getLocation();
+			newX = g.getX();
 		} else {
-			newX = (g.getLocation() + g.getWidth() - s.getWidth());
+			newX = (g.getX() + g.getWidth() - s.getWidth());
 		}
-		return new PlacedShape(s, newX, g.getHeight());
+		return new PlacedShape(s, newX, g.getY());
 	}
 
 }

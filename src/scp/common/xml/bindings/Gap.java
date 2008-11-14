@@ -16,20 +16,21 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for placement complex type.
+ * <p>Java class for gap complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="placement">
+ * &lt;complexType name="gap">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="shapeid" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="width" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="leftheight" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="rightheight" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="coordinates" type="{http://www.stiefels.net/StockCuttingProblem}coordinates"/>
- *         &lt;element name="rotated" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
- *       &lt;attribute name="id" use="required" type="{http://www.w3.org/2001/XMLSchema}int" />
+ *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}int" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -38,34 +39,68 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "placement", propOrder = {
-    "shapeid",
-    "coordinates",
-    "rotated"
+@XmlType(name = "gap", propOrder = {
+    "width",
+    "leftheight",
+    "rightheight",
+    "coordinates"
 })
-public class Placement {
+public class Gap {
 
-    protected int shapeid;
+    protected int width;
+    protected int leftheight;
+    protected int rightheight;
     @XmlElement(required = true)
     protected Coordinates coordinates;
-    protected boolean rotated;
-    @XmlAttribute(required = true)
-    protected int id;
+    @XmlAttribute
+    protected Integer id;
 
     /**
-     * Gets the value of the shapeid property.
+     * Gets the value of the width property.
      * 
      */
-    public int getShapeid() {
-        return shapeid;
+    public int getWidth() {
+        return width;
     }
 
     /**
-     * Sets the value of the shapeid property.
+     * Sets the value of the width property.
      * 
      */
-    public void setShapeid(int value) {
-        this.shapeid = value;
+    public void setWidth(int value) {
+        this.width = value;
+    }
+
+    /**
+     * Gets the value of the leftheight property.
+     * 
+     */
+    public int getLeftheight() {
+        return leftheight;
+    }
+
+    /**
+     * Sets the value of the leftheight property.
+     * 
+     */
+    public void setLeftheight(int value) {
+        this.leftheight = value;
+    }
+
+    /**
+     * Gets the value of the rightheight property.
+     * 
+     */
+    public int getRightheight() {
+        return rightheight;
+    }
+
+    /**
+     * Sets the value of the rightheight property.
+     * 
+     */
+    public void setRightheight(int value) {
+        this.rightheight = value;
     }
 
     /**
@@ -93,34 +128,26 @@ public class Placement {
     }
 
     /**
-     * Gets the value of the rotated property.
-     * 
-     */
-    public boolean isRotated() {
-        return rotated;
-    }
-
-    /**
-     * Sets the value of the rotated property.
-     * 
-     */
-    public void setRotated(boolean value) {
-        this.rotated = value;
-    }
-
-    /**
      * Gets the value of the id property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
      */
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
     /**
      * Sets the value of the id property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
      */
-    public void setId(int value) {
+    public void setId(Integer value) {
         this.id = value;
     }
 

@@ -10,15 +10,15 @@ public class StockRoll {
 	
 	private int width = 0;
 	private Integer[] skyline = null;
-	private List<PlacedShape>[] shapes = null;
+	private List<IPlaceableObject>[] placeableObjects = null;
 	
 	public StockRoll(int width) {
 		this.width = width;
 		skyline = new Integer[width];
-		shapes = (ArrayList<PlacedShape>[]) Array.newInstance(ArrayList.class, width);  // workaround for generic arrays
+		placeableObjects = (ArrayList<IPlaceableObject>[]) Array.newInstance(ArrayList.class, width);  // workaround for generic arrays
 		for (int i = 0; i < this.width; i++) {
 			skyline[i] = 0;
-			shapes[i] = new ArrayList<PlacedShape>();
+			placeableObjects[i] = new ArrayList<IPlaceableObject>();
 		}
 	}
 	
@@ -27,26 +27,26 @@ public class StockRoll {
 	}
 	
 	public Gap getLowestGap() {
-		int location = 0;
+		int x = 0;
 		int width = 1;
-		int height = skyline[0];
+		int y = skyline[0];
 		boolean interrupted = false;
 		
 		for (int i = 1; i < this.width; i++) {
-			if (skyline[i] < height) {
+			if (skyline[i] < y) {
 				interrupted = false;
-				height = skyline[i];
-				location = i;
+				y = skyline[i];
+				x = i;
 				width = 1;
-			} else if (skyline[i] == height) {
+			} else if (skyline[i] == y) {
 				if (interrupted) {
 					width = 1;
-					location = i;
+					x = i;
 					interrupted = false;
 				} else {
 					width++;
 				}
-			} else if (skyline[i] > height) {
+			} else if (skyline[i] > y) {
 				interrupted = true;
 			}
 		}
@@ -54,91 +54,74 @@ public class StockRoll {
 		// Check left and right height
 		// left height
 		int leftheight = 0;
-		if (location != 0) leftheight = skyline[location - 1]; 
+		if (x != 0) leftheight = skyline[x - 1]; 
 		
 		// right height
 		int rightheight = 0;
-		if (location + width < this.width) rightheight = skyline[location + width];
+		if (x + width < this.width) rightheight = skyline[x + width];
 		
-		return new Gap(location, width, height, leftheight, rightheight);
+		return new Gap(x, y, width, leftheight, rightheight);
 	}
 	
-	public void raiseGap(Gap gap) throws WrongPlacementException {
-		int raise = 0;
-		// Find next level (left or right)
-		if (gap.getLocation() > 0) {
-			raise = skyline[gap.getLocation() - 1] - gap.getHeight();
-		}
-		
-		if (gap.getLocation() + gap.getWidth() < this.width) {
-			int rightraise = skyline[gap.getLocation() + gap.getWidth()] - gap.getHeight();
-			if (raise == 0 || rightraise < raise) raise = rightraise;
-		}
-		
-		// raise gap
-		WasterShape wasterShape = new WasterShape(raise, gap.getWidth(), gap.getLocation(), gap.getHeight());
-		this.placeShape(wasterShape);
-	}
-	
-	public void placeShape(PlacedShape shape) throws WrongPlacementException {
-		int begin = shape.getX();
+	public void placeObject(IPlaceableObject po) throws WrongPlacementException {
+		int begin = po.getX();
 		int height = skyline[begin];
 		
-		// Check if shape fits width
-		if (shape.getX() + shape.getWidth() > this.width) {
-			throw new WrongPlacementException("Cannot place shape here: shape does not fit width");
+		// Check if object fits width
+		if (po.getX() + po.getWidth() > this.width) {
+			throw new WrongPlacementException("Cannot place object here: object does not fit width");
 		}
 		
 		// Check if skyline is flat
-		for (int i = 1; i < shape.getWidth(); i++) {
+		for (int i = 1; i < po.getWidth(); i++) {
 			if (skyline[begin + i] != height) {
-				throw new WrongPlacementException("Cannot place shape here: skyline not flat");
+				throw new WrongPlacementException("Cannot place object here: skyline not flat");
 			}
 		}
 		
 		// Raise skyline
-		for (int i = 0; i < shape.getWidth(); i++) {
-			skyline[begin + i] += shape.getHeight();
-			shapes[begin + i].add(shape);
+		for (int i = 0; i < po.getWidth(); i++) {
+			skyline[begin + i] += po.getHeight();
+			placeableObjects[begin + i].add(po);
 		}
 	}
 	
-	public void removeShape(PlacedShape shape) throws WrongRemovalException {
-		int begin = shape.getX();
-		boolean isTopShape = true;
+	public void removeObject(IPlaceableObject object) throws WrongRemovalException {
+		int begin = object.getX();
+		boolean isTopObject = true;
 		
-		for (int i = 0; i < shape.getWidth(); i++) {
-			if (! shapes[begin + i].get(shapes[begin + i].size() -1).equals(shape)) {
-				isTopShape = false;
+		for (int i = 0; i < object.getWidth(); i++) {
+			if (! placeableObjects[begin + i].get(placeableObjects[begin + i].size() -1).equals(object)) {
+				isTopObject = false;
 			}
 		}
 		
-		if (isTopShape) {
-			for (int i = 0; i < shape.getWidth(); i++) {
+		if (isTopObject) {
+			for (int i = 0; i < object.getWidth(); i++) {
 				// remove from skyline
-				skyline[begin + i] -= shape.getHeight();
+				skyline[begin + i] -= object.getHeight();
 				
 				// remove from shapes list
-				shapes[begin + i].remove(shapes[begin + i].size() - 1);
+				placeableObjects[begin + i].remove(placeableObjects[begin + i].size() - 1);
 			}
 
 		} else {
-			throw new WrongRemovalException("Cannot remove shape: is not top level shape");
+			throw new WrongRemovalException("Cannot remove object: is not top level object");
 		}
 		
-		if (! shape.getClass().equals(WasterShape.class)) {
+		if (! object.getClass().equals(WasterShape.class)) {
 			// Remove top level gaps which may have been added before shape was added
-			this.removeTopLevelWasterShapes();
+			this.removeTopLevelGaps();
 		}
 	}
 	
-	public PlacedShape getTopShapeAt(int location) {
+	public IPlaceableObject getTopObjectAt(int location) {
 		if (location >= this.width) {
 			return null;
 		}
 		
-		if (shapes[location].size() > 0) {
-			return shapes[location].get(shapes[location].size() - 1);
+		if (placeableObjects[location].size() > 0) {
+			return placeableObjects[location].get(placeableObjects[location].size() - 1);
 		}
 		
 		return null;
@@ -155,14 +138,14 @@ public class StockRoll {
 		return sb.toString();
 	}
 	
-	public String topShapesToString() {
+	public String topObjectsToString() {
 		StringBuffer sb = new StringBuffer("");
 		for (int i = 0; i < this.width; i++) {
-			PlacedShape shape = getTopShapeAt(i);
-			if (shape == null) {
+			IPlaceableObject object = getTopObjectAt(i);
+			if (object == null) {
 				sb.append("0");
 			} else {
-				sb.append(shape.getId());
+				sb.append(object.getId());
 			}
 			
 			sb.append(" ");
@@ -172,15 +155,15 @@ public class StockRoll {
 		return sb.toString();
 	}
 	
-	private void removeTopLevelWasterShapes() throws WrongRemovalException {
+	private void removeTopLevelGaps() throws WrongRemovalException {
 		boolean removedShapes = false;
 		
 		do {
 			removedShapes = false;
 			for (int i = 0; i < this.width; i++) {
-				PlacedShape shape = this.getTopShapeAt(i);
-				if (shape != null && shape.getClass().equals(WasterShape.class)) {
-					this.removeShape(shape);
+				IPlaceableObject object = this.getTopObjectAt(i);
+				if (object != null && object.getClass().equals(Gap.class)) {
+					this.removeObject(object);
 					removedShapes = true;
 				}
 			}
