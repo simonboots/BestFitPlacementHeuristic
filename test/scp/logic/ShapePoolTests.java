@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import scp.common.Shape;
-import scp.logic.Gap;
+import scp.common.Gap;
 import scp.logic.ShapePool;
 
 public class ShapePoolTests {
@@ -59,7 +59,7 @@ public class ShapePoolTests {
 	
 	@Test
 	public void testGaps() {
-		Gap gap = new Gap(0, 6, 0, 0, 0);
+		Gap gap = new Gap(0, 0, 6, 0, 0);
 		
 		List<Shape> shapelist = new ArrayList<Shape>();
 		shapelist.add(new Shape(1, 5, 3));
@@ -78,7 +78,7 @@ public class ShapePoolTests {
 		
 		assertEquals(1, bestFit.getId());
 		
-		gap = new Gap(0, 2, 0, 0, 0);
+		gap = new Gap(0, 0, 2, 0, 0);
 		
 		bestFit = sp.findBestShapeforWidth(gap.getWidth());
 		

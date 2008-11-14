@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import scp.common.Gap;
 import scp.common.PlacedShape;
 import scp.common.Shape;
 import scp.logic.policies.INichePlacementPolicy;
@@ -24,25 +25,25 @@ public class StockRollTests {
 	@Test
 	public void testEmpty() {
 		assertEquals("0 0 0 0 0 0 0 0 0 0", stockRoll.skylineToString());
-		assertEquals("0 0 0 0 0 0 0 0 0 0", stockRoll.topShapesToString());
+		assertEquals("0 0 0 0 0 0 0 0 0 0", stockRoll.topObjectsToString());
 	}
 	
 	@Test
 	public void OneShapeTest() {
 		PlacedShape shape = new PlacedShape(1, 5, 3, 3, 0);
 		try {
-			stockRoll.placeShape(shape);
+			stockRoll.placeObject(shape);
 		} catch (WrongPlacementException e) {
 			e.printStackTrace();
 		}
 		
 		assertEquals("0 0 0 5 5 5 0 0 0 0", stockRoll.skylineToString());
-		assertEquals("0 0 0 1 1 1 0 0 0 0", stockRoll.topShapesToString());
+		assertEquals("0 0 0 1 1 1 0 0 0 0", stockRoll.topObjectsToString());
 		
 		Gap gap = stockRoll.getLowestGap();
-		assertEquals(6, gap.getLocation());
+		assertEquals(6, gap.getX());
 		assertEquals(4, gap.getWidth());
-		assertEquals(0, gap.getHeight());
+		assertEquals(0, gap.getY());
 	}
 	
 	@Test
@@ -51,7 +52,7 @@ public class StockRollTests {
 		PlacedShape shape = new PlacedShape(1, 20, 23, 0, 0);
 		
 		try {
-			stockRoll.placeShape(shape);
+			stockRoll.placeObject(shape);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			success = true;
@@ -65,19 +66,19 @@ public class StockRollTests {
 		PlacedShape shape = new PlacedShape(1, 2, 3, 3, 0);
 		
 		try {
-			stockRoll.placeShape(shape);
+			stockRoll.placeObject(shape);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		Gap gap = stockRoll.getLowestGap();
-		assertEquals(6, gap.getLocation());
+		assertEquals(6, gap.getX());
 		assertEquals(4, gap.getWidth());
-		assertEquals(0, gap.getHeight());
+		assertEquals(0, gap.getY());
 				
 		try {
-			stockRoll.raiseGap(gap);
+			stockRoll.placeObject(gap);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,12 +86,12 @@ public class StockRollTests {
 		assertEquals("0 0 0 2 2 2 2 2 2 2", stockRoll.skylineToString());
 		
 		gap = stockRoll.getLowestGap();
-		assertEquals(0, gap.getLocation());
+		assertEquals(0, gap.getX());
 		assertEquals(3, gap.getWidth());
-		assertEquals(0, gap.getHeight());
+		assertEquals(0, gap.getY());
 		
 		try {
-			stockRoll.raiseGap(gap);
+			stockRoll.placeObject(gap);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,12 +99,12 @@ public class StockRollTests {
 		assertEquals("2 2 2 2 2 2 2 2 2 2", stockRoll.skylineToString());
 		
 		gap = stockRoll.getLowestGap();
-		assertEquals(0, gap.getLocation());
+		assertEquals(0, gap.getX());
 		assertEquals(10, gap.getWidth());
-		assertEquals(2, gap.getHeight());
+		assertEquals(2, gap.getY());
 		
 		try {
-			stockRoll.raiseGap(gap);
+			stockRoll.placeObject(gap);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -117,24 +118,24 @@ public class StockRollTests {
 		PlacedShape shape2 = new PlacedShape(2, 2, 3, 5, 0);
 		
 		try {
-			stockRoll.placeShape(shape1);
-			stockRoll.placeShape(shape2);
+			stockRoll.placeObject(shape1);
+			stockRoll.placeObject(shape2);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		assertEquals("5 5 5 5 0 2 2 2 0 0", stockRoll.skylineToString());
-		assertEquals("1 1 1 1 0 2 2 2 0 0", stockRoll.topShapesToString());
+		assertEquals("1 1 1 1 0 2 2 2 0 0", stockRoll.topObjectsToString());
 		
 		try {
-			stockRoll.removeShape(shape1);
+			stockRoll.removeObject(shape1);
 			assertEquals("0 0 0 0 0 2 2 2 0 0", stockRoll.skylineToString());
-			assertEquals("0 0 0 0 0 2 2 2 0 0", stockRoll.topShapesToString());
+			assertEquals("0 0 0 0 0 2 2 2 0 0", stockRoll.topObjectsToString());
 			
-			stockRoll.removeShape(shape2);
+			stockRoll.removeObject(shape2);
 			assertEquals("0 0 0 0 0 0 0 0 0 0", stockRoll.skylineToString());
-			assertEquals("0 0 0 0 0 0 0 0 0 0", stockRoll.topShapesToString());
+			assertEquals("0 0 0 0 0 0 0 0 0 0", stockRoll.topObjectsToString());
 		} catch (WrongRemovalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -147,28 +148,28 @@ public class StockRollTests {
 		PlacedShape shape2 = new PlacedShape(2, 3, 4, 2, 2);
 		
 		try {
-			stockRoll.placeShape(shape1);
-			stockRoll.placeShape(shape2);
+			stockRoll.placeObject(shape1);
+			stockRoll.placeObject(shape2);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		assertEquals("2 2 5 5 5 5 2 0 0 0", stockRoll.skylineToString());
-		assertEquals("1 1 2 2 2 2 1 0 0 0", stockRoll.topShapesToString());
+		assertEquals("1 1 2 2 2 2 1 0 0 0", stockRoll.topObjectsToString());
 		
 		try {
-			stockRoll.removeShape(shape2);
+			stockRoll.removeObject(shape2);
 		} catch (WrongRemovalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		assertEquals("2 2 2 2 2 2 2 0 0 0", stockRoll.skylineToString());
-		assertEquals("1 1 1 1 1 1 1 0 0 0", stockRoll.topShapesToString());
+		assertEquals("1 1 1 1 1 1 1 0 0 0", stockRoll.topObjectsToString());
 
 		try {
-			stockRoll.raiseGap(stockRoll.getLowestGap());
+			stockRoll.placeObject(stockRoll.getLowestGap());
 		} catch (WrongPlacementException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -177,7 +178,7 @@ public class StockRollTests {
 		assertEquals("2 2 2 2 2 2 2 2 2 2", stockRoll.skylineToString());
 		
 		try {
-			stockRoll.removeShape(shape1);
+			stockRoll.removeObject(shape1);
 		} catch (WrongRemovalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -192,8 +193,8 @@ public class StockRollTests {
 		PlacedShape s2 = new PlacedShape(2, 4, 5, 5, 0);
 		
 		try {
-			stockRoll.placeShape(s1);
-			stockRoll.placeShape(s2);
+			stockRoll.placeObject(s1);
+			stockRoll.placeObject(s2);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -211,8 +212,8 @@ public class StockRollTests {
 		PlacedShape s2 = new PlacedShape(2, 4, 5, 5, 0);
 		
 		try {
-			stockRoll.placeShape(s1);
-			stockRoll.placeShape(s2);
+			stockRoll.placeObject(s1);
+			stockRoll.placeObject(s2);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -233,8 +234,8 @@ public class StockRollTests {
 		PlacedShape s2 = new PlacedShape(2, 4, 5, 5, 0);
 		
 		try {
-			stockRoll.placeShape(s1);
-			stockRoll.placeShape(s2);
+			stockRoll.placeObject(s1);
+			stockRoll.placeObject(s2);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -255,8 +256,8 @@ public class StockRollTests {
 		PlacedShape s2 = new PlacedShape(2, 4, 5, 5, 0);
 		
 		try {
-			stockRoll.placeShape(s1);
-			stockRoll.placeShape(s2);
+			stockRoll.placeObject(s1);
+			stockRoll.placeObject(s2);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -277,8 +278,8 @@ public class StockRollTests {
 		PlacedShape s2 = new PlacedShape(2, 4, 5, 5, 0);
 		
 		try {
-			stockRoll.placeShape(s1);
-			stockRoll.placeShape(s2);
+			stockRoll.placeObject(s1);
+			stockRoll.placeObject(s2);
 		} catch (WrongPlacementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -46,7 +46,15 @@ public class Gap implements IPlaceableObject {
 	}
 	
 	public int getHeight() {
-		return getLeftHeight() > getRightHeight() ? getLeftHeight() : getRightHeight();
+		if (getLeftHeight() == 0) {
+			return getRightHeight();
+		}
+		
+		if (getRightHeight() == 0) {
+			return getLeftHeight();
+		}
+		
+		return getLeftHeight() > getRightHeight() ? getRightHeight() : getLeftHeight();
 	}
 	
 	public int getLeftHeight() {

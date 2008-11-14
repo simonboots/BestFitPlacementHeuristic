@@ -16,7 +16,7 @@ public class HeuristicTests implements IHeuristicResultCallback {
 	
 	private Heuristic h = null;
 	List<Shape> shapelist = new ArrayList<Shape>();
-	List<PlacedShape> placedShapeList = new ArrayList<PlacedShape>();
+	List<IPlaceableObject> placeableList = new ArrayList<IPlaceableObject>();
 
 	@Before
 	public void setUp() throws Exception {
@@ -31,7 +31,7 @@ public class HeuristicTests implements IHeuristicResultCallback {
 	
 	@Test
 	public void LeftmostTest() {
-		placedShapeList.clear();
+		placeableList.clear();
 		
 		try {
 			h.run();
@@ -41,15 +41,15 @@ public class HeuristicTests implements IHeuristicResultCallback {
 		}
 		
 		System.out.println(h.stockRoll.skylineToString());
-		System.out.println(h.stockRoll.topShapesToString());
+		System.out.println(h.stockRoll.topObjectsToString());
 		
-		assertEquals(18, placedShapeList.get(1).getX());
-		assertEquals(2, placedShapeList.get(2).getY());		
+		assertEquals(18, placeableList.get(2).getX());
+		assertEquals(2, placeableList.get(4).getY());		
 	}
 	
 	@Test
 	public void RightmostTest() {
-		placedShapeList.clear();
+		placeableList.clear();
 		
 		h.setPlacementPolicy(new PlaceAtRightmostPolicy());
 		
@@ -61,15 +61,15 @@ public class HeuristicTests implements IHeuristicResultCallback {
 		}
 		
 		System.out.println(h.stockRoll.skylineToString());
-		System.out.println(h.stockRoll.topShapesToString());
+		System.out.println(h.stockRoll.topObjectsToString());
 		
-		assertEquals(2, placedShapeList.get(0).getX());
-		assertEquals(8, placedShapeList.get(2).getX());
+		assertEquals(2, placeableList.get(1).getX());
+		assertEquals(8, placeableList.get(5).getX());
 	}
 	
 	@Test
 	public void ShortestTest() {
-		placedShapeList.clear();
+		placeableList.clear();
 		
 		h.setPlacementPolicy(new PlaceNextToShortestNeighbourPolicy());
 		
@@ -86,15 +86,15 @@ public class HeuristicTests implements IHeuristicResultCallback {
 		}
 		
 		System.out.println(h.stockRoll.skylineToString());
-		System.out.println(h.stockRoll.topShapesToString());
+		System.out.println(h.stockRoll.topObjectsToString());
 		
-		assertEquals(7, placedShapeList.get(2).getX());
-		assertEquals(0, placedShapeList.get(1).getX());
+		assertEquals(7, placeableList.get(5).getX());
+		assertEquals(0, placeableList.get(3).getX());
 	}
 	
 	@Test
 	public void TallestTest() {
-		placedShapeList.clear();
+		placeableList.clear();
 		
 		h.setPlacementPolicy(new PlaceNextToTallestNeighbourPolicy());
 		
@@ -111,22 +111,22 @@ public class HeuristicTests implements IHeuristicResultCallback {
 		}
 		
 		System.out.println(h.stockRoll.skylineToString());
-		System.out.println(h.stockRoll.topShapesToString());
+		System.out.println(h.stockRoll.topObjectsToString());
 		
-		assertEquals(6, placedShapeList.get(1).getX());
-		assertEquals(2, placedShapeList.get(2).getX());
+		assertEquals(6, placeableList.get(3).getX());
+		assertEquals(2, placeableList.get(5).getX());
 	}
 
 	public void optimizedPlacedShapeCallback(PlacedShape ps) {
 		// nothing...
 	}
 
-	public void placedShapeCallback(PlacedShape ps) {
-		placedShapeList.add(ps);
-	}
-
 	public void sortedShapeCallback(Shape s) {
 		// nothing...
+	}
+
+	public void placementsCallback(IPlaceableObject po) {
+		placeableList.add(po);		
 	}
 
 }
