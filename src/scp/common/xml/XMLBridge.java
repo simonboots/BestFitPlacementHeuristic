@@ -149,7 +149,7 @@ public class XMLBridge {
 			if (placement instanceof Placement) {
 				scp.common.Shape shape = shapemap.get(new Integer(((Placement) placement).getShapeid()));
 				scp.common.PlacedShape placedShape = new scp.common.PlacedShape(shape, ((Placement) placement).getCoordinates().getX(), ((Placement) placement).getCoordinates().getY());
-				if (((scp.common.Shape) placement).isRotated()) placedShape.rotate();
+				if (((Placement)placement).isRotated()) placedShape.rotate();
 				placementlist.add(placedShape);
 			}
 			
