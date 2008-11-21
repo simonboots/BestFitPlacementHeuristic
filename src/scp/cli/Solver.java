@@ -20,7 +20,7 @@ public class Solver implements IHeuristicResultCallback {
 	protected XMLBridge bridge = null;
 	protected List<Shape> sortedShapeList = null;
 	protected List<IPlaceableObject> placementList = null;
-	protected List<PlacedShape> optimizedShapeList = null;
+	protected List<IPlaceableObject> optimizedPlacementList = null;
 	protected File outputFile = null;
 	public Options options = null;
 	
@@ -29,7 +29,7 @@ public class Solver implements IHeuristicResultCallback {
 		bridge = new XMLBridge();
 		sortedShapeList = new ArrayList<Shape>();
 		placementList = new ArrayList<IPlaceableObject>();
-		optimizedShapeList = new ArrayList<PlacedShape>();
+		optimizedPlacementList = new ArrayList<IPlaceableObject>();
 	}
 
 	private void configure(String[] args) throws NoFileSpecifiedException, ParseException, JAXBException, NoArgumentsException {
@@ -79,7 +79,7 @@ public class Solver implements IHeuristicResultCallback {
 	private void save() throws JAXBException, FileNotFoundException {
 		bridge.setSortedShapeList(sortedShapeList);
 		bridge.setPlacementsList(placementList);
-		bridge.setOptimizedShapeList(optimizedShapeList);
+		bridge.setOptimizedShapeList(optimizedPlacementList);
 		
 		bridge.saveFile(outputFile);
 	}
@@ -115,8 +115,8 @@ public class Solver implements IHeuristicResultCallback {
 		return new PlaceAtLeftmostPolicy();
 	}
 
-	public void optimizedPlacedShapeCallback(PlacedShape ps) {
-		optimizedShapeList.add(ps);
+	public void optimizedPlacementsCallback(IPlaceableObject po) {
+		optimizedPlacementList.add(po);
 	}
 
 	public void placementsCallback(IPlaceableObject po) {

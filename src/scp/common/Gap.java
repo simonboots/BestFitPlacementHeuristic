@@ -65,6 +65,10 @@ public class Gap implements IPlaceableObject {
 		return rightheight;
 	}
 	
+	public boolean canFitShape(Shape s) {
+		return this.width >= s.getWidth();
+	}
+	
 	public String toString() {
 		return "L: " + x + ", W: " + width + ", H: " + y + ", LH: " + leftheight + ", RH: " + rightheight;
 	}

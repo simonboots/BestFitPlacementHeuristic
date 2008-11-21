@@ -57,6 +57,10 @@ public class Shape implements Cloneable {
     public boolean isWiderThanHigher() {
         return width > height;
     }
+    
+    public boolean isSquare() {
+    	return width == height;
+    }
 
     public Shape makeWiderThanHigher() {
         if (!this.isWiderThanHigher()) {

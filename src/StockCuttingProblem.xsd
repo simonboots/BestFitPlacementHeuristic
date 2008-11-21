@@ -66,10 +66,12 @@
         </xs:attribute>
     </xs:complexType>
     <xs:complexType name="placements">
-        <xs:sequence>
-            <xs:element name="placement" type="scp:placement" maxOccurs="unbounded" minOccurs="1">
-            </xs:element>
-        </xs:sequence>
+        <xs:choice maxOccurs="unbounded" minOccurs="1">
+        	<xs:element name="placement" type="scp:placement"
+        		maxOccurs="unbounded" minOccurs="1">
+        	</xs:element>
+        	<xs:element name="gap" type="scp:gap" maxOccurs="unbounded" minOccurs="0"></xs:element>
+        </xs:choice>
     </xs:complexType>
     <xs:complexType name="placement">
         <xs:sequence>
@@ -85,11 +87,12 @@
         </xs:attribute>
     </xs:complexType>
     <xs:complexType name="optimizations">
-        <xs:sequence>
-            <xs:element name="optimization" type="scp:optimization"
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+        	<xs:element name="optimization" type="scp:optimization"
         		maxOccurs="unbounded" minOccurs="1">
-            </xs:element>
-        </xs:sequence>
+        	</xs:element>
+        	<xs:element name="gap" type="scp:gap" maxOccurs="unbounded" minOccurs="1"></xs:element>
+        </xs:choice>
     </xs:complexType>
     <xs:complexType name="optimization">
         <xs:sequence>
@@ -104,4 +107,14 @@
     </xs:complexType>
     <xs:element name="problem" type="scp:problem">
     </xs:element>
+
+    <xs:complexType name="gap">
+    	<xs:sequence>
+    		<xs:element name="width" type="xs:int" maxOccurs="1" minOccurs="1"></xs:element>
+    		<xs:element name="leftheight" type="xs:int" maxOccurs="1" minOccurs="1"></xs:element>
+    		<xs:element name="rightheight" type="xs:int" maxOccurs="1" minOccurs="1"></xs:element>
+    		<xs:element name="coordinates" type="scp:coordinates" maxOccurs="1" minOccurs="1"></xs:element>
+    	</xs:sequence>
+    	<xs:attribute name="id" type="xs:int"></xs:attribute>
+    </xs:complexType>
 </xs:schema>

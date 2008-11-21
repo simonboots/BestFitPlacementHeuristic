@@ -17,6 +17,7 @@ public class HeuristicTests implements IHeuristicResultCallback {
 	private Heuristic h = null;
 	List<Shape> shapelist = new ArrayList<Shape>();
 	List<IPlaceableObject> placeableList = new ArrayList<IPlaceableObject>();
+	List<IPlaceableObject> optimizedList = new ArrayList<IPlaceableObject>();
 
 	@Before
 	public void setUp() throws Exception {
@@ -116,9 +117,34 @@ public class HeuristicTests implements IHeuristicResultCallback {
 		assertEquals(6, placeableList.get(3).getX());
 		assertEquals(2, placeableList.get(5).getX());
 	}
+	
+	@Test
+	public void OptimizeTest() {
+		optimizedList.clear();
+		shapelist.clear();
+		shapelist.add(new Shape(1, 1, 18));
+		shapelist.add(new Shape(2, 1, 18));
+		shapelist.add(new Shape(3, 1, 18));
+		
+		try {
+			h.run();
+		} catch (WrongPlacementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(h.stockRoll.skylineToString());
+		System.out.println(h.stockRoll.topObjectsToString());
+		System.out.println(optimizedList);
+		
+		assertTrue(new Integer(h.stockRoll.topObjectsToString().split(" ")[18]) < 0);
+		assertTrue(new Integer(h.stockRoll.topObjectsToString().split(" ")[19]) < 0);
+		assertTrue(optimizedList.get(2) instanceof PlacedShape);
+		assertTrue(optimizedList.get(5) instanceof PlacedShape);
+	}
 
-	public void optimizedPlacedShapeCallback(PlacedShape ps) {
-		// nothing...
+	public void optimizedPlacementsCallback(IPlaceableObject po) {
+		optimizedList.add(po);
 	}
 
 	public void sortedShapeCallback(Shape s) {

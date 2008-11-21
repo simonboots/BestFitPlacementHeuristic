@@ -50,7 +50,7 @@ public class StockRoll {
 				interrupted = true;
 			}
 		}
-		
+				
 		// Check left and right height
 		// left height
 		int leftheight = 0;
@@ -127,6 +127,34 @@ public class StockRoll {
 		return null;
 	}
 	
+	public PlacedShape getTopShape() {
+		IPlaceableObject topShape = getTopObjectAt(maxHeightIndex());
+		
+		if (topShape == null || topShape instanceof Gap) {
+			return null;
+		}
+		
+		return (PlacedShape)topShape;
+	}
+	
+	public int maxHeightIndex() {
+		int maxheightindex = 0;
+		int maxheight = skyline[maxheightindex];
+		
+		for (int i = 1; i < width; i++) {
+			if (skyline[i] > maxheight) {
+				maxheight = skyline[i];
+				maxheightindex = i;
+			}
+		}
+		
+		return maxheightindex;
+	}
+	
+	public int maxHeight() {
+		return skyline[maxHeightIndex()];
+	}
+	
 	public String skylineToString() {
 		StringBuffer sb = new StringBuffer("");
 		for (int i = 0; i < this.width; i++) {
@@ -155,7 +183,7 @@ public class StockRoll {
 		return sb.toString();
 	}
 	
-	private void removeTopLevelGaps() throws WrongRemovalException {
+	public void removeTopLevelGaps() throws WrongRemovalException {
 		boolean removedShapes = false;
 		
 		do {

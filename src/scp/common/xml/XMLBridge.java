@@ -179,6 +179,19 @@ public class XMLBridge {
 		
 		return placementmap;
 	}
+	
+//	public Map<Integer, scp.common.PlacedShape> getPlacedShapeMap() throws JAXBException {
+//		Map<Integer, scp.common.IPlaceableObject> placements = getPlacementsMap();
+//		Map<Integer, scp.common.PlacedShape> placedShapes = new HashMap<Integer, scp.common.PlacedShape>();
+//		for (int id : placements.keySet()) {
+//			scp.common.PlacedShape shape = ((scp.common.PlacedShape)placements.get(id));
+//			if (shape instanceof scp.common.PlacedShape) {
+//				placedShapes.put(shape.getId(), shape);
+//			}
+//		}
+//		
+//		return placedShapes;
+//	}
 
 	public void setPlacementsList(List<scp.common.IPlaceableObject> placedList) throws JAXBException {
 		Problem p = getProblem();
@@ -224,45 +237,66 @@ public class XMLBridge {
 		}
 	}
 	
-	public List<scp.common.PlacedShape> getOptimizedShapeList() throws JAXBException {
+	public List<scp.common.IPlaceableObject> getOptimizeList() throws JAXBException {
 		Problem p = getProblem();
 		Solution solution = getSolution(p);
 		Optimizations optimizations = getOptimizations(solution);
 		
-		List<scp.common.PlacedShape> optimizelist = new ArrayList<scp.common.PlacedShape>();
+		List<scp.common.IPlaceableObject> optimizelist = new ArrayList<scp.common.IPlaceableObject>();
 		Map<Integer, scp.common.IPlaceableObject> placementmap = getPlacementsMap();
 		
-		for (Optimization optimization : optimizations.getOptimization()) {
-			scp.common.Shape shape = (scp.common.Shape) placementmap.get(new Integer(optimization.getShapeid()));
-			shape.rotate();
-			optimizelist.add(new scp.common.PlacedShape(shape, optimization.getCoodinates().getX(), optimization.getCoodinates().getY()));
+		for (Object optimization : optimizations.getOptimizationOrGap()) {
+			// if object is shape
+			if (optimization instanceof Optimization) {
+				scp.common.Shape shape = (scp.common.Shape) placementmap.get(new Integer(((Optimization)optimization).getShapeid()));
+				shape.rotate();
+				optimizelist.add(new scp.common.PlacedShape(shape, ((Optimization)optimization).getCoodinates().getX(), ((Optimization)optimization).getCoodinates().getY()));
+			}
 		}
 		
 		return optimizelist;
 	}
 
-	public void setOptimizedShapeList(List<scp.common.PlacedShape> optimizedList) throws JAXBException {
+	public void setOptimizedShapeList(List<scp.common.IPlaceableObject> optimizedList) throws JAXBException {
 		Problem p = getProblem();
 		Solution solution = getSolution(p);
 		Optimizations optimizations = getOptimizations(solution);
 		
 		// Clear optimization list if exist
-		List<Optimization> optimizationlist = optimizations.getOptimization();
+		List<Object> optimizationlist = optimizations.getOptimizationOrGap();
 		if (optimizationlist.size() > 0) {
 			optimizationlist.clear();
 		}
 		
 		// Save optimization list
 		int counter = 1;
-		for (scp.common.PlacedShape s : optimizedList) {
-			Optimization optimization = new Optimization();
-			optimization.setId(counter++);
-			optimization.setShapeid(s.getId());
-			Coordinates coordinates = new Coordinates();
-			coordinates.setX(s.getX());
-			coordinates.setY(s.getY());
-			optimization.setCoodinates(coordinates);
-			optimizationlist.add(optimization);
+		for (scp.common.IPlaceableObject po : optimizedList) {
+			
+			// if object is shape
+			if (po instanceof scp.common.PlacedShape) {
+				Optimization optimization = new Optimization();
+				optimization.setId(counter++);
+				optimization.setShapeid(po.getId());
+				Coordinates coordinates = new Coordinates();
+				coordinates.setX(po.getX());
+				coordinates.setY(po.getY());
+				optimization.setCoodinates(coordinates);
+				optimizationlist.add(optimization);
+			}
+			
+			// if object is gap
+			if (po instanceof scp.common.Gap) {
+				Gap gap = new Gap();
+				gap.setId(counter++);
+				Coordinates coordinates = new Coordinates();
+				coordinates.setX(po.getX());
+				coordinates.setY(po.getY());
+				gap.setCoordinates(coordinates);
+				gap.setWidth(po.getWidth());
+				gap.setLeftheight(((scp.common.Gap)po).getLeftHeight());
+				gap.setRightheight(((scp.common.Gap)po).getRightHeight());
+				optimizationlist.add(gap);
+			}
 		}
 	}
 	
