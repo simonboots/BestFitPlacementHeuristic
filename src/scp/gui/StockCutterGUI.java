@@ -249,7 +249,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 					bridge = new XMLBridge();
 					bridge.loadFile(xmlFile);
 
-					ActionGenerator generator = new ActionGenerator(bridge.getShapeList(), bridge.getSortedShapeList(), bridge.getPlacementsList(), bridge.getOptimizedShapeList());
+					ActionGenerator generator = new ActionGenerator(bridge.getShapeList(), bridge.getSortedShapeList(), bridge.getPlacementsList(), bridge.getOptimizeList());
 
 					doQueue.addAll(generator.getDoQueue());
 

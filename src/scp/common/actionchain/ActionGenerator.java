@@ -11,10 +11,10 @@ public class ActionGenerator {
 	private List<Shape> shapelist = null;
 	private List<Shape> sortedlist = null;
 	private List<IPlaceableObject> placedlist = null;
-	private List<PlacedShape> optimizedlist = null;
+	private List<IPlaceableObject> optimizedlist = null;
 	private List<IAction> doQueue = null;
 
-	public ActionGenerator(List<Shape> shapelist, List<Shape> sortedlist, List<IPlaceableObject> placedlist, List<PlacedShape> optimizedlist) {
+	public ActionGenerator(List<Shape> shapelist, List<Shape> sortedlist, List<IPlaceableObject> placedlist, List<IPlaceableObject> optimizedlist) {
 		this.shapelist = shapelist;
 		this.sortedlist = sortedlist;
 		this.placedlist = placedlist;
@@ -41,8 +41,15 @@ public class ActionGenerator {
 		}
 
 		// add optimized shapes
-		for (PlacedShape s : optimizedlist) {
-			doQueue.add(new OptimizeShapeAction(s));
+		for (IPlaceableObject po : optimizedlist) {
+			if (po instanceof PlacedShape) {
+				doQueue.add(new HighlightMagazineShapeAction((PlacedShape) po));
+				doQueue.add(new OptimizeShapeAction((PlacedShape) po));
+			}
+
+			if (po instanceof Gap) {
+				doQueue.add(new HighlightGapAction((Gap) po));
+			}
 		}
 		return doQueue;
 	}
