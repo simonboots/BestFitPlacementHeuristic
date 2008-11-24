@@ -20,6 +20,7 @@ public class ShowUnsortedShapeListAction extends ShowShapeListAction implements 
 		magazine.loadMagazine(shapelist);
 	}
 
+	@SuppressWarnings("unchecked")
 	public IAction getReverseAction() {
 		List<Shape> sortedList = (List<Shape>) ((ArrayList<Shape>) shapelist).clone();
 		Collections.sort(sortedList, new ShapeSortBySizeComparator());

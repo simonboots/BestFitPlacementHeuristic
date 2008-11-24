@@ -9,24 +9,30 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.xml.bind.JAXBException;
+
+import scp.common.Gap;
+import scp.common.IPlaceableObject;
 import scp.common.PlacedShape;
 import scp.common.Shape;
 import scp.common.ShapeSortBySizeComparator;
@@ -36,355 +42,440 @@ import scp.common.actionchain.IAction;
 import scp.common.xml.XMLBridge;
 
 /**
- *
+ * 
  * @author Benjamin Clauss
  */
-public class StockCutterGUI extends JFrame implements ActionListener {
+@SuppressWarnings("serial")
+public class StockCutterGUI extends JFrame implements ActionListener, ChangeListener {
 
-  /**
-   * MenuBar-Items
-   */
-  private JMenuBar menuBar;
-  private JMenu fileMenu;
-  private JMenu extrasMenu;
-  private JMenu aboutMenu;
-  private JMenuItem openItem;
-  private JMenuItem closeItem;
-  private JMenuItem extrasItem;
-  private JMenuItem aboutItem;
-  /**
-   * (Scroll-)Panels
-   */
-  private JPanel leftPanel;
-  private JPanel leftShapeList;
-  private JScrollPane leftScrollPanel;
-  private JPanel rightShapeList;
-  private JScrollPane rightScrollPanel;
-  /**
-   * Lists for ScrollPanels
-   */
-  private HashMap<Integer, ColoredShape> leftList = new HashMap<Integer, ColoredShape>();
-  private HashMap<Integer, ColoredPlacedShape> rightList = new HashMap<Integer, ColoredPlacedShape>();
-  /**
-   * doQueue, ShapeMagazin, ShapePlacer, ActionExecutor
-   */
-  private List<IAction> doQueue = new ArrayList<IAction>();
-  private ShapeMagazine magazine = new ShapeMagazine(this);
-  private ShapePlacer placer = new ShapePlacer(this);
-  private ActionExecutor executor = new ActionExecutor(doQueue, magazine, placer);
-  /**
-   * Navigation-Items
-   */
-  private JPanel navigationPanel;
-  private JButton next;
-  private JButton playStop;
-  private JButton previous;
-  private JButton reset;
-  /**
-   * Logger
-   */
-  private JTextArea logPanel;
-  private JScrollPane logScrollPanel;
+	/**
+	 * MenuBar-Items
+	 */
+	private JMenuBar menuBar;
+	private JMenu fileMenu;
+	private JMenu extrasMenu;
+	private JMenu aboutMenu;
+	private JMenuItem openItem;
+	private JMenuItem closeItem;
+	private JMenuItem extrasItem;
+	private JMenuItem aboutItem;
+	/**
+	 * (Scroll-)Panels
+	 */
+	private JPanel leftPanel;
+	private JPanel leftShapeList;
+	private JScrollPane leftScrollPanel;
+	private JPanel rightShapeList;
+	private JScrollPane rightScrollPanel;
+	/**
+	 * Lists for ScrollPanels
+	 */
+	private ArrayList<ColoredShape> leftList = new ArrayList<ColoredShape>();
+	private ArrayList<IPlaceableObject> rightList = new ArrayList<IPlaceableObject>();
+	/**
+	 * doQueue, ShapeMagazin, ShapePlacer, ActionExecutor
+	 */
+	private List<IAction> doQueue = new ArrayList<IAction>();
+	private ShapeMagazine magazine = new ShapeMagazine(this);
+	private ShapePlacer placer = new ShapePlacer(this);
+	private ActionExecutor executor = new ActionExecutor(doQueue, magazine, placer);
+	/**
+	 * Navigation-Items
+	 */
+	private JPanel navigationPanel;
+	private JButton next;
+	private JButton playStop;
+	private JButton previous;
+	private JButton skipToEnd;
+	private JButton skipToStart;
+	private JSlider slider;
+	private JLabel frequency;
+	private JLabel msec;
+	/**
+	 * Timer
+	 */
+	private Timer timer;
+	/**
+	 * Logger
+	 */
+	private JTextArea logPanel;
+	private JScrollPane logScrollPanel;
 
-  public StockCutterGUI() {
-    super("The Stock-Cutting-Problem");
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
+	public StockCutterGUI() {
+		super("The Stock-Cutting-Problem");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-    setLocation(250, 100);
-    setResizable(false);
+		setLocation(250, 100);
+		setResizable(false);
 
-    menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 
-    fileMenu = new JMenu("File");
-    openItem = new JMenuItem("Open", 'f');
-    openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-    openItem.addActionListener(this);
-    closeItem = new JMenuItem("Close", 'e');
-    closeItem.addActionListener(this);
-    fileMenu.add(openItem);
-    fileMenu.addSeparator();
-    fileMenu.add(closeItem);
+		fileMenu = new JMenu("File");
+		openItem = new JMenuItem("Open", 'f');
+		openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+		openItem.addActionListener(this);
+		closeItem = new JMenuItem("Close", 'e');
+		closeItem.addActionListener(this);
+		fileMenu.add(openItem);
+		fileMenu.addSeparator();
+		fileMenu.add(closeItem);
 
-    extrasMenu = new JMenu("Extras");
-    extrasItem = new JMenuItem("...");
-    extrasMenu.add(extrasItem);
+		extrasMenu = new JMenu("Extras");
+		extrasItem = new JMenuItem("...");
+		extrasMenu.add(extrasItem);
 
-    aboutMenu = new JMenu("?");
-    aboutItem = new JMenuItem("About", 'b');
-    aboutItem.addActionListener(this);
-    aboutMenu.add(aboutItem);
+		aboutMenu = new JMenu("?");
+		aboutItem = new JMenuItem("About", 'b');
+		aboutItem.addActionListener(this);
+		aboutMenu.add(aboutItem);
 
-    menuBar.add(fileMenu);
-    menuBar.add(extrasMenu);
-    menuBar.add(aboutMenu);
+		menuBar.add(fileMenu);
+		menuBar.add(extrasMenu);
+		menuBar.add(aboutMenu);
 
-    setJMenuBar(menuBar);
+		setJMenuBar(menuBar);
 
+		leftShapeList = new LeftDrawingPane(leftList);
+		leftShapeList.setBackground(Color.white);
+		leftScrollPanel = new JScrollPane(leftShapeList);
+		leftScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		leftScrollPanel.setPreferredSize(new Dimension(268, 300));
 
-    leftShapeList = new LeftDrawingPane(leftList);
-    leftShapeList.setBackground(Color.white);
-    leftScrollPanel = new JScrollPane(leftShapeList);
-    leftScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-    leftScrollPanel.setPreferredSize(new Dimension(268, 300));
+		navigationPanel = new JPanel();
+		navigationPanel.setPreferredSize(new Dimension(268, 150));
 
-    navigationPanel = new JPanel();
-    navigationPanel.setPreferredSize(new Dimension(268, 150));
+		next = new JButton(">");
+		next.setToolTipText("next step");
+		next.setPreferredSize(new Dimension(41, 25));
+		next.addActionListener(this);
 
-    next = new JButton(">");
-    next.setToolTipText("next step");
-    next.setPreferredSize(new Dimension(75, 26));
-    next.addActionListener(this);
+		playStop = new JButton("play");
+		playStop.setPreferredSize(new Dimension(59, 25));
+		playStop.addActionListener(this);
 
-    playStop = new JButton("play");
-    playStop.setPreferredSize(new Dimension(75, 26));
-    playStop.addActionListener(this);
+		previous = new JButton("<");
+		previous.setToolTipText("previous step");
+		previous.setPreferredSize(new Dimension(41, 25));
+		previous.addActionListener(this);
 
-    previous = new JButton("<");
-    previous.setToolTipText("previous step");
-    previous.setPreferredSize(new Dimension(75, 26));
-    previous.addActionListener(this);
+		skipToStart = new JButton("<<");
+		skipToStart.setToolTipText("goto start");
+		skipToStart.setPreferredSize(new Dimension(48, 25));
+		skipToStart.addActionListener(this);
 
-    reset = new JButton("reset");
-    reset.setPreferredSize(new Dimension(75, 26));
-    reset.addActionListener(this);
+		skipToEnd = new JButton(">>");
+		skipToEnd.setToolTipText("goto end");
+		skipToEnd.setPreferredSize(new Dimension(48, 25));
+		skipToEnd.addActionListener(this);
 
-    navigationPanel.add(previous);
-    navigationPanel.add(playStop);
-    navigationPanel.add(next);
-    navigationPanel.add(reset);
+		slider = new JSlider(0, 1000, 500);
+		slider.setPreferredSize(new Dimension(250, 40));
+		slider.setMajorTickSpacing(250);
+		slider.setSnapToTicks(true);
+		slider.setPaintTicks(true);
+		slider.addChangeListener(this);
 
-    leftPanel = new JPanel(new BorderLayout());
-    leftPanel.add(leftScrollPanel, BorderLayout.NORTH);
-    leftPanel.add(navigationPanel, BorderLayout.CENTER);
+		frequency = new JLabel("frequency:");
+		msec = new JLabel(slider.getValue() + "ms");
 
-    rightShapeList = new RightDrawingPane(rightList);
-    rightShapeList.setBackground(Color.white);
-    rightScrollPanel = new JScrollPane(rightShapeList);
-    rightScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-    rightScrollPanel.setPreferredSize(new Dimension(468, 450));
+		navigationPanel.add(skipToStart);
+		navigationPanel.add(previous);
+		navigationPanel.add(playStop);
+		navigationPanel.add(next);
+		navigationPanel.add(skipToEnd);
 
-    logPanel = new JTextArea();
-    logPanel.setEditable(false);
-    logPanel.setRows(5);
-    logScrollPanel = new JScrollPane(logPanel);
-    logScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		navigationPanel.add(slider);
+		navigationPanel.add(frequency);
+		navigationPanel.add(msec);
 
-    setLayout(new BorderLayout());
+		leftPanel = new JPanel(new BorderLayout());
+		leftPanel.add(leftScrollPanel, BorderLayout.NORTH);
+		leftPanel.add(navigationPanel, BorderLayout.CENTER);
 
-    add(leftPanel, BorderLayout.WEST);
-    add(rightScrollPanel, BorderLayout.CENTER);
-    add(logScrollPanel, BorderLayout.SOUTH);
+		rightShapeList = new RightDrawingPane(rightList);
+		rightShapeList.setBackground(Color.white);
+		rightScrollPanel = new JScrollPane(rightShapeList);
+		rightScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		rightScrollPanel.setPreferredSize(new Dimension(418, 450));
 
-    pack();
-    setVisible(true);
-  }
+		logPanel = new JTextArea();
+		logPanel.setEditable(false);
+		logPanel.setRows(5);
+		logScrollPanel = new JScrollPane(logPanel);
+		logScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-  public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == openItem) {
-      final JFileChooser fc = new JFileChooser("./src/");
+		timer = new Timer(500, new ActionListener() {
 
-      fc.setFileFilter(new FileFilter() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				executor.executeNextAction();
+			}
+		});
 
-        @Override
-        public boolean accept(File f) {
-          return f.isDirectory() || f.getName().toLowerCase().endsWith(".xml") || f.getName().toLowerCase().endsWith(".scp");
-        }
+		setLayout(new BorderLayout());
 
-        @Override
-        public String getDescription() {
-          return "SCP Dateien (*.scp, *.xml)";
-        }
-      });
+		add(leftPanel, BorderLayout.WEST);
+		add(rightScrollPanel, BorderLayout.CENTER);
+		add(logScrollPanel, BorderLayout.SOUTH);
 
-      int returnVal = fc.showOpenDialog(this);
-      if (returnVal == JFileChooser.APPROVE_OPTION) {
-        File xmlFile = fc.getSelectedFile();
-        System.out.println("Opening: " + xmlFile.getAbsolutePath());
+		pack();
+		setVisible(true);
+	}
 
-        XMLBridge bridge;
-        try {
-          bridge = new XMLBridge();
-          bridge.loadFile(xmlFile);
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == openItem) {
+			final JFileChooser fc = new JFileChooser("./src/");
 
-          ActionGenerator generator = new ActionGenerator(
-                  bridge.getShapeList(),
-                  bridge.getSortedShapeList(),
-                  bridge.getPlacedShapeList(),
-                  bridge.getOptimizedShapeList());
+			fc.setFileFilter(new FileFilter() {
 
-          doQueue.addAll(generator.getDoQueue());
+				@Override
+				public boolean accept(File f) {
+					return f.isDirectory() || f.getName().toLowerCase().endsWith(".xml") || f.getName().toLowerCase().endsWith(".scp");
+				}
 
-        } catch (JAXBException ex) {
-          ex.printStackTrace();
-        }
-      }
-    } else if (e.getSource() == closeItem) {
-      System.exit(0);
-    } else if (e.getSource() == aboutItem) {
-      JOptionPane.showMessageDialog(null, "(c)2008 by Simon Stiefel & Benjamin Clauss", "Ãœber", JOptionPane.INFORMATION_MESSAGE);
-    } else if (e.getSource() == next) {
-      executor.executeNextAction();
-    } else if (e.getSource() == previous) {
-      executor.executePreviousAction();
-    } else if (e.getSource() == reset) {
-      resetAll();
-    }
-  }
+				@Override
+				public String getDescription() {
+					return "SCP Dateien (*.scp, *.xml)";
+				}
+			});
 
-  /**
-   * loads shapes out of xml into magazine
-   * @param shapelist 
-   */
-  public void loadMagazine(List<Shape> shapelist) {
-    //leftList.clear();
-    int pos = 0;
-    for (Shape shape : shapelist) {
-      ColoredShape cs = new ColoredShape(shape);
-      cs.setColor(Color.lightGray);
-      leftList.put(pos++, cs);
-    }
-    leftShapeList.revalidate();
-    leftShapeList.repaint();
-  }
+			int returnVal = fc.showOpenDialog(this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File xmlFile = fc.getSelectedFile();
+				System.out.println("Opening: " + xmlFile.getAbsolutePath());
 
-  /**
-   * adds a shape to the stockroll
-   * @param s PlacedShape
-   */
-  public void placeColoredPlacedShape(PlacedShape s) {
-    ColoredPlacedShape cps = new ColoredPlacedShape(s);
-    cps.setColor(Color.lightGray);
-    rightList.put(s.getId(), cps);
-    rightShapeList.revalidate();
-    rightShapeList.repaint();
-    appendToLog("placed Shape (ID: " + s.getId() + " @ " + s.getX() + "," + s.getY() + ")");
-  }
+				XMLBridge bridge;
+				try {
+					bridge = new XMLBridge();
+					bridge.loadFile(xmlFile);
 
-  /**
-   * highlights a shape in the magazine
-   * @param s Shape
-   */
-  public void highlightColoredShape(Shape s) {
-    for (int i = 0; i < leftList.size(); i++) {
-      if (leftList.get(i).getId() == s.getId()) {
-        ColoredShape cs = new ColoredShape(s);
-        cs.setColor(Color.red);
-        leftList.put(i, cs);
-      }
-    }
-  }
+					ActionGenerator generator = new ActionGenerator(bridge.getShapeList(), bridge.getSortedShapeList(), bridge.getPlacementsList(), bridge.getOptimizedShapeList());
 
-  /**
-   * highlights a shape on the stockroll
-   * @param s PlacedShape
-   */
-  public void highlightColoredPlacedShape(PlacedShape s) {
-    rightList.remove(s);
-    ColoredPlacedShape cps = new ColoredPlacedShape(s);
-    cps.setColor(Color.red);
-    rightList.put(s.getId(), cps);
-  }
+					doQueue.addAll(generator.getDoQueue());
 
-  /**
-   * unhighlights all shapes in the magazine
-   * @param s Shape
-   */
-  public void unhighlightColoredShapes() {
-    Iterator itr = leftList.keySet().iterator();
+					// first action (load list)
+					executor.executeNextAction();
 
-    while (itr.hasNext()) {
-      Object key = itr.next();
-      if (leftList.get(key).getColor().equals(Color.red)) {
-        leftList.get(key).setColor(Color.lightGray);
-      }
-    }
-  }
+				} catch (JAXBException ex) {
+					ex.printStackTrace();
+				}
+			}
+		} else if (e.getSource() == closeItem) {
+			System.exit(0);
+		} else if (e.getSource() == aboutItem) {
+			JOptionPane.showMessageDialog(null, "(c)2008 by Simon Stiefel & Benjamin Clauss", "Über", JOptionPane.INFORMATION_MESSAGE);
+		} else if (e.getSource() == next) {
+			executor.executeNextAction();
+		} else if (e.getSource() == playStop) {
+			if (playStop.getText().equals("play")) {
+				timer.start();
+				playStop.setText("stop");
+				previous.setEnabled(false);
+				next.setEnabled(false);
+				skipToEnd.setEnabled(false);
+				skipToStart.setEnabled(false);
+			} else if (playStop.getText().equals("stop")) {
+				timer.stop();
+				playStop.setText("play");
+				previous.setEnabled(true);
+				next.setEnabled(true);
+				skipToEnd.setEnabled(true);
+				skipToStart.setEnabled(true);
+			}
+		} else if (e.getSource() == previous) {
+			executor.executePreviousAction();
+		} else if (e.getSource() == skipToEnd) {
+			while (executor.hasNextAction()) {
+				executor.executeNextAction();
+			}
+		} else if (e.getSource() == skipToStart) {
+			while (executor.hasPreviousAction()) {
+				executor.executePreviousAction();
+			}
+		}
+	}
 
-  /**
-   * unhighlights all shapes on the stockroll
-   */
-  public void unhighlightColoredPlacedShapes() {
-    Iterator itr = rightList.keySet().iterator();
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		if (e.getSource() == slider) {
+			timer.setDelay(slider.getValue());
+			msec.setText(slider.getValue() + "ms");
+		}
+	}
 
-    while (itr.hasNext()) {
-      Object key = itr.next();
-      if (rightList.get(key).getColor().equals(Color.red)) {
-        rightList.get(key).setColor(Color.lightGray);
-      }
-    }
-  }
+	/**
+	 * loads a list of shapes into the magazine
+	 * 
+	 * @param shapelist
+	 */
+	public void loadMagazine(List<Shape> shapelist) {
+		leftList.clear();
+		for (Shape shape : shapelist) {
+			ColoredShape cs = new ColoredShape(shape);
+			cs.setColor(Color.lightGray);
+			leftList.add(cs);
+		}
+		leftShapeList.revalidate();
+		leftShapeList.repaint();
+	}
 
-  /**
-   * removes a shape from the magazine
-   * @param s Shape
-   */
-  public void removeColoredShape(Shape s) {
-    for (int i = 0; i < leftList.size() - 1; i++) {
-      if (leftList.get(i).getId() == s.getId()) {
-        leftList.remove(i);
-      }
-    }
-  }
+	/**
+	 * highlights a shape in the magazine
+	 * 
+	 * @param s
+	 */
+	public void highlightMagazineShape(Shape s) {
+		for (ColoredShape shape : leftList) {
+			if (shape.getId() == s.getId()) {
+				shape.setColor(Color.red);
+			}
+		}
+		leftShapeList.repaint();
+	}
 
-  /**
-   * inserts a shape to the magazine
-   * @param s Shape
-   */
-  public void insertColoredShape(Shape s) {
-    ColoredShape cs = new ColoredShape(s);
-    leftList.put(s.getId(), cs);
+	/**
+	 * unhighlights all shapes in the magazine
+	 */
+	public void unhighlightAllMagazineShapes() {
+		for (ColoredShape shape : leftList) {
+			if (shape.getColor().equals(Color.red)) {
+				shape.setColor(Color.lightGray);
+			}
+		}
+		leftShapeList.repaint();
+	}
 
-    List<ColoredShape> tmpList = new ArrayList<ColoredShape>();
-    tmpList.addAll(leftList.values());
-    Collections.sort(tmpList, new ShapeSortBySizeComparator());
+	/**
+	 * inserts a shape into the magazine
+	 * 
+	 * @param s
+	 */
+	public void insertShapeIntoMagazine(Shape s) {
+		ColoredShape cs = new ColoredShape(s);
+		leftList.add(cs);
 
-    leftList.clear();
-    int pos = 0;
+		Collections.sort(leftList, new ShapeSortBySizeComparator());
 
-    for (ColoredShape coloredShape : tmpList) {
-      leftList.put(pos++, coloredShape);
-    }
-  }
+		leftShapeList.revalidate();
+		leftShapeList.repaint();
+	}
 
-  /**
-   * removes a shape from the stockroll
-   * @param s PlacedShape
-   */
-  public void removeColoredPlacedShape(PlacedShape s) {
-    rightList.remove(s.getId());
-    rightShapeList.revalidate();
-    rightShapeList.repaint();
-    appendToLog("removed Shape (ID: " + s.getId() + " @ " + s.getX() + "," + s.getY() + ")");
-  }
+	/**
+	 * removes a shape from the magazine
+	 * 
+	 * @param s
+	 */
+	public void removeShapeFromMagazine(Shape s) {
+		ColoredShape shapeToRemove = null;
+		for (ColoredShape shape : leftList) {
+			if (shape.getId() == s.getId()) {
+				shapeToRemove = shape;
+			}
+		}
+		leftList.remove(shapeToRemove);
 
-  /**
-   * resets the GUI
-   */
-  public void resetAll() {
-    logPanel.setText("");
-    rightList.clear();
-    rightShapeList.revalidate();
-    rightShapeList.repaint();
-    leftList.clear();
-    leftShapeList.revalidate();
-    leftShapeList.repaint();
-    doQueue.clear();
-  }
+		leftShapeList.revalidate();
+		leftShapeList.repaint();
+	}
 
-  /**
-   * appends a String to the logger
-   * @param s String with message
-   */
-  public void appendToLog(String s) {
-    logPanel.append(s + "\n");
-  }
+	/**
+	 * places a shape on the stockroll
+	 * 
+	 * @param s
+	 */
+	public void placeShape(PlacedShape s) {
+		ColoredPlacedShape cps = new ColoredPlacedShape(s);
+		cps.setColor(Color.lightGray);
 
-  public static void main(String[] args) {
-    SwingUtilities.invokeLater(new Runnable() {
+		rightList.add(cps);
+		rightShapeList.repaint();
+	}
 
-      public void run() {
-        new StockCutterGUI();
-      }
-    });
-  }
+	/**
+	 * removes a shape from the stockroll
+	 * 
+	 * @param s
+	 */
+	public void removePlacedShape(Shape s) {
+		ColoredPlacedShape shapeToRemove = null;
+		for (IPlaceableObject obj : rightList) {
+			if ((obj instanceof ColoredPlacedShape) && (obj.getId() == s.getId())) {
+				shapeToRemove = (ColoredPlacedShape) obj;
+			}
+		}
+		rightList.remove(shapeToRemove);
+		rightShapeList.revalidate();
+		rightShapeList.repaint();
+	}
+
+	/**
+	 * highlights a shape on the stockroll
+	 * 
+	 * @param s
+	 */
+	public void highlightPlacedShape(Shape s) {
+		for (IPlaceableObject obj : rightList) {
+			if ((obj instanceof ColoredPlacedShape) && (obj.getId() == s.getId())) {
+				((ColoredPlacedShape) obj).setColor(Color.red);
+			}
+		}
+	}
+
+	/**
+	 * unhighlights all shapes on the stockroll
+	 */
+	public void unhighlightAllPlacedShapes() {
+		for (IPlaceableObject obj : rightList) {
+			if ((obj instanceof ColoredPlacedShape) && ((ColoredPlacedShape) obj).getColor().equals(Color.red)) {
+				((ColoredPlacedShape) obj).setColor(Color.lightGray);
+			}
+		}
+	}
+
+	/**
+	 * highlights a gap on the stockroll
+	 * 
+	 * @param g
+	 */
+	public void highlightGap(Gap g) {
+		rightList.add(g);
+		rightShapeList.repaint();
+	}
+
+	/**
+	 * removes the highlighted gap from the stockroll
+	 */
+	public void removeGap() {
+		Gap gapToRemove = null;
+		for (IPlaceableObject obj : rightList) {
+			if (obj instanceof Gap) {
+				gapToRemove = (Gap) obj;
+			}
+		}
+		rightList.remove(gapToRemove);
+		rightShapeList.repaint();
+	}
+
+	/**
+	 * appends a string to the logger
+	 * 
+	 * @param s
+	 */
+	public void printToLogger(String s) {
+		logPanel.append(s + "\n");
+	}
+
+	/**
+	 * main method
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			public void run() {
+				new StockCutterGUI();
+			}
+		});
+	}
 }

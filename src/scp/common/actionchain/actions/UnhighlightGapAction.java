@@ -14,8 +14,7 @@ public class UnhighlightGapAction implements IAction {
 	}
 	
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
-		// TODO Auto-generated method stub
-
+		placer.removeGap();
 	}
 
 	public IAction getReverseAction() {

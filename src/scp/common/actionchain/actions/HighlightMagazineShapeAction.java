@@ -14,6 +14,7 @@ public class HighlightMagazineShapeAction implements IAction {
 	}
 
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
+		placer.unhighlightAllShapes();
 		magazine.highlightShape(s);
 	}
 

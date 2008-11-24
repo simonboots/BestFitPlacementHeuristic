@@ -13,22 +13,22 @@ class ShapeMagazine implements IShapeMagazine {
   }
 
   public void loadMagazine(List<Shape> shapelist) {
-    gui.loadMagazine(shapelist);
+	  gui.loadMagazine(shapelist);
   }
 
   public void highlightShape(Shape s) {
-    gui.highlightColoredShape(s);
+	  gui.highlightMagazineShape(s);
   }
 
   public void unhighlightAllShapes() {
-    gui.unhighlightColoredShapes();
+	  gui.unhighlightAllMagazineShapes();
   }
 
   public void removeShape(Shape s) {
-    gui.removeColoredShape(s);
+	  gui.removeShapeFromMagazine(s);
   }
 
   public void insertShape(Shape s) {
-    gui.insertColoredShape(s);
+	  gui.insertShapeIntoMagazine(s);
   }
 }

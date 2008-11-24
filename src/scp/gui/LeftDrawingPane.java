@@ -3,12 +3,13 @@ package scp.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.HashMap;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class LeftDrawingPane extends JPanel {
 
-  private HashMap<Integer, ColoredShape> leftList = new HashMap<Integer, ColoredShape>();
+  private ArrayList<ColoredShape> leftlist = new ArrayList<ColoredShape>();
   //List-Settings
   private static final int MAX = 50;         // length of longest shape side
   private static final int VGAP = 40;         // vertical gap between shapes
@@ -16,8 +17,8 @@ public class LeftDrawingPane extends JPanel {
   private static final int INITY = 20;        // initial y-coordinate
   private static final int PANELWIDTH = 250;
 
-  public LeftDrawingPane(HashMap<Integer, ColoredShape> leftList) {
-    this.leftList = leftList;
+  public LeftDrawingPane(ArrayList<ColoredShape> leftlist) {
+    this.leftlist = leftlist;
   }
 
   @Override
@@ -32,29 +33,30 @@ public class LeftDrawingPane extends JPanel {
 
     setPreferredSize(new Dimension(0, 0));
 
-    for (int i = 0; i < leftList.size(); i++) {
+    for (ColoredShape shape : leftlist) {
+
       // height && width < MAX
-      if ((leftList.get(i).getHeight() <= MAX) && (leftList.get(i).getWidth() <= MAX)) {
-        scaledWidth = leftList.get(i).getWidth();
-        scaledHeight = leftList.get(i).getHeight();
+      if ((shape.getHeight() <= MAX) && (shape.getWidth() <= MAX)) {
+        scaledWidth = shape.getWidth();
+        scaledHeight = shape.getHeight();
       // width > height && width > MAX
-      } else if ((leftList.get(i).getWidth() >= leftList.get(i).getHeight()) && (leftList.get(i).getWidth() > MAX)) {
+      } else if ((shape.getWidth() >= shape.getHeight()) && (shape.getWidth() > MAX)) {
         scaledWidth = MAX;
-        scaledHeight = ((float) (leftList.get(i).getHeight()) / (float) (leftList.get(i).getWidth())) * MAX;
+        scaledHeight = ((float) (shape.getHeight()) / (float) (shape.getWidth())) * MAX;
       // height > width && height > MAX
-      } else if ((leftList.get(i).getHeight() > leftList.get(i).getWidth()) && (leftList.get(i).getHeight() > MAX)) {
+      } else if ((shape.getHeight() > shape.getWidth()) && (shape.getHeight() > MAX)) {
         scaledHeight = MAX;
-        scaledWidth = ((float) (leftList.get(i).getWidth()) / (float) (leftList.get(i).getHeight())) * MAX;
+        scaledWidth = ((float) (shape.getWidth()) / (float) (shape.getHeight())) * MAX;
       }
 
-      g.setColor(leftList.get(i).getColor());
+      g.setColor(shape.getColor());
       g.fillRect(PANELWIDTH - INITX - (int) scaledWidth, yCoord, (int) scaledWidth, (int) scaledHeight);
 
       g.setColor(Color.black);
       g.drawRect(PANELWIDTH - INITX - (int) scaledWidth, yCoord, (int) scaledWidth - 1, (int) scaledHeight - 1);
 
-      g.drawString("SID: " + leftList.get(i).getId(), xCoord, yCoord + 9);
-      g.drawString(leftList.get(i).getHeight() + " x " + leftList.get(i).getWidth(), xCoord, yCoord + 25);
+      g.drawString("SID: " + shape.getId(), xCoord, yCoord + 9);
+      g.drawString(shape.getHeight() + " x " + shape.getWidth(), xCoord, yCoord + 25);
 
       g.setColor(Color.lightGray);
       g.drawLine(0, (int) scaledHeight + yCoord + VGAP / 2, PANELWIDTH, (int) scaledHeight + yCoord + VGAP / 2);
@@ -65,6 +67,5 @@ public class LeftDrawingPane extends JPanel {
 
     }
     revalidate();
-    repaint();
   }
 }
