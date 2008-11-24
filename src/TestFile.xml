@@ -2,87 +2,191 @@
 <ns2:problem xmlns:ns2="http://www.stiefels.net/StockCuttingProblem">
     <shapes>
         <shape id="0">
-            <height>20</height>
-            <width>51</width>
+            <height>163</height>
+            <width>40</width>
         </shape>
         <shape id="1">
-            <height>99</height>
-            <width>100</width>
+            <height>0</height>
+            <width>185</width>
         </shape>
         <shape id="2">
-            <height>18</height>
-            <width>44</width>
+            <height>109</height>
+            <width>107</width>
         </shape>
         <shape id="3">
-            <height>3</height>
-            <width>86</width>
+            <height>200</height>
+            <width>114</width>
         </shape>
         <shape id="4">
-            <height>22</height>
-            <width>93</width>
+            <height>160</height>
+            <width>150</width>
         </shape>
         <shape id="5">
-            <height>83</height>
-            <width>51</width>
+            <height>25</height>
+            <width>158</width>
         </shape>
         <shape id="6">
-            <height>55</height>
-            <width>20</width>
+            <height>51</height>
+            <width>170</width>
         </shape>
         <shape id="7">
-            <height>100</height>
-            <width>61</width>
+            <height>17</height>
+            <width>182</width>
         </shape>
         <shape id="8">
-            <height>81</height>
-            <width>1</width>
+            <height>47</height>
+            <width>188</width>
         </shape>
         <shape id="9">
-            <height>61</height>
-            <width>21</width>
+            <height>137</height>
+            <width>70</width>
+        </shape>
+        <shape id="10">
+            <height>131</height>
+            <width>200</width>
+        </shape>
+        <shape id="11">
+            <height>32</height>
+            <width>118</width>
+        </shape>
+        <shape id="12">
+            <height>187</height>
+            <width>89</width>
+        </shape>
+        <shape id="13">
+            <height>163</height>
+            <width>176</width>
+        </shape>
+        <shape id="14">
+            <height>187</height>
+            <width>195</width>
+        </shape>
+        <shape id="15">
+            <height>57</height>
+            <width>85</width>
+        </shape>
+        <shape id="16">
+            <height>18</height>
+            <width>5</width>
+        </shape>
+        <shape id="17">
+            <height>193</height>
+            <width>112</width>
+        </shape>
+        <shape id="18">
+            <height>76</height>
+            <width>167</width>
+        </shape>
+        <shape id="19">
+            <height>150</height>
+            <width>12</width>
+        </shape>
+        <shape id="20">
+            <height>43</height>
+            <width>117</width>
+        </shape>
+        <shape id="21">
+            <height>161</height>
+            <width>88</width>
+        </shape>
+        <shape id="22">
+            <height>48</height>
+            <width>93</width>
         </shape>
     </shapes>
     <solution>
         <sorting>
             <sort id="1">
-                <shapeid>1</shapeid>
+                <shapeid>10</shapeid>
                 <rotated>false</rotated>
             </sort>
             <sort id="2">
-                <shapeid>7</shapeid>
+                <shapeid>3</shapeid>
                 <rotated>true</rotated>
             </sort>
             <sort id="3">
-                <shapeid>4</shapeid>
+                <shapeid>14</shapeid>
                 <rotated>false</rotated>
             </sort>
             <sort id="4">
-                <shapeid>3</shapeid>
-                <rotated>false</rotated>
-            </sort>
-            <sort id="5">
-                <shapeid>5</shapeid>
+                <shapeid>17</shapeid>
                 <rotated>true</rotated>
             </sort>
-            <sort id="6">
+            <sort id="5">
                 <shapeid>8</shapeid>
+                <rotated>false</rotated>
+            </sort>
+            <sort id="6">
+                <shapeid>12</shapeid>
                 <rotated>true</rotated>
             </sort>
             <sort id="7">
-                <shapeid>9</shapeid>
-                <rotated>true</rotated>
+                <shapeid>1</shapeid>
+                <rotated>false</rotated>
             </sort>
             <sort id="8">
-                <shapeid>6</shapeid>
-                <rotated>true</rotated>
+                <shapeid>7</shapeid>
+                <rotated>false</rotated>
             </sort>
             <sort id="9">
-                <shapeid>0</shapeid>
+                <shapeid>13</shapeid>
                 <rotated>false</rotated>
             </sort>
             <sort id="10">
-                <shapeid>2</shapeid>
+                <shapeid>6</shapeid>
                 <rotated>false</rotated>
+            </sort>
+            <sort id="11">
+                <shapeid>18</shapeid>
+                <rotated>false</rotated>
+            </sort>
+            <sort id="12">
+                <shapeid>0</shapeid>
+                <rotated>true</rotated>
+            </sort>
+            <sort id="13">
+                <shapeid>21</shapeid>
+                <rotated>true</rotated>
+            </sort>
+            <sort id="14">
+                <shapeid>4</shapeid>
+                <rotated>true</rotated>
+            </sort>
+            <sort id="15">
+                <shapeid>5</shapeid>
+                <rotated>false</rotated>
+            </sort>
+            <sort id="16">
+                <shapeid>19</shapeid>
+                <rotated>true</rotated>
+            </sort>
+            <sort id="17">
+                <shapeid>9</shapeid>
+                <rotated>true</rotated>
+            </sort>
+            <sort id="18">
+                <shapeid>11</shapeid>
+                <rotated>false</rotated>
+            </sort>
+            <sort id="19">
+                <shapeid>20</shapeid>
+                <rotated>false</rotated>
+            </sort>
+            <sort id="20">
+                <shapeid>2</shapeid>
+                <rotated>true</rotated>
+            </sort>
+            <sort id="21">
+                <shapeid>22</shapeid>
+                <rotated>false</rotated>
+            </sort>
+            <sort id="22">
+                <shapeid>15</shapeid>
+                <rotated>false</rotated>
+            </sort>
+            <sort id="23">
+                <shapeid>16</shapeid>
+                <rotated>true</rotated>
             </sort>
         </sorting>
         <placements>
@@ -96,7 +200,7 @@
                 </coordinates>
             </gap>
             <placement id="2">
-                <shapeid>1</shapeid>
+                <shapeid>10</shapeid>
                 <coordinates>
                     <x>0</x>
                     <y>0</y>
@@ -104,182 +208,592 @@
                 <rotated>false</rotated>
             </placement>
             <gap id="3">
-                <width>100</width>
-                <leftheight>99</leftheight>
+                <width>200</width>
+                <leftheight>0</leftheight>
                 <rightheight>0</rightheight>
                 <coordinates>
-                    <x>100</x>
-                    <y>0</y>
+                    <x>0</x>
+                    <y>131</y>
                 </coordinates>
             </gap>
             <placement id="4">
-                <shapeid>7</shapeid>
+                <shapeid>3</shapeid>
                 <coordinates>
-                    <x>100</x>
-                    <y>0</y>
+                    <x>0</x>
+                    <y>131</y>
                 </coordinates>
                 <rotated>true</rotated>
             </placement>
             <gap id="5">
-                <width>100</width>
-                <leftheight>99</leftheight>
+                <width>200</width>
+                <leftheight>0</leftheight>
                 <rightheight>0</rightheight>
                 <coordinates>
-                    <x>100</x>
-                    <y>61</y>
+                    <x>0</x>
+                    <y>245</y>
                 </coordinates>
             </gap>
             <placement id="6">
-                <shapeid>4</shapeid>
+                <shapeid>14</shapeid>
                 <coordinates>
-                    <x>100</x>
-                    <y>61</y>
+                    <x>0</x>
+                    <y>245</y>
                 </coordinates>
                 <rotated>false</rotated>
             </placement>
             <gap id="7">
-                <width>7</width>
-                <leftheight>83</leftheight>
+                <width>5</width>
+                <leftheight>432</leftheight>
                 <rightheight>0</rightheight>
                 <coordinates>
-                    <x>193</x>
-                    <y>61</y>
+                    <x>195</x>
+                    <y>245</y>
                 </coordinates>
             </gap>
             <placement id="8">
-                <shapeid>3</shapeid>
+                <shapeid>16</shapeid>
                 <coordinates>
-                    <x>193</x>
-                    <y>61</y>
-                </coordinates>
-                <rotated>true</rotated>
-            </placement>
-            <gap id="9">
-                <width>4</width>
-                <leftheight>147</leftheight>
-                <rightheight>0</rightheight>
-                <coordinates>
-                    <x>196</x>
-                    <y>61</y>
-                </coordinates>
-            </gap>
-            <placement id="10">
-                <shapeid>8</shapeid>
-                <coordinates>
-                    <x>196</x>
-                    <y>61</y>
+                    <x>195</x>
+                    <y>245</y>
                 </coordinates>
                 <rotated>false</rotated>
             </placement>
-            <gap id="11">
-                <width>3</width>
-                <leftheight>142</leftheight>
+            <gap id="9">
+                <width>5</width>
+                <leftheight>432</leftheight>
                 <rightheight>0</rightheight>
                 <coordinates>
-                    <x>197</x>
-                    <y>61</y>
+                    <x>195</x>
+                    <y>263</y>
+                </coordinates>
+            </gap>
+            <placement id="10">
+                <shapeid>1</shapeid>
+                <coordinates>
+                    <x>195</x>
+                    <y>263</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <gap id="11">
+                <width>5</width>
+                <leftheight>432</leftheight>
+                <rightheight>0</rightheight>
+                <coordinates>
+                    <x>195</x>
+                    <y>263</y>
                 </coordinates>
             </gap>
             <gap id="12">
-                <width>93</width>
-                <leftheight>99</leftheight>
-                <rightheight>147</rightheight>
+                <width>195</width>
+                <leftheight>0</leftheight>
+                <rightheight>695</rightheight>
                 <coordinates>
-                    <x>100</x>
-                    <y>83</y>
+                    <x>0</x>
+                    <y>432</y>
                 </coordinates>
             </gap>
             <placement id="13">
-                <shapeid>5</shapeid>
+                <shapeid>17</shapeid>
                 <coordinates>
-                    <x>100</x>
-                    <y>83</y>
+                    <x>0</x>
+                    <y>432</y>
                 </coordinates>
                 <rotated>true</rotated>
             </placement>
             <gap id="14">
-                <width>10</width>
-                <leftheight>134</leftheight>
-                <rightheight>147</rightheight>
+                <width>2</width>
+                <leftheight>544</leftheight>
+                <rightheight>695</rightheight>
                 <coordinates>
-                    <x>183</x>
-                    <y>83</y>
+                    <x>193</x>
+                    <y>432</y>
                 </coordinates>
             </gap>
             <gap id="15">
-                <width>100</width>
+                <width>193</width>
                 <leftheight>0</leftheight>
-                <rightheight>134</rightheight>
+                <rightheight>976</rightheight>
                 <coordinates>
                     <x>0</x>
-                    <y>99</y>
+                    <y>544</y>
                 </coordinates>
             </gap>
             <placement id="16">
-                <shapeid>9</shapeid>
+                <shapeid>8</shapeid>
                 <coordinates>
                     <x>0</x>
-                    <y>99</y>
-                </coordinates>
-                <rotated>true</rotated>
-            </placement>
-            <gap id="17">
-                <width>39</width>
-                <leftheight>120</leftheight>
-                <rightheight>134</rightheight>
-                <coordinates>
-                    <x>61</x>
-                    <y>99</y>
-                </coordinates>
-            </gap>
-            <placement id="18">
-                <shapeid>6</shapeid>
-                <coordinates>
-                    <x>61</x>
-                    <y>99</y>
+                    <y>544</y>
                 </coordinates>
                 <rotated>false</rotated>
             </placement>
-            <gap id="19">
-                <width>19</width>
-                <leftheight>154</leftheight>
-                <rightheight>134</rightheight>
+            <gap id="17">
+                <width>5</width>
+                <leftheight>591</leftheight>
+                <rightheight>976</rightheight>
                 <coordinates>
-                    <x>81</x>
-                    <y>99</y>
+                    <x>188</x>
+                    <y>544</y>
                 </coordinates>
             </gap>
-            <placement id="20">
-                <shapeid>2</shapeid>
+            <gap id="18">
+                <width>188</width>
+                <leftheight>0</leftheight>
+                <rightheight>1135</rightheight>
                 <coordinates>
-                    <x>81</x>
-                    <y>99</y>
+                    <x>0</x>
+                    <y>591</y>
+                </coordinates>
+            </gap>
+            <placement id="19">
+                <shapeid>12</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>591</y>
                 </coordinates>
                 <rotated>true</rotated>
             </placement>
-            <gap id="21">
+            <gap id="20">
                 <width>1</width>
-                <leftheight>143</leftheight>
-                <rightheight>134</rightheight>
+                <leftheight>680</leftheight>
+                <rightheight>1135</rightheight>
                 <coordinates>
-                    <x>99</x>
-                    <y>99</y>
+                    <x>187</x>
+                    <y>591</y>
                 </coordinates>
             </gap>
-            <gap id="22">
-                <width>61</width>
+            <gap id="21">
+                <width>187</width>
                 <leftheight>0</leftheight>
-                <rightheight>154</rightheight>
+                <rightheight>1271</rightheight>
                 <coordinates>
                     <x>0</x>
-                    <y>120</y>
+                    <y>680</y>
                 </coordinates>
             </gap>
-            <placement id="23">
+            <placement id="22">
+                <shapeid>7</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>680</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <gap id="23">
+                <width>5</width>
+                <leftheight>697</leftheight>
+                <rightheight>1271</rightheight>
+                <coordinates>
+                    <x>182</x>
+                    <y>680</y>
+                </coordinates>
+            </gap>
+            <gap id="24">
+                <width>5</width>
+                <leftheight>976</leftheight>
+                <rightheight>0</rightheight>
+                <coordinates>
+                    <x>195</x>
+                    <y>695</y>
+                </coordinates>
+            </gap>
+            <gap id="25">
+                <width>182</width>
+                <leftheight>0</leftheight>
+                <rightheight>1377</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>697</y>
+                </coordinates>
+            </gap>
+            <placement id="26">
+                <shapeid>13</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>697</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <gap id="27">
+                <width>6</width>
+                <leftheight>860</leftheight>
+                <rightheight>1377</rightheight>
+                <coordinates>
+                    <x>176</x>
+                    <y>697</y>
+                </coordinates>
+            </gap>
+            <gap id="28">
+                <width>176</width>
+                <leftheight>0</leftheight>
+                <rightheight>1557</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>860</y>
+                </coordinates>
+            </gap>
+            <placement id="29">
+                <shapeid>6</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>860</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <gap id="30">
+                <width>6</width>
+                <leftheight>911</leftheight>
+                <rightheight>1557</rightheight>
+                <coordinates>
+                    <x>170</x>
+                    <y>860</y>
+                </coordinates>
+            </gap>
+            <gap id="31">
+                <width>170</width>
+                <leftheight>0</leftheight>
+                <rightheight>1771</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>911</y>
+                </coordinates>
+            </gap>
+            <placement id="32">
+                <shapeid>18</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>911</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <gap id="33">
+                <width>3</width>
+                <leftheight>987</leftheight>
+                <rightheight>1771</rightheight>
+                <coordinates>
+                    <x>167</x>
+                    <y>911</y>
+                </coordinates>
+            </gap>
+            <gap id="34">
+                <width>2</width>
+                <leftheight>1135</leftheight>
+                <rightheight>1671</rightheight>
+                <coordinates>
+                    <x>193</x>
+                    <y>976</y>
+                </coordinates>
+            </gap>
+            <gap id="35">
+                <width>167</width>
+                <leftheight>0</leftheight>
+                <rightheight>1898</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>987</y>
+                </coordinates>
+            </gap>
+            <placement id="36">
                 <shapeid>0</shapeid>
                 <coordinates>
                     <x>0</x>
-                    <y>120</y>
+                    <y>987</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <gap id="37">
+                <width>4</width>
+                <leftheight>1027</leftheight>
+                <rightheight>1898</rightheight>
+                <coordinates>
+                    <x>163</x>
+                    <y>987</y>
+                </coordinates>
+            </gap>
+            <gap id="38">
+                <width>163</width>
+                <leftheight>0</leftheight>
+                <rightheight>2014</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>1027</y>
+                </coordinates>
+            </gap>
+            <placement id="39">
+                <shapeid>21</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>1027</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <gap id="40">
+                <width>2</width>
+                <leftheight>1115</leftheight>
+                <rightheight>2014</rightheight>
+                <coordinates>
+                    <x>161</x>
+                    <y>1027</y>
+                </coordinates>
+            </gap>
+            <gap id="41">
+                <width>161</width>
+                <leftheight>0</leftheight>
+                <rightheight>2142</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>1115</y>
+                </coordinates>
+            </gap>
+            <placement id="42">
+                <shapeid>4</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>1115</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <gap id="43">
+                <width>1</width>
+                <leftheight>1265</leftheight>
+                <rightheight>2142</rightheight>
+                <coordinates>
+                    <x>160</x>
+                    <y>1115</y>
+                </coordinates>
+            </gap>
+            <gap id="44">
+                <width>5</width>
+                <leftheight>1271</leftheight>
+                <rightheight>2111</rightheight>
+                <coordinates>
+                    <x>188</x>
+                    <y>1135</y>
+                </coordinates>
+            </gap>
+            <gap id="45">
+                <width>160</width>
+                <leftheight>0</leftheight>
+                <rightheight>2380</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>1265</y>
+                </coordinates>
+            </gap>
+            <placement id="46">
+                <shapeid>5</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>1265</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <gap id="47">
+                <width>2</width>
+                <leftheight>1290</leftheight>
+                <rightheight>2380</rightheight>
+                <coordinates>
+                    <x>158</x>
+                    <y>1265</y>
+                </coordinates>
+            </gap>
+            <gap id="48">
+                <width>1</width>
+                <leftheight>1377</leftheight>
+                <rightheight>2406</rightheight>
+                <coordinates>
+                    <x>187</x>
+                    <y>1271</y>
+                </coordinates>
+            </gap>
+            <gap id="49">
+                <width>158</width>
+                <leftheight>0</leftheight>
+                <rightheight>2555</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>1290</y>
+                </coordinates>
+            </gap>
+            <placement id="50">
+                <shapeid>19</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>1290</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <gap id="51">
+                <width>8</width>
+                <leftheight>1302</leftheight>
+                <rightheight>2555</rightheight>
+                <coordinates>
+                    <x>150</x>
+                    <y>1290</y>
+                </coordinates>
+            </gap>
+            <gap id="52">
+                <width>150</width>
+                <leftheight>0</leftheight>
+                <rightheight>2592</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>1302</y>
+                </coordinates>
+            </gap>
+            <placement id="53">
+                <shapeid>9</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>1302</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <gap id="54">
+                <width>13</width>
+                <leftheight>1372</leftheight>
+                <rightheight>2592</rightheight>
+                <coordinates>
+                    <x>137</x>
+                    <y>1302</y>
+                </coordinates>
+            </gap>
+            <gap id="55">
+                <width>137</width>
+                <leftheight>0</leftheight>
+                <rightheight>2674</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>1372</y>
+                </coordinates>
+            </gap>
+            <placement id="56">
+                <shapeid>11</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>1372</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <gap id="57">
+                <width>19</width>
+                <leftheight>1404</leftheight>
+                <rightheight>2674</rightheight>
+                <coordinates>
+                    <x>118</x>
+                    <y>1372</y>
+                </coordinates>
+            </gap>
+            <gap id="58">
+                <width>5</width>
+                <leftheight>1557</leftheight>
+                <rightheight>2648</rightheight>
+                <coordinates>
+                    <x>182</x>
+                    <y>1377</y>
+                </coordinates>
+            </gap>
+            <gap id="59">
+                <width>118</width>
+                <leftheight>0</leftheight>
+                <rightheight>2776</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>1404</y>
+                </coordinates>
+            </gap>
+            <placement id="60">
+                <shapeid>20</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>1404</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <gap id="61">
+                <width>1</width>
+                <leftheight>1447</leftheight>
+                <rightheight>2776</rightheight>
+                <coordinates>
+                    <x>117</x>
+                    <y>1404</y>
+                </coordinates>
+            </gap>
+            <gap id="62">
+                <width>117</width>
+                <leftheight>0</leftheight>
+                <rightheight>2851</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>1447</y>
+                </coordinates>
+            </gap>
+            <placement id="63">
+                <shapeid>2</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>1447</y>
+                </coordinates>
+                <rotated>true</rotated>
+            </placement>
+            <gap id="64">
+                <width>8</width>
+                <leftheight>1554</leftheight>
+                <rightheight>2851</rightheight>
+                <coordinates>
+                    <x>109</x>
+                    <y>1447</y>
+                </coordinates>
+            </gap>
+            <gap id="65">
+                <width>109</width>
+                <leftheight>0</leftheight>
+                <rightheight>3001</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>1554</y>
+                </coordinates>
+            </gap>
+            <placement id="66">
+                <shapeid>22</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>1554</y>
+                </coordinates>
+                <rotated>false</rotated>
+            </placement>
+            <gap id="67">
+                <width>16</width>
+                <leftheight>1602</leftheight>
+                <rightheight>3001</rightheight>
+                <coordinates>
+                    <x>93</x>
+                    <y>1554</y>
+                </coordinates>
+            </gap>
+            <gap id="68">
+                <width>6</width>
+                <leftheight>1771</leftheight>
+                <rightheight>2934</rightheight>
+                <coordinates>
+                    <x>176</x>
+                    <y>1557</y>
+                </coordinates>
+            </gap>
+            <gap id="69">
+                <width>93</width>
+                <leftheight>0</leftheight>
+                <rightheight>3156</rightheight>
+                <coordinates>
+                    <x>0</x>
+                    <y>1602</y>
+                </coordinates>
+            </gap>
+            <placement id="70">
+                <shapeid>15</shapeid>
+                <coordinates>
+                    <x>0</x>
+                    <y>1602</y>
                 </coordinates>
                 <rotated>false</rotated>
             </placement>
