@@ -145,7 +145,7 @@ public class Solver implements IHeuristicResultCallback {
 			return;
 		} catch (NoArgumentsException e) {
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("java -cp scp.jar scp.exec.CommandLineHeuristic INPUTFILE [options]", clh.options);
+			formatter.printHelp("java -cp scp.jar scp.cli.CommandLineHeuristic INPUTFILE [options]", clh.options);
 			return;
 		}
 		

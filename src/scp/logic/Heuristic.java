@@ -39,6 +39,15 @@ public class Heuristic {
 
 	public void run() throws WrongPlacementException {
 
+		// ##### Schritt 0: Ungeeignete Shapes aussortieren #####
+		List<Shape> rejected = pool.forceSizeConstraints(1, this.stockrollwidth);
+		if (rejected.size() > 0) {	
+			System.out.println("The following shapes have been rmoved from the pool due to size constraints:");
+			for (Shape s : rejected) {
+				System.out.println(s);
+			}
+		}
+		
 		// ##### Schritt 1: Sortiere pool ##### 
 		pool.sort();
 

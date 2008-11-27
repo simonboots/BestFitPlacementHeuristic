@@ -106,6 +106,28 @@ public class ShapePool implements Iterable<Shape> {
     	return bestFit;
     }
     
+    public List<Shape> forceSizeConstraints(int mindim, int maxdim) {
+    	List<Shape> rejectedShapes = new ArrayList<Shape>();
+    	for (Shape s : shapeList) {
+    		// check min dimension
+    		if (s.getWidth() < mindim || s.getHeight() < mindim) {
+    			rejectedShapes.add(s);
+    			continue;
+    		}
+    		
+    		// check max dimension
+    		if (s.getWidth() > maxdim && s.getHeight() > maxdim) {
+    			rejectedShapes.add(s);
+    		}
+    	}
+    	
+    	for (Shape s : rejectedShapes) {
+    		shapeList.remove(s);
+    	}
+    	
+    	return rejectedShapes;
+    }
+    
     public String toString() {
     	StringBuffer sb = new StringBuffer("");
     	for (Shape s : shapeList) {
