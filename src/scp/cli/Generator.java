@@ -64,7 +64,9 @@ public class Generator {
 		
 		for (int i = 0; i < numOfShapes; i++) {
 			int height = generator.nextInt(maxDimension + 1);
+			if (height == 0) height = 1;
 			int width = generator.nextInt(maxDimension + 1);
+			if (width == 0) width = 1;
 			shapeList.add(new Shape(i, height, width));
 		}
 	}

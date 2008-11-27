@@ -206,7 +206,6 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 		timer = new Timer(500, new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				executor.executeNextAction();
 			}
@@ -295,7 +294,6 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		}
 	}
 
-	@Override
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == slider) {
 			timer.setDelay(slider.getValue());

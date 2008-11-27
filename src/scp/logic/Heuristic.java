@@ -79,8 +79,9 @@ public class Heuristic {
 		int currentheight = stockRoll.maxHeight();
 		boolean isReverse = false;
 		
+		stockRoll.removeTopLevelGaps();
+
 		try {
-			stockRoll.removeTopLevelGaps();
 			PlacedShape topLevelShape = stockRoll.getTopShape();
 			while ((!topLevelShape.isWiderThanHigher()
 					&& !topLevelShape.isSquare()) || isReverse) {

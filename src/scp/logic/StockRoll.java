@@ -54,11 +54,18 @@ public class StockRoll {
 		// Check left and right height
 		// left height
 		int leftheight = 0;
-		if (x != 0) leftheight = skyline[x - 1]; 
+		if (x != 0) leftheight = skyline[x - 1] - skyline[x]; 
 		
 		// right height
 		int rightheight = 0;
-		if (x + width < this.width) rightheight = skyline[x + width];
+		if (x + width < this.width) rightheight = skyline[x + width] - skyline[x];
+		
+		// if gap touches edge set height to opposite height
+		// Gap touches left edge
+		if (x == 0) leftheight = rightheight;
+		
+		// Gap touches right edge
+		if ((x + width) == this.width) rightheight = leftheight;
 		
 		return new Gap(x, y, width, leftheight, rightheight);
 	}
@@ -104,12 +111,11 @@ public class StockRoll {
 				// remove from shapes list
 				placeableObjects[begin + i].remove(placeableObjects[begin + i].size() - 1);
 			}
-
 		} else {
 			throw new WrongRemovalException("Cannot remove object: is not top level object");
 		}
 		
-		if (! object.getClass().equals(WasterShape.class)) {
+		if (! object.getClass().equals(Gap.class)) {
 			// Remove top level gaps which may have been added before shape was added
 			this.removeTopLevelGaps();
 		}
@@ -183,7 +189,7 @@ public class StockRoll {
 		return sb.toString();
 	}
 	
-	public void removeTopLevelGaps() throws WrongRemovalException {
+	public void removeTopLevelGaps() {
 		boolean removedShapes = false;
 		
 		do {
@@ -191,8 +197,12 @@ public class StockRoll {
 			for (int i = 0; i < this.width; i++) {
 				IPlaceableObject object = this.getTopObjectAt(i);
 				if (object != null && object.getClass().equals(Gap.class)) {
-					this.removeObject(object);
-					removedShapes = true;
+					try {
+						this.removeObject(object);
+						removedShapes = true;
+					} catch (WrongRemovalException e) {
+						// ignore and move on
+					}
 				}
 			}
 			
