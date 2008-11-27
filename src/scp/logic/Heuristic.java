@@ -95,6 +95,9 @@ public class Heuristic {
 			while ((!topLevelShape.isWiderThanHigher()
 					&& !topLevelShape.isSquare()) || isReverse) {
 				
+				// check if shape height is bigger than stockroll
+				if (topLevelShape.getHeight() > stockrollwidth) break;
+				
 				// clean stockroll
 				stockRoll.removeObject(topLevelShape);
 				stockRoll.removeTopLevelGaps();
