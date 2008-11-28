@@ -1,5 +1,9 @@
 package scp.common;
 
+/**
+ * @author sst
+ *
+ */
 public class Shape implements Cloneable {
 
     private Integer id;
@@ -8,6 +12,11 @@ public class Shape implements Cloneable {
     
     private Boolean rotated;
 
+    /**
+     * @param id ID of shape
+     * @param height height of shape
+     * @param width width of shape
+     */
     public Shape(Integer id, Integer height, Integer width) {
         this.id = id;
         this.height = height;
@@ -35,10 +44,16 @@ public class Shape implements Cloneable {
         this.width = newWidth;
     }
     
+    /**
+     * @return area of shape
+     */
     public int getArea() {
     	return getWidth() * getHeight();
     }
 
+    /**
+     * rotates shape by 90 degrees
+     */
     public void rotate() {
         Integer oldWidth = this.getWidth();
         this.setWidth(this.getHeight());
@@ -46,6 +61,12 @@ public class Shape implements Cloneable {
         this.rotated = ! this.rotated;
     }
     
+    /**
+     * Internal rotation state method
+     * 
+     * DO NOT USE!
+     * @param rotated value of rotation state
+     */
     protected void setRotated(boolean rotated) {
     	this.rotated = rotated;
     }
@@ -54,14 +75,29 @@ public class Shape implements Cloneable {
     	return this.rotated;
     }
 
+    /**
+     * Checks if shape is wider than higher
+     * 
+     * @return is wider than higher
+     */
     public boolean isWiderThanHigher() {
         return width > height;
     }
     
+    /**
+     * Checks if shape is a square
+     * 
+     * @return shape is square
+     */
     public boolean isSquare() {
     	return width == height;
     }
 
+    /**
+     * Makes the shape wider than higher (by rotation)
+     * 
+     * @return (non-copied) rotated shape
+     */
     public Shape makeWiderThanHigher() {
         if (!this.isWiderThanHigher()) {
             this.rotate();

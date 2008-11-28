@@ -13,6 +13,11 @@ import scp.common.xml.XMLBridge;
 import scp.logic.*;
 import scp.logic.policies.*;
 
+/**
+ * Command Line Solver
+ * @author sst
+ *
+ */
 public class Solver implements IHeuristicResultCallback {
 	
 	protected final static int STOCKROLL_WIDTH = 200;
@@ -24,6 +29,10 @@ public class Solver implements IHeuristicResultCallback {
 	protected File outputFile = null;
 	public Options options = null;
 	
+	
+	/**
+	 * @throws JAXBException
+	 */
 	public Solver() throws JAXBException {
 		heuristic = new Heuristic(STOCKROLL_WIDTH);
 		bridge = new XMLBridge();
@@ -32,7 +41,21 @@ public class Solver implements IHeuristicResultCallback {
 		optimizedPlacementList = new ArrayList<IPlaceableObject>();
 	}
 
-	private void configure(String[] args) throws NoFileSpecifiedException, ParseException, JAXBException, NoArgumentsException {
+	/**
+	 * Configures Solver according to command line options
+	 * 
+	 * Allowed arguments are:
+	 * -p or --policy = use placement policy (leftmost (default), rightmost, shortest, tallest)
+	 * -o or --output = Output file (will use stdout if not set)
+	 * -h or --help = show help
+	 * 
+	 * @param args
+	 * @throws NoFileSpecifiedException
+	 * @throws ParseException
+	 * @throws JAXBException
+	 * @throws NoArgumentsException
+	 */
+	public void configure(String[] args) throws NoFileSpecifiedException, ParseException, JAXBException, NoArgumentsException {
 		CommandLineParser clparser = new GnuParser();
 		options = generateOptions();
 
@@ -72,10 +95,22 @@ public class Solver implements IHeuristicResultCallback {
 		heuristic.setShapeList(bridge.getShapeList());
 	}
 	
+	
+	/**
+	 * Starts solver
+	 * 
+	 * @throws WrongPlacementException
+	 */
 	private void run() throws WrongPlacementException {
 		heuristic.run();
 	}
 
+	/**
+	 * Saves result to file specified in configure()
+	 * 
+	 * @throws JAXBException
+	 * @throws FileNotFoundException
+	 */
 	private void save() throws JAXBException, FileNotFoundException {
 		bridge.setSortedShapeList(sortedShapeList);
 		bridge.setPlacementsList(placementList);
@@ -84,6 +119,11 @@ public class Solver implements IHeuristicResultCallback {
 		bridge.saveFile(outputFile);
 	}
 
+	/**
+	 * Generates options usable in configure()
+	 * 
+	 * @return generated Options
+	 */
 	private Options generateOptions() {
 		Options options = new Options();
 		options.addOption("p", "policy", true, "use placement policy (leftmost (default), rightmost, shortest, tallest)");
@@ -98,6 +138,13 @@ public class Solver implements IHeuristicResultCallback {
 		return options;
 	}
 
+	
+	/**
+	 * Helper method to find correct niche placement policy according to command line option
+	 * 
+	 * @param optionValue placement policy to search for
+	 * @return placement policy which was found
+	 */
 	private INichePlacementPolicy findPlacementPolicy(String optionValue) {
 		if (optionValue.equals("rightmost")) {
 			return new PlaceAtRightmostPolicy();
@@ -115,18 +162,32 @@ public class Solver implements IHeuristicResultCallback {
 		return new PlaceAtLeftmostPolicy();
 	}
 
+	/* (non-Javadoc)
+	 * @see scp.logic.IHeuristicResultCallback#optimizedPlacementsCallback(scp.common.IPlaceableObject)
+	 */
 	public void optimizedPlacementsCallback(IPlaceableObject po) {
 		optimizedPlacementList.add(po);
 	}
 
+	/* (non-Javadoc)
+	 * @see scp.logic.IHeuristicResultCallback#placementsCallback(scp.common.IPlaceableObject)
+	 */
 	public void placementsCallback(IPlaceableObject po) {
 		placementList.add(po);
 	}
 
+	/* (non-Javadoc)
+	 * @see scp.logic.IHeuristicResultCallback#sortedShapeCallback(scp.common.Shape)
+	 */
 	public void sortedShapeCallback(Shape s) {
 		sortedShapeList.add(s);
 	}
 
+	/**
+	 * Entry point for command line solver
+	 * 
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		
 		Solver clh = null;

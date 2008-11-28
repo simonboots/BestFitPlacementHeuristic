@@ -4,8 +4,19 @@ import scp.common.Gap;
 import scp.common.PlacedShape;
 import scp.common.Shape;
 
+/**
+ * Place next to tallest neighbour policy
+ * 
+ * Places shape next to tallest neighbour policy
+ * 
+ * @author sst
+ *
+ */
 public class PlaceNextToTallestNeighbourPolicy implements INichePlacementPolicy {
 
+	/* (non-Javadoc)
+	 * @see scp.logic.policies.INichePlacementPolicy#placeShape(scp.common.Shape, scp.common.Gap)
+	 */
 	public PlacedShape placeShape(Shape s, Gap g) {
 		int newX = 0;
 		

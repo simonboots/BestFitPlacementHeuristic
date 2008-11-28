@@ -1,5 +1,10 @@
 package scp.common;
 
+/**
+ * Interface for placeable objects
+ * @author sst
+ *
+ */
 public interface IPlaceableObject {
 	public int getId();
 	public int getX();

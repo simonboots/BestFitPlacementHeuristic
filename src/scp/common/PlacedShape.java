@@ -1,16 +1,33 @@
 package scp.common;
 
+/**
+ * Placed Shape (Shape with coordinates)
+ * @author sst
+ *
+ */
 public class PlacedShape extends Shape implements IPlaceableObject {
 	
     private Integer x = null;
     private Integer y = null;
 
+	/**
+	 * @param id ID of placed shape
+	 * @param height height of placed shape
+	 * @param width width of placed shape
+	 * @param x location on x axis
+	 * @param y location on y axis
+	 */
 	public PlacedShape(Integer id, Integer height, Integer width, Integer x, Integer y) {
 		super(id, height, width);
 		this.setX(x);
 		this.setY(y);
 	}
 	
+	/**
+	 * @param shape (non-placed) template shape
+	 * @param x location on x axis
+	 * @param y location on y axis
+	 */
 	public PlacedShape(Shape shape, int x, int y) {
 		super(shape.getId(), shape.getHeight(), shape.getWidth());
 		if (shape.isRotated()) this.setRotated(true);

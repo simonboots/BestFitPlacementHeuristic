@@ -5,6 +5,11 @@ import java.util.List;
 import scp.common.*;
 import scp.logic.policies.*;
 
+/**
+ * Implemtation of Best-Fit Heuristic
+ * @author sst
+ *
+ */
 public class Heuristic {
 
 	private int stockrollwidth = 0;
@@ -13,6 +18,9 @@ public class Heuristic {
 	private INichePlacementPolicy policy = null;
 	private IHeuristicResultCallback callback = null;
 
+	/**
+	 * @param stockrollwidth width of stockroll
+	 */
 	public Heuristic(int stockrollwidth) {
 		this.stockrollwidth = stockrollwidth;
 		policy = new PlaceAtLeftmostPolicy();
@@ -24,19 +32,36 @@ public class Heuristic {
 		stockRoll = new StockRoll(this.stockrollwidth);
 	}
 
+	/**
+	 * Set callback object
+	 * @param cb callback object
+	 */
 	public void setResultCallback(IHeuristicResultCallback cb) {
 		this.callback = cb;
 	}
 
+	/**
+	 * sets shapes to process
+	 * 
+	 * @param shapelist shapes to process
+	 */
 	public void setShapeList(List<Shape> shapelist) {
 		init();
 		pool.setShapeList(shapelist);
 	}
 
+	/**
+	 * sets placement policy
+	 * @param policy placement policy
+	 */
 	public void setPlacementPolicy(INichePlacementPolicy policy) {
 		this.policy = policy;
 	}
 
+	/**
+	 * Starts heuristic calculations
+	 * @throws WrongPlacementException
+	 */
 	public void run() throws WrongPlacementException {
 
 		// ##### Schritt 0: Ungeeignete Shapes aussortieren #####
@@ -145,7 +170,7 @@ public class Heuristic {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private Gap findGapForShape(Shape s, List<Gap> gapSteps) throws WrongPlacementException {
 		Gap fittingGap = null;
 		

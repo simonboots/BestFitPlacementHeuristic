@@ -8,6 +8,12 @@ import java.util.List;
 import scp.common.Shape;
 import scp.common.ShapeSortBySizeComparator;
 
+/**
+ * Shape pool
+ * 
+ * @author sst
+ *
+ */
 public class ShapePool implements Iterable<Shape> {
 	
 	ArrayList<Shape> shapeList = null;
@@ -24,29 +30,54 @@ public class ShapePool implements Iterable<Shape> {
 		this.shapeList = (ArrayList<Shape>) shapeList;
 	}
 	
+	/**
+	 * adds shape to shapelist
+	 * @param s shape
+	 */
 	public void add(Shape s) {
 		shapeList.add(s);
 	}
 	
+	/**
+	 * @return zise of shapelist
+	 */
 	public int size() {
 		return shapeList.size();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Iterable#iterator()
+	 */
 	public Iterator<Shape> iterator() {
 		return shapeList.iterator();
 	}
 	
+	/**
+	 * Rotates all shapes in pool so that they are wider than higher
+	 */
 	private void rotateIfNeeded() {
 		for (Shape s: shapeList) {
 			s.makeWiderThanHigher();
 		}
 	}
 	
+    /**
+     * Rotates and sorts all shapes in pool according to size (big to small)
+     */
     public void sort() {
     	rotateIfNeeded();
     	Collections.sort(shapeList, new ShapeSortBySizeComparator());
     }
     
+    /**
+     * Searches for best fitting shape for width
+     * 
+     * This method may rotate the shape if it fits better when it is rotated
+     * Shape is then removed from pool
+     * 
+     * @param width width
+     * @return best fitting shape
+     */
     public Shape findBestShapeforWidth(int width) {
     	Shape bestFit = null;
     	
@@ -106,6 +137,13 @@ public class ShapePool implements Iterable<Shape> {
     	return bestFit;
     }
     
+    /**
+     * Forces all shapes in pool to match size constraints
+     * 
+     * @param mindim minimal length for width and length
+     * @param maxdim maximal length for width or length
+     * @return list of rejected shapes
+     */
     public List<Shape> forceSizeConstraints(int mindim, int maxdim) {
     	List<Shape> rejectedShapes = new ArrayList<Shape>();
     	for (Shape s : shapeList) {

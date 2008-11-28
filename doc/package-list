@@ -1,0 +1,9 @@
+scp.cli
+scp.common
+scp.common.actionchain
+scp.common.actionchain.actions
+scp.common.xml
+scp.common.xml.bindings
+scp.gui
+scp.logic
+scp.logic.policies

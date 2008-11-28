@@ -23,20 +23,39 @@ import org.xml.sax.SAXException;
 
 import scp.common.xml.bindings.*;
 
+/**
+ * Bridge to XML
+ * @author sst
+ *
+ */
 public class XMLBridge {
 	
 	private JAXBContext jaxbContext = null;
 	private JAXBElement<Problem> rootElement = null;
 	
+	/**
+	 * @throws JAXBException
+	 */
 	public XMLBridge() throws JAXBException {
 		jaxbContext = JAXBContext.newInstance("scp.common.xml.bindings");
 	}
 	
+	/**
+	 * Loads xml document
+	 * @param document xml document to be loaded
+	 * @throws JAXBException
+	 */
 	public void loadFile(File document) throws JAXBException {
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 		rootElement = (JAXBElement<Problem>) unmarshaller.unmarshal(document);
 	}
 	
+	/**
+	 * Saves xml document
+	 * @param document xml file to be saved in
+	 * @throws FileNotFoundException
+	 * @throws JAXBException
+	 */
 	public void saveFile(File document) throws FileNotFoundException, JAXBException {
 		if (rootElement != null) {
 			Marshaller marshaller = jaxbContext.createMarshaller();
@@ -45,6 +64,12 @@ public class XMLBridge {
 		}
 	}
 	
+	/**
+	 * All shapes
+	 * 
+	 * @return all shapes sorted by id
+	 * @throws JAXBException
+	 */
 	public List<scp.common.Shape> getShapeList() throws JAXBException {
 		Problem p = getProblem();
 		Shapes shapes = getShapes(p);
@@ -57,6 +82,12 @@ public class XMLBridge {
 		return shapeslist;
 	}
 	
+	/**
+	 * All shapes
+	 * 
+	 * @return all shapes
+	 * @throws JAXBException
+	 */
 	public Map<Integer, scp.common.Shape> getShapeMap() throws JAXBException {
 		ArrayList<scp.common.Shape> shapelist = (ArrayList<scp.common.Shape>) getShapeList();
 		Map<Integer, scp.common.Shape> shapemap = new HashMap<Integer, scp.common.Shape>();
@@ -67,6 +98,11 @@ public class XMLBridge {
 		return shapemap;
 	}
 	
+	/**
+	 * Set shape list
+	 * @param shapeList shapes to be saved
+	 * @throws JAXBException
+	 */
 	public void setShapeList(List<scp.common.Shape> shapeList) throws JAXBException {
 		Problem p = getProblem();
 		Shapes shapes = getShapes(p);
@@ -87,6 +123,12 @@ public class XMLBridge {
 		}
 	}
 
+	/**
+	 * All shapes sorted by size
+	 * 
+	 * @return all shapes sorted by size
+	 * @throws JAXBException
+	 */
 	public List<scp.common.Shape> getSortedShapeList() throws JAXBException {
 		Problem p = getProblem();
 		Solution solution = getSolution(p);
@@ -104,6 +146,12 @@ public class XMLBridge {
 		return sortedlist;
 	}
 	
+	/**
+	 * All shapes in sorted state (rotation)
+	 * 
+	 * @return all shapes in sorted state (rotation)
+	 * @throws JAXBException
+	 */
 	public Map<Integer, scp.common.Shape> getSortedShapeMap() throws JAXBException {
 		ArrayList<scp.common.Shape> shapelist = (ArrayList<scp.common.Shape>) getSortedShapeList();
 		Map<Integer, scp.common.Shape> shapemap = new HashMap<Integer, scp.common.Shape>();
@@ -114,6 +162,12 @@ public class XMLBridge {
 		return shapemap;
 	}
 	
+	/**
+	 * Set sorted shapes
+	 * 
+	 * @param sortedList shapes in sorted order
+	 * @throws JAXBException
+	 */
 	public void setSortedShapeList(List<scp.common.Shape> sortedList) throws JAXBException {
 		Problem p = getProblem();
 		Solution solution = getSolution(p);
@@ -136,6 +190,12 @@ public class XMLBridge {
 		}
 	}
 	
+	/**
+	 * all placeable objects in placing order
+	 * 
+	 * @return all placable objects in pacing order
+	 * @throws JAXBException
+	 */
 	public List<scp.common.IPlaceableObject> getPlacementsList() throws JAXBException {
 		Problem p = getProblem();
 		Solution solution = getSolution(p);
@@ -170,6 +230,12 @@ public class XMLBridge {
 		return placementlist;
 	}
 	
+	/**
+	 * All shapes in placing state
+	 * 
+	 * @return all shapes in placing state
+	 * @throws JAXBException
+	 */
 	public Map<Integer, scp.common.IPlaceableObject> getPlacementsMap() throws JAXBException {
 		ArrayList<scp.common.IPlaceableObject> placementlist = (ArrayList<scp.common.IPlaceableObject>) getPlacementsList();
 		Map<Integer, scp.common.IPlaceableObject> placementmap = new HashMap<Integer, scp.common.IPlaceableObject>();
@@ -179,20 +245,13 @@ public class XMLBridge {
 		
 		return placementmap;
 	}
-	
-//	public Map<Integer, scp.common.PlacedShape> getPlacedShapeMap() throws JAXBException {
-//		Map<Integer, scp.common.IPlaceableObject> placements = getPlacementsMap();
-//		Map<Integer, scp.common.PlacedShape> placedShapes = new HashMap<Integer, scp.common.PlacedShape>();
-//		for (int id : placements.keySet()) {
-//			scp.common.PlacedShape shape = ((scp.common.PlacedShape)placements.get(id));
-//			if (shape instanceof scp.common.PlacedShape) {
-//				placedShapes.put(shape.getId(), shape);
-//			}
-//		}
-//		
-//		return placedShapes;
-//	}
 
+	/**
+	 * Set placeable objects in placing order
+	 * 
+	 * @param placedList placable objects on placing order
+	 * @throws JAXBException
+	 */
 	public void setPlacementsList(List<scp.common.IPlaceableObject> placedList) throws JAXBException {
 		Problem p = getProblem();
 		Solution solution = getSolution(p);
@@ -237,6 +296,15 @@ public class XMLBridge {
 		}
 	}
 	
+	/**
+	 * All optimizing steps
+	 * 
+	 * A shape is followed by one or more gaps.
+	 * Gaps represent the gap search for the preceding shape.
+	 * 
+	 * @return optimizing steps
+	 * @throws JAXBException
+	 */
 	public List<scp.common.IPlaceableObject> getOptimizeList() throws JAXBException {
 		Problem p = getProblem();
 		Solution solution = getSolution(p);
@@ -257,6 +325,12 @@ public class XMLBridge {
 		return optimizelist;
 	}
 
+	/**
+	 * set optimizing steps
+	 * 
+	 * @param optimizedList optimizing steps
+	 * @throws JAXBException
+	 */
 	public void setOptimizedShapeList(List<scp.common.IPlaceableObject> optimizedList) throws JAXBException {
 		Problem p = getProblem();
 		Solution solution = getSolution(p);
@@ -363,17 +437,4 @@ public class XMLBridge {
 		
 		return sorting;
 	}
-	
-//	class SortById implements Comparator<Shape> {
-//
-//		public int compare(Shape s1, Shape s2) {
-//			if (s1.getId() < s2.getId()) {
-//				return 1;
-//			} else if (s1.getId() > s2.getId()) {
-//				return -1;
-//			}
-//			
-//			return 0;
-//		}
-//	}
 }

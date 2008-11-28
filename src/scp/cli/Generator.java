@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import javax.xml.bind.JAXBException;
 
 import org.apache.commons.cli.CommandLine;
@@ -14,11 +13,15 @@ import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.xml.sax.SAXException;
 
 import scp.common.Shape;
 import scp.common.xml.XMLBridge;
 
+/**
+ * Command Line Generator for XML file with random sized shapes
+ * @author sst
+ *
+ */
 public class Generator {
 	
 	protected int maxDimension = 100;
@@ -28,12 +31,29 @@ public class Generator {
 	protected File outputFile = null;
 	public Options options = null;
 	
+	
+	/**
+	 * @throws JAXBException
+	 */
 	public Generator() throws JAXBException {
 		this.shapeList = new ArrayList<Shape>();
 		this.bridge = new XMLBridge();
 	}
 	
-	private void configure(String[] args) throws ParseException, NoArgumentsException, NoFileSpecifiedException {
+	/**
+	 * Configures Generator according to command line options
+	 * 
+	 * Allowed arguments are:
+	 * -m or --max = maximal dimension (height and width). Default: 100
+	 * -n or --num = amount of shapes to generate. Default: 100
+	 * -h or --help = show help
+	 * 
+	 * @param args command line options
+	 * @throws ParseException
+	 * @throws NoArgumentsException
+	 * @throws NoFileSpecifiedException
+	 */
+	public void configure(String[] args) throws ParseException, NoArgumentsException, NoFileSpecifiedException {
 		CommandLineParser clparser = new GnuParser();
 		options = generateOptions();
 	
@@ -59,6 +79,10 @@ public class Generator {
 		}
 	}
 
+	
+	/**
+	 * Starts generation of random shapes
+	 */
 	public void generate() {
 		Random generator = new Random(4711);
 		
@@ -71,11 +95,22 @@ public class Generator {
 		}
 	}
 	
+	/**
+	 * Saves generated shapes to file (specified during configure())
+	 * 
+	 * @throws JAXBException
+	 * @throws FileNotFoundException
+	 */
 	public void save() throws JAXBException, FileNotFoundException {
 		bridge.setShapeList(shapeList);
 		bridge.saveFile(outputFile);
 	}
 	
+	/**
+	 * Generates options usable in configure()
+	 * 
+	 * @return generated Options
+	 */
 	private Options generateOptions() {
 		Options options = new Options();
 		options.addOption("m", "max", true, "maximal dimension (height and width). Default: 100");
@@ -85,6 +120,11 @@ public class Generator {
 		return options;
 	}
 
+	/**
+	 * Entry point for command line generator
+	 * 
+	 * @param args command line arguments
+	 */
 	public static void main(String args[]) {
 		Generator clg = null;
 		try {

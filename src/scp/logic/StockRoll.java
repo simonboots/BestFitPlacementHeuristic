@@ -6,12 +6,20 @@ import java.util.List;
 
 import scp.common.*;
 
+/**
+ * Stock Roll
+ * @author sst
+ *
+ */
 public class StockRoll {
 	
 	private int width = 0;
 	private Integer[] skyline = null;
 	private List<IPlaceableObject>[] placeableObjects = null;
 	
+	/**
+	 * @param width width of stock roll
+	 */
 	public StockRoll(int width) {
 		this.width = width;
 		skyline = new Integer[width];
@@ -26,6 +34,10 @@ public class StockRoll {
 		return this.width;
 	}
 	
+	/**
+	 * Calculates lowest gap
+	 * @return lowest gap
+	 */
 	public Gap getLowestGap() {
 		int x = 0;
 		int width = 1;
@@ -70,6 +82,11 @@ public class StockRoll {
 		return new Gap(x, y, width, leftheight, rightheight);
 	}
 	
+	/**
+	 * Places object on stock roll
+	 * @param po object to be placed
+	 * @throws WrongPlacementException
+	 */
 	public void placeObject(IPlaceableObject po) throws WrongPlacementException {
 		int begin = po.getX();
 		int height = skyline[begin];
@@ -93,6 +110,11 @@ public class StockRoll {
 		}
 	}
 	
+	/**
+	 * Removed object from stock roll
+	 * @param object object to removed
+	 * @throws WrongRemovalException
+	 */
 	public void removeObject(IPlaceableObject object) throws WrongRemovalException {
 		int begin = object.getX();
 		boolean isTopObject = true;
@@ -121,6 +143,11 @@ public class StockRoll {
 		}
 	}
 	
+	/**
+	 * Finds top object at specified location
+	 * @param location location (x axis) on stock roll 
+	 * @return top object
+	 */
 	public IPlaceableObject getTopObjectAt(int location) {
 		if (location >= this.width) {
 			return null;
@@ -133,6 +160,10 @@ public class StockRoll {
 		return null;
 	}
 	
+	/**
+	 * Find top shape
+	 * @return top shape
+	 */
 	public PlacedShape getTopShape() {
 		IPlaceableObject topShape = getTopObjectAt(maxHeightIndex());
 		
@@ -143,6 +174,10 @@ public class StockRoll {
 		return (PlacedShape)topShape;
 	}
 	
+	/**
+	 * Calculates location (x-axis) of the maximum height of stock roll
+	 * @return location (on x-axis) of maximum height
+	 */
 	public int maxHeightIndex() {
 		int maxheightindex = 0;
 		int maxheight = skyline[maxheightindex];
@@ -157,6 +192,10 @@ public class StockRoll {
 		return maxheightindex;
 	}
 	
+	/**
+	 * Calculates the maximum height of stock roll
+	 * @return maximum height of stock roll
+	 */
 	public int maxHeight() {
 		return skyline[maxHeightIndex()];
 	}
@@ -189,6 +228,9 @@ public class StockRoll {
 		return sb.toString();
 	}
 	
+	/**
+	 * Removes all top level gaps
+	 */
 	public void removeTopLevelGaps() {
 		boolean removedShapes = false;
 		

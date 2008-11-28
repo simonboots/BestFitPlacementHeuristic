@@ -2,8 +2,16 @@ package scp.common;
 
 import java.util.Comparator;
 
+/**
+ * Comparator to sort Shapes by size (big to small)
+ * @author sst
+ *
+ */
 public class ShapeSortBySizeComparator implements Comparator<Shape> {
 
+	/* (non-Javadoc)
+	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+	 */
 	public int compare(Shape s1, Shape s2) {
 	       // Breite vergleichen
         if (s1.getWidth() > s2.getWidth()) {
