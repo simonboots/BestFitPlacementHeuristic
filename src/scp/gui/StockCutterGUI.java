@@ -3,10 +3,15 @@ package scp.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -48,6 +54,18 @@ import scp.common.xml.XMLBridge;
 @SuppressWarnings("serial")
 public class StockCutterGUI extends JFrame implements ActionListener, ChangeListener {
 
+	/**
+	 * Icons/Buttons
+	 */
+	private ImageIcon stop = new ImageIcon("icons/stop.gif");
+	private ImageIcon play = new ImageIcon("icons/play.gif");
+	private ImageIcon previousStep = new ImageIcon("icons/previous.gif");
+	private ImageIcon nextStep = new ImageIcon("icons/next.gif");
+	private ImageIcon skipStart = new ImageIcon("icons/skipStart.gif");
+	private ImageIcon skipEnd = new ImageIcon("icons/skipEnd.gif");
+	private ImageIcon save = new ImageIcon("icons/save.gif");
+	private ImageIcon scrollUp = new ImageIcon("icons/scrollUp.gif");
+	private ImageIcon clear = new ImageIcon("icons/clear.gif");
 	/**
 	 * MenuBar-Items
 	 */
@@ -98,6 +116,11 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * Logger
 	 */
+	private JPanel loggerPanel;
+	private JPanel logButtons;
+	private JButton clearLog;
+	private JButton scrollUpLog;
+	private JButton saveLog;
 	private JTextArea logPanel;
 	private JScrollPane logScrollPanel;
 
@@ -144,38 +167,45 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		navigationPanel = new JPanel();
 		navigationPanel.setPreferredSize(new Dimension(268, 150));
 
-		next = new JButton(">");
+		next = new JButton(nextStep);
 		next.setToolTipText("next step");
-		next.setPreferredSize(new Dimension(41, 25));
+		next.setRolloverIcon(nextStep);
+		next.setPreferredSize(new Dimension(30, 30));
 		next.addActionListener(this);
 
-		playStop = new JButton("play");
-		playStop.setPreferredSize(new Dimension(59, 25));
+		playStop = new JButton(play);
+		playStop.setActionCommand("play");
+		playStop.setToolTipText("play");
+		playStop.setRolloverIcon(play);
+		playStop.setPreferredSize(new Dimension(30, 30));
 		playStop.addActionListener(this);
 
-		previous = new JButton("<");
+		previous = new JButton(previousStep);
 		previous.setToolTipText("previous step");
-		previous.setPreferredSize(new Dimension(41, 25));
+		previous.setRolloverIcon(previousStep);
+		previous.setPreferredSize(new Dimension(30, 30));
 		previous.addActionListener(this);
 
-		skipToStart = new JButton("<<");
-		skipToStart.setToolTipText("goto start");
-		skipToStart.setPreferredSize(new Dimension(48, 25));
+		skipToStart = new JButton(skipStart);
+		skipToStart.setToolTipText("skip to start");
+		skipToStart.setRolloverIcon(skipStart);
+		skipToStart.setPreferredSize(new Dimension(30, 30));
 		skipToStart.addActionListener(this);
 
-		skipToEnd = new JButton(">>");
-		skipToEnd.setToolTipText("goto end");
-		skipToEnd.setPreferredSize(new Dimension(48, 25));
+		skipToEnd = new JButton(skipEnd);
+		skipToEnd.setToolTipText("skip to end");
+		skipToEnd.setRolloverIcon(skipEnd);
+		skipToEnd.setPreferredSize(new Dimension(30, 30));
 		skipToEnd.addActionListener(this);
 
 		slider = new JSlider(0, 1000, 500);
-		slider.setPreferredSize(new Dimension(250, 40));
+		slider.setPreferredSize(new Dimension(186, 40));
 		slider.setMajorTickSpacing(250);
 		slider.setSnapToTicks(true);
 		slider.setPaintTicks(true);
 		slider.addChangeListener(this);
 
-		frequency = new JLabel("frequency:");
+		frequency = new JLabel("place frequency:");
 		msec = new JLabel(slider.getValue() + "ms");
 
 		navigationPanel.add(skipToStart);
@@ -201,13 +231,47 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		logPanel = new JTextArea();
 		logPanel.setEditable(false);
 		logPanel.setRows(5);
+
 		logScrollPanel = new JScrollPane(logPanel);
 		logScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-		timer = new Timer(500, new ActionListener() {
+		logButtons = new JPanel(new GridLayout(3, 0));
 
+		saveLog = new JButton(save);
+		saveLog.setToolTipText("save log");
+		saveLog.setRolloverIcon(save);
+		saveLog.setPreferredSize(new Dimension(30, 30));
+		saveLog.addActionListener(this);
+
+		scrollUpLog = new JButton(scrollUp);
+		scrollUpLog.setToolTipText("go to first line");
+		scrollUpLog.setRolloverIcon(scrollUp);
+		scrollUpLog.setPreferredSize(new Dimension(30, 30));
+		scrollUpLog.addActionListener(this);
+
+		clearLog = new JButton(clear);
+		clearLog.setToolTipText("clear log");
+		clearLog.setRolloverIcon(clear);
+		clearLog.setPreferredSize(new Dimension(30, 30));
+		clearLog.addActionListener(this);
+
+		logButtons.add(saveLog);
+		logButtons.add(scrollUpLog);
+		logButtons.add(clearLog);
+
+		loggerPanel = new JPanel(new BorderLayout());
+		loggerPanel.add(logScrollPanel, BorderLayout.CENTER);
+		loggerPanel.add(logButtons, BorderLayout.WEST);
+
+		timer = new Timer(slider.getValue(), new ActionListener() {
+
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				executor.executeNextAction();
+				if (executor.hasNextAction()) {
+					executor.executeNextAction();
+				} else {
+					playStop.doClick();
+				}
 			}
 		});
 
@@ -215,7 +279,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 		add(leftPanel, BorderLayout.WEST);
 		add(rightScrollPanel, BorderLayout.CENTER);
-		add(logScrollPanel, BorderLayout.SOUTH);
+		add(loggerPanel, BorderLayout.SOUTH);
 
 		pack();
 		setVisible(true);
@@ -266,16 +330,22 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		} else if (e.getSource() == next) {
 			executor.executeNextAction();
 		} else if (e.getSource() == playStop) {
-			if (playStop.getText().equals("play")) {
+			if (playStop.getActionCommand().equals("play")) {
 				timer.start();
-				playStop.setText("stop");
+				playStop.setToolTipText("stop");
+				playStop.setIcon(stop);
+				playStop.setRolloverIcon(stop);
+				playStop.setActionCommand("stop");
 				previous.setEnabled(false);
 				next.setEnabled(false);
 				skipToEnd.setEnabled(false);
 				skipToStart.setEnabled(false);
-			} else if (playStop.getText().equals("stop")) {
+			} else if (playStop.getActionCommand().equals("stop")) {
 				timer.stop();
-				playStop.setText("play");
+				playStop.setToolTipText("play");
+				playStop.setIcon(play);
+				playStop.setRolloverIcon(play);
+				playStop.setActionCommand("play");
 				previous.setEnabled(true);
 				next.setEnabled(true);
 				skipToEnd.setEnabled(true);
@@ -291,6 +361,33 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 			while (executor.hasPreviousAction()) {
 				executor.executePreviousAction();
 			}
+		} else if (e.getSource() == saveLog) {
+			final JFileChooser fc = new JFileChooser();
+			fc.setSelectedFile(new File("log.txt"));
+
+			int returnVal = fc.showSaveDialog(this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				FileWriter writer = null;
+				try {
+					writer = new FileWriter(file);
+					logPanel.write(writer);
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				} finally {
+					if (writer != null) {
+						try {
+							writer.close();
+						} catch (IOException ex) {
+							ex.printStackTrace();
+						}
+					}
+				}
+			}
+		} else if (e.getSource() == scrollUpLog) {
+			logPanel.scrollRectToVisible(new Rectangle(new Point(0, 0)));
+		} else if (e.getSource() == clearLog) {
+			logPanel.setText("");
 		}
 	}
 
@@ -323,10 +420,18 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	 * @param s
 	 */
 	public void highlightMagazineShape(Shape s) {
+		int cnt = 0;
 		for (ColoredShape shape : leftList) {
 			if (shape.getId() == s.getId()) {
 				shape.setColor(Color.red);
+				if (cnt == leftList.size() - 1) {
+					cnt = cnt * 90 + 90;
+				} else {
+					cnt = cnt * 90;
+				}
+				leftShapeList.scrollRectToVisible(new Rectangle(new Point(0, cnt)));
 			}
+			cnt++;
 		}
 		leftShapeList.repaint();
 	}
@@ -415,8 +520,10 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		for (IPlaceableObject obj : rightList) {
 			if ((obj instanceof ColoredPlacedShape) && (obj.getId() == s.getId())) {
 				((ColoredPlacedShape) obj).setColor(Color.red);
+				rightShapeList.scrollRectToVisible(new Rectangle(new Point(obj.getX(), obj.getY() + obj.getHeight() + 200)));
 			}
 		}
+		rightShapeList.repaint();
 	}
 
 	/**
@@ -428,6 +535,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 				((ColoredPlacedShape) obj).setColor(Color.lightGray);
 			}
 		}
+		rightShapeList.repaint();
 	}
 
 	/**
@@ -441,12 +549,14 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	}
 
 	/**
-	 * removes the highlighted gap from the stockroll
+	 * unhighlights a gap on the stockroll
+	 * 
+	 * @param g
 	 */
-	public void removeGap() {
+	public void unhighlightGap(Gap g) {
 		Gap gapToRemove = null;
 		for (IPlaceableObject obj : rightList) {
-			if (obj instanceof Gap) {
+			if ((obj instanceof Gap) && (obj.getId() == g.getId())) {
 				gapToRemove = (Gap) obj;
 			}
 		}
