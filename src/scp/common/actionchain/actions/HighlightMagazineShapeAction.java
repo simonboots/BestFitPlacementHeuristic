@@ -5,10 +5,17 @@ import scp.common.actionchain.IAction;
 import scp.common.actionchain.IShapeMagazine;
 import scp.common.actionchain.IShapePlacer;
 
+/**
+ * highlight a Shape in the magazine
+ * @author Benjamin Clauss
+ */
 public class HighlightMagazineShapeAction implements IAction {
 	
 	protected Shape s = null;
 	
+	/**
+	 * @param s Shape to be highlighted
+	 */
 	public HighlightMagazineShapeAction(Shape s) {
 		this.s = s;
 	}

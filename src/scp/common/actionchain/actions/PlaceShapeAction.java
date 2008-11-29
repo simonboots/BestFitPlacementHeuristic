@@ -5,10 +5,17 @@ import scp.common.actionchain.IAction;
 import scp.common.actionchain.IShapeMagazine;
 import scp.common.actionchain.IShapePlacer;
 
+/**
+ * place Shape on the stockroll
+ * @author Benjamin Clauss
+ */
 public class PlaceShapeAction implements IAction {
 
 	protected PlacedShape s;
 
+	/**
+	 * @param s PlacedShape to be placed
+	 */
 	public PlaceShapeAction(PlacedShape s) {
 		this.s = s;
 	}

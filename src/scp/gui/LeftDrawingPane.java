@@ -6,6 +6,10 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
+/**
+ * JPanel for the magazine
+ * @author Benjamin Clauss
+ */
 @SuppressWarnings("serial")
 public class LeftDrawingPane extends JPanel {
 
@@ -19,6 +23,10 @@ public class LeftDrawingPane extends JPanel {
 	private static final int INITY = 20; // initial y-coordinate
 	private static final int PANELWIDTH = 250;
 
+	/**
+	 * 
+	 * @param leftlist list of Shapes for the magazine
+	 */
 	public LeftDrawingPane(ArrayList<ColoredShape> leftlist) {
 		this.leftlist = leftlist;
 	}

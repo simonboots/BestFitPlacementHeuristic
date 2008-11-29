@@ -10,15 +10,18 @@ import scp.common.Gap;
 import scp.common.IPlaceableObject;
 import scp.common.PlacedShape;
 
+/**
+ * JPanel for the stockroll
+ * @author Benjamin Clauss
+ */
 @SuppressWarnings("serial")
 public class RightDrawingPane extends JPanel {
 
 	private ArrayList<IPlaceableObject> rightList = new ArrayList<IPlaceableObject>();
 
 	/**
-	 * default constructor
 	 * 
-	 * @param rightList
+	 * @param rightList list of PlaceableObjects for the stockroll
 	 */
 	public RightDrawingPane(ArrayList<IPlaceableObject> rightList) {
 		this.rightList = rightList;

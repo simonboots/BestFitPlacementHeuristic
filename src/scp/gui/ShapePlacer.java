@@ -4,10 +4,17 @@ import scp.common.Gap;
 import scp.common.PlacedShape;
 import scp.common.actionchain.IShapePlacer;
 
+/**
+ * @author Benjamin Clauss
+ */
 class ShapePlacer implements IShapePlacer {
 
 	private StockCutterGUI gui;
 
+	/**
+	 * 
+	 * @param gui instance of the main-class to get access to the methods
+	 */
 	public ShapePlacer(StockCutterGUI gui) {
 		this.gui = gui;
 	}

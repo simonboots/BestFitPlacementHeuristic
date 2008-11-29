@@ -48,7 +48,6 @@ import scp.common.actionchain.IAction;
 import scp.common.xml.XMLBridge;
 
 /**
- * 
  * @author Benjamin Clauss
  */
 @SuppressWarnings("serial")
@@ -401,7 +400,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * loads a list of shapes into the magazine
 	 * 
-	 * @param shapelist
+	 * @param shapelist list of shapes
 	 */
 	public void loadMagazine(List<Shape> shapelist) {
 		leftList.clear();
@@ -417,7 +416,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * highlights a shape in the magazine
 	 * 
-	 * @param s
+	 * @param s shape to be highlighted
 	 */
 	public void highlightMagazineShape(Shape s) {
 		int cnt = 0;
@@ -451,7 +450,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * inserts a shape into the magazine
 	 * 
-	 * @param s
+	 * @param s shape to be inserted
 	 */
 	public void insertShapeIntoMagazine(Shape s) {
 		ColoredShape cs = new ColoredShape(s);
@@ -466,7 +465,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * removes a shape from the magazine
 	 * 
-	 * @param s
+	 * @param s shape to be removed
 	 */
 	public void removeShapeFromMagazine(Shape s) {
 		ColoredShape shapeToRemove = null;
@@ -484,7 +483,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * places a shape on the stockroll
 	 * 
-	 * @param s
+	 * @param s shape to be placed
 	 */
 	public void placeShape(PlacedShape s) {
 		ColoredPlacedShape cps = new ColoredPlacedShape(s);
@@ -497,7 +496,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * removes a shape from the stockroll
 	 * 
-	 * @param s
+	 * @param s shape to be removed
 	 */
 	public void removePlacedShape(Shape s) {
 		ColoredPlacedShape shapeToRemove = null;
@@ -514,7 +513,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * highlights a shape on the stockroll
 	 * 
-	 * @param s
+	 * @param s shape to be highlighted
 	 */
 	public void highlightPlacedShape(Shape s) {
 		for (IPlaceableObject obj : rightList) {
@@ -541,7 +540,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * highlights a gap on the stockroll
 	 * 
-	 * @param g
+	 * @param g gap to be highlighted
 	 */
 	public void highlightGap(Gap g) {
 		rightList.add(g);
@@ -551,7 +550,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * unhighlights a gap on the stockroll
 	 * 
-	 * @param g
+	 * @param g gap to be unhighlighted
 	 */
 	public void unhighlightGap(Gap g) {
 		Gap gapToRemove = null;
@@ -567,7 +566,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * appends a string to the logger
 	 * 
-	 * @param s
+	 * @param s string to be appended
 	 */
 	public void printToLogger(String s) {
 		logPanel.append(s + "\n");
@@ -576,7 +575,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * main method
 	 * 
-	 * @param args
+	 * @param args not used in a swing-application
 	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {

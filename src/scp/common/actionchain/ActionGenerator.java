@@ -6,6 +6,10 @@ import java.util.List;
 import scp.common.*;
 import scp.common.actionchain.actions.*;
 
+/**
+ * action generator for the doQueue
+ * @author BennyC
+ */
 public class ActionGenerator {
 
 	private List<Shape> shapelist = null;
@@ -14,6 +18,13 @@ public class ActionGenerator {
 	private List<IPlaceableObject> optimizedlist = null;
 	private List<IAction> doQueue = null;
 
+	/**
+	 * 
+	 * @param shapelist list of Shapes sorted by id
+	 * @param sortedlist list of Shapes sorted by size
+	 * @param placedlist list of PlacedShapes
+	 * @param optimizedlist list of optimized PlacedShapes
+	 */
 	public ActionGenerator(List<Shape> shapelist, List<Shape> sortedlist, List<IPlaceableObject> placedlist, List<IPlaceableObject> optimizedlist) {
 		this.shapelist = shapelist;
 		this.sortedlist = sortedlist;
@@ -21,6 +32,10 @@ public class ActionGenerator {
 		this.optimizedlist = optimizedlist;
 	}
 
+	/**
+	 * creates an ordered list of all todo-actions
+	 * @return list of all todo-actions
+	 */
 	public List<IAction> getDoQueue() {
 		doQueue = new ArrayList<IAction>();
 		// first step: load unorderd shapes
