@@ -15,8 +15,6 @@ public class PlaceShapeAction implements IAction {
 
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
 		magazine.removeShape(s);
-		placer.unhighlightAllShapes();
-		placer.removeGap();
 		placer.placeShape(s);
 		placer.highlightShape(s);
 	}

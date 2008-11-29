@@ -26,31 +26,34 @@ public class ActionGenerator {
 		// first step: load unorderd shapes
 		doQueue.add(new ShowShapeListAction(shapelist));
 		// second step: sort shapes by size
-		doQueue.add(new ShowSortedShapeListAction(sortedlist));
+		doQueue.add(new ShowSortedShapeListAction(shapelist, sortedlist));
 
 		// add all objects to the doQueue
 		for (IPlaceableObject po : placedlist) {
+			if (po instanceof Gap) {
+				doQueue.add(new HighlightGapAction((Gap) po));
+				doQueue.add(new UnhighlightGapAction((Gap) po));
+			}
 			if (po instanceof PlacedShape) {
 				doQueue.add(new HighlightMagazineShapeAction((PlacedShape) po));
 				doQueue.add(new PlaceShapeAction((PlacedShape) po));
-			}
-
-			if (po instanceof Gap) {
-				doQueue.add(new HighlightGapAction((Gap) po));
+				doQueue.add(new UnhighlightPlacedShapeAction((PlacedShape) po));
 			}
 		}
 
 		// add optimized shapes
 		for (IPlaceableObject po : optimizedlist) {
+			if (po instanceof Gap) {
+				doQueue.add(new HighlightGapAction((Gap) po));
+				doQueue.add(new UnhighlightGapAction((Gap) po));
+			}
 			if (po instanceof PlacedShape) {
 				doQueue.add(new HighlightMagazineShapeAction((PlacedShape) po));
 				doQueue.add(new OptimizeShapeAction((PlacedShape) po));
-			}
-
-			if (po instanceof Gap) {
-				doQueue.add(new HighlightGapAction((Gap) po));
+				doQueue.add(new UnhighlightPlacedShapeAction((PlacedShape) po));
 			}
 		}
+
 		return doQueue;
 	}
 }

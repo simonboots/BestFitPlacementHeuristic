@@ -39,9 +39,11 @@ public interface IShapePlacer {
 	 * @param g gap to be highlighted
 	 */
 	public void highlightGap(Gap g);
-	
+
 	/**
-	 * Remove gap from stock roll
+	 * Unhighlight gap
+	 * @param g gap to be unhighlighted
 	 */
-	public void removeGap();
+	public void unhighlightGap(Gap g);
+
 }

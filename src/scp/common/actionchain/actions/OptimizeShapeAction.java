@@ -22,5 +22,4 @@ public class OptimizeShapeAction implements IAction {
 	public IAction getReverseAction() {
 		return new UnoptimizeShapeAction(s);
 	}
-
 }

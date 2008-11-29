@@ -14,12 +14,12 @@ class ShapePlacer implements IShapePlacer {
 
 	public void placeShape(PlacedShape s) {
 		gui.placeShape(s);
-		gui.printToLogger("placed shape with ID " + s.getId() + " @ " + s.getX() + "," + s.getY() + " (" + s.getHeight() + "x" + s.getWidth() + ")");
+		gui.printToLogger("placed\tshape\tID " + s.getId() + "\t@ " + s.getX() + "," + s.getY() + "\t(h: " + s.getHeight() + ", w: " + s.getWidth() + ")");
 	}
 
 	public void removeShape(PlacedShape s) {
 		gui.removePlacedShape(s);
-		gui.printToLogger("removed shape with ID " + s.getId() + " @ " + s.getX() + "," + s.getY() + " (" + s.getHeight() + "x" + s.getWidth() + ")");
+		gui.printToLogger("removed\tshape\tID " + s.getId() + "\t@ " + s.getX() + "," + s.getY() + "\t(h: " + s.getHeight() + ", w: " + s.getWidth() + ")");
 	}
 
 	public void highlightShape(PlacedShape s) {
@@ -32,9 +32,10 @@ class ShapePlacer implements IShapePlacer {
 
 	public void highlightGap(Gap g) {
 		gui.highlightGap(g);
+		gui.printToLogger("highlighted\tgap\tID " + g.getId() + "\t@ " + g.getX() + "," + g.getY() + "\t(lh: " + g.getLeftHeight() + ", w: " + g.getWidth() + ", rh: " + g.getRightHeight() + ")");
 	}
 
-	public void removeGap() {
-		gui.removeGap();
+	public void unhighlightGap(Gap g) {
+		gui.unhighlightGap(g);
 	}
 }
