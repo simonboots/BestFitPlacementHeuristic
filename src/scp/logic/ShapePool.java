@@ -39,7 +39,7 @@ public class ShapePool implements Iterable<Shape> {
 	}
 	
 	/**
-	 * @return zise of shapelist
+	 * @return size of shapelist
 	 */
 	public int size() {
 		return shapeList.size();
@@ -103,7 +103,7 @@ public class ShapePool implements Iterable<Shape> {
     		}
     		
     		// Fall 2: Shape zu breit
-    		if (s.getWidth() > width) {
+    		if (s.getWidth() > width && !s.isSquare()) {
     			
     			// Fall 2a: Shapehoehe passt exakt
     			if (s.getHeight() == width) {
