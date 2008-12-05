@@ -21,6 +21,7 @@ public class HighlightGapAction implements IAction {
 	}
 
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
+		placer.unhighlightAllGaps();
 		placer.highlightGap(gap);
 	}
 
