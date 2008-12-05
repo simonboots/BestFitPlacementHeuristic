@@ -320,6 +320,13 @@ public class XMLBridge {
 				shape.rotate();
 				optimizelist.add(new scp.common.PlacedShape(shape, ((Optimization)optimization).getCoodinates().getX(), ((Optimization)optimization).getCoodinates().getY()));
 			}
+			
+			// if object is gap
+			if (optimization instanceof Gap) {
+				Coordinates c = ((Gap)optimization).getCoordinates();
+				scp.common.Gap gap = new scp.common.Gap(((Gap) optimization).getId(), c.getX(), c.getY(), ((Gap) optimization).getWidth(), ((Gap) optimization).getLeftheight(), ((Gap) optimization).getRightheight());
+				optimizelist.add(gap);
+			}
 		}
 		
 		return optimizelist;

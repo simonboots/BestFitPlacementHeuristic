@@ -98,6 +98,9 @@ public class ShapePool implements Iterable<Shape> {
     		
     		// Fall 1: Shape passt exakt
     		if (s.getWidth() == width) {
+    			if (bestFit != null) {
+    				bestFit.makeWiderThanHigher();
+    			}
     			bestFit = s;
     			break;
     		}
@@ -109,7 +112,13 @@ public class ShapePool implements Iterable<Shape> {
     			if (s.getHeight() == width) {
     				// Rotiere Shape und Ende
     				s.rotate();
+    				
+    				if (bestFit != null) {
+    					bestFit.makeWiderThanHigher();
+    				}
+    				
     				bestFit = s;
+    			
     				break;
     			}
     			

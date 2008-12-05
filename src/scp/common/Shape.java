@@ -81,7 +81,7 @@ public class Shape implements Cloneable {
      * @return is wider than higher
      */
     public boolean isWiderThanHigher() {
-        return (int)width > (int)height;
+        return width.intValue() > height.intValue();
     }
     
     /**
