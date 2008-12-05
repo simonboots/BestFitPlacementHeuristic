@@ -20,7 +20,7 @@ import scp.logic.policies.*;
  */
 public class Solver implements IHeuristicResultCallback {
 	
-	protected final static int STOCKROLL_WIDTH = 200;
+	protected final static int STOCKROLL_WIDTH = 400;
 	protected Heuristic heuristic = null;
 	protected XMLBridge bridge = null;
 	protected List<Shape> sortedShapeList = null;
