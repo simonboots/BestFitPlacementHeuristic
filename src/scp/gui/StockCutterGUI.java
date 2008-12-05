@@ -452,7 +452,9 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	 * @param s shape to be inserted
 	 */
 	public void insertShapeIntoMagazine(Shape s) {
-		ColoredShape cs = new ColoredShape(s);
+		Shape clonedShape = (Shape) s.clone();
+		clonedShape.makeWiderThanHigher();
+		ColoredShape cs = new ColoredShape(clonedShape);
 		leftList.add(cs);
 
 		Collections.sort(leftList, new ShapeSortBySizeComparator());

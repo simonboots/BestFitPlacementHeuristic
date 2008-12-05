@@ -49,7 +49,7 @@ public class ActionGenerator {
 				doQueue.add(new HighlightGapAction((Gap) po));
 			}
 			if (po instanceof PlacedShape) {
-				doQueue.add(new HighlightMagazineShapeAction((PlacedShape) po));
+				doQueue.add(new HighlightMagazineShapeAction(((PlacedShape) po)));
 				doQueue.add(new PlaceShapeAction((PlacedShape) po));
 				doQueue.add(new UnhighlightPlacedShapeAction((PlacedShape) po));
 			}
@@ -77,7 +77,7 @@ public class ActionGenerator {
 		}
 
 		// insert last optimizedShape
-		if (optimizedlist != null) {
+		if (optimizedShape != null) {
 			doQueue.add(new HighlightMagazineShapeAction(optimizedShape));
 			doQueue.add(new OptimizeShapeAction(optimizedShape));
 			doQueue.add(new UnhighlightPlacedShapeAction(optimizedShape));
