@@ -41,7 +41,7 @@ public class RightDrawingPane extends JPanel {
 				g.setColor(Color.black);
 				g.drawRect(obj.getX(), obj.getY(), obj.getWidth() - 1, obj.getHeight() - 1);
 			} else if (obj instanceof Gap) {
-				g.setColor(Color.orange);
+				g.setColor(Color.red);
 				int[] xPoints = { obj.getX(), obj.getX(), obj.getX() + ((Gap) obj).getWidth() - 1, obj.getX() + ((Gap) obj).getWidth() - 1 };
 				int[] yPoints = { obj.getY() + ((Gap) obj).getLeftHeight(), obj.getY(), obj.getY(), obj.getY() + ((Gap) obj).getRightHeight() };
 				g.drawPolyline(xPoints, yPoints, 4);

@@ -200,11 +200,11 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		slider = new JSlider(0, 1000, 500);
 		slider.setPreferredSize(new Dimension(186, 40));
 		slider.setMajorTickSpacing(250);
-		slider.setSnapToTicks(true);
+		slider.setSnapToTicks(false);
 		slider.setPaintTicks(true);
 		slider.addChangeListener(this);
 
-		frequency = new JLabel("place frequency:");
+		frequency = new JLabel("place period:");
 		msec = new JLabel(slider.getValue() + "ms");
 
 		navigationPanel.add(skipToStart);
@@ -519,7 +519,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		for (IPlaceableObject obj : rightList) {
 			if ((obj instanceof ColoredPlacedShape) && (obj.getId() == s.getId())) {
 				((ColoredPlacedShape) obj).setColor(Color.red);
-				rightShapeList.scrollRectToVisible(new Rectangle(new Point(obj.getX(), obj.getY() + obj.getHeight() + 200)));
+				rightShapeList.scrollRectToVisible(new Rectangle(new Point(obj.getX(), obj.getY() + obj.getHeight())));
 			}
 		}
 		rightShapeList.repaint();
@@ -548,14 +548,12 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	}
 
 	/**
-	 * unhighlights a gap on the stockroll
-	 * 
-	 * @param g gap to be unhighlighted
+	 * unhighlights all gapa on the stockroll
 	 */
-	public void unhighlightGap(Gap g) {
+	public void unhighlightAllGaps() {
 		Gap gapToRemove = null;
 		for (IPlaceableObject obj : rightList) {
-			if ((obj instanceof Gap) && (obj.getId() == g.getId())) {
+			if (obj instanceof Gap) {
 				gapToRemove = (Gap) obj;
 			}
 		}

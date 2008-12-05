@@ -42,7 +42,7 @@ class ShapePlacer implements IShapePlacer {
 		gui.printToLogger("highlighted\tgap\tID " + g.getId() + "\t@ " + g.getX() + "," + g.getY() + "\t(lh: " + g.getLeftHeight() + ", w: " + g.getWidth() + ", rh: " + g.getRightHeight() + ")");
 	}
 
-	public void unhighlightGap(Gap g) {
-		gui.unhighlightGap(g);
+	public void unhighlightAllGaps() {
+		gui.unhighlightAllGaps();
 	}
 }

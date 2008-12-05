@@ -41,9 +41,8 @@ public interface IShapePlacer {
 	public void highlightGap(Gap g);
 
 	/**
-	 * Unhighlight gap
-	 * @param g gap to be unhighlighted
+	 * Unhighlights all gaps
 	 */
-	public void unhighlightGap(Gap g);
+	public void unhighlightAllGaps();
 
 }

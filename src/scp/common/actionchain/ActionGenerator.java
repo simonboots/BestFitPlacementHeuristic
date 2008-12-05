@@ -47,7 +47,6 @@ public class ActionGenerator {
 		for (IPlaceableObject po : placedlist) {
 			if (po instanceof Gap) {
 				doQueue.add(new HighlightGapAction((Gap) po));
-				doQueue.add(new UnhighlightGapAction((Gap) po));
 			}
 			if (po instanceof PlacedShape) {
 				doQueue.add(new HighlightMagazineShapeAction((PlacedShape) po));
@@ -57,16 +56,33 @@ public class ActionGenerator {
 		}
 
 		// add optimized shapes
+
+		PlacedShape optimizedShape = null;
+
 		for (IPlaceableObject po : optimizedlist) {
+
 			if (po instanceof Gap) {
 				doQueue.add(new HighlightGapAction((Gap) po));
-				doQueue.add(new UnhighlightGapAction((Gap) po));
 			}
 			if (po instanceof PlacedShape) {
-				doQueue.add(new HighlightMagazineShapeAction((PlacedShape) po));
-				doQueue.add(new OptimizeShapeAction((PlacedShape) po));
-				doQueue.add(new UnhighlightPlacedShapeAction((PlacedShape) po));
+				if (optimizedShape != null) {
+					doQueue.add(new HighlightMagazineShapeAction(optimizedShape));
+					doQueue.add(new OptimizeShapeAction(optimizedShape));
+					doQueue.add(new UnhighlightPlacedShapeAction(optimizedShape));
+
+					optimizedShape = null;
+				}
+				optimizedShape = (PlacedShape) po;
 			}
+		}
+
+		// insert last optimizedShape
+		if (optimizedlist != null) {
+			doQueue.add(new HighlightMagazineShapeAction(optimizedShape));
+			doQueue.add(new OptimizeShapeAction(optimizedShape));
+			doQueue.add(new UnhighlightPlacedShapeAction(optimizedShape));
+
+			optimizedShape = null;
 		}
 
 		return doQueue;
