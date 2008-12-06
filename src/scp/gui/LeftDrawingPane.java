@@ -42,22 +42,30 @@ public class LeftDrawingPane extends JPanel {
 
 		for (ColoredShape cs : leftlist) {
 
-			// height && width < MAX
-			if ((cs.getHeight() <= MAX) && (cs.getWidth() <= MAX)) {
+			// square handling
+			if(cs.getHeight() == cs.getWidth()) {
+				if(cs.getHeight() > MAX) {
+					scaledHeight = MAX;
+					scaledWidth = MAX;
+				} else if (cs.getHeight() >= MAX) {
+					scaledHeight = cs.getHeight();
+					scaledWidth = cs.getWidth();
+				}
+			// height < MAX && width < MAX
+			} else if ((cs.getHeight() <= MAX) && (cs.getWidth() <= MAX)) {
 				scaledWidth = cs.getWidth();
 				scaledHeight = cs.getHeight();
-				// width > height && width > MAX
+			// width > height
 			} else if (cs.getWidth() > cs.getHeight()) {
 				scaledWidth = MAX;
 				scaledHeight = ((float) (cs.getHeight()) / (float) (cs.getWidth())) * MAX;
-				// height > width && height > MAX
+			// height > width
 			} else if (cs.getHeight() > cs.getWidth()) {
 				scaledHeight = MAX;
 				scaledWidth = ((float) (cs.getWidth()) / (float) (cs.getHeight())) * MAX;
 			}
 
 			// drawing zone
-
 			g.setColor(cs.getColor());
 			g.fillRect(PANELWIDTH - INITX - (int) scaledWidth, yCoord, (int) scaledWidth, (int) scaledHeight);
 
