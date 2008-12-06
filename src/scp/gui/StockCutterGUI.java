@@ -18,7 +18,6 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -70,11 +69,9 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	 */
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
-	private JMenu extrasMenu;
 	private JMenu aboutMenu;
 	private JMenuItem openItem;
 	private JMenuItem closeItem;
-	private JMenuItem extrasItem;
 	private JMenuItem aboutItem;
 	/**
 	 * (Scroll-)Panels
@@ -92,10 +89,10 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * doQueue, ShapeMagazin, ShapePlacer, ActionExecutor
 	 */
-	private List<IAction> doQueue = new ArrayList<IAction>();
-	private ShapeMagazine magazine = new ShapeMagazine(this);
-	private ShapePlacer placer = new ShapePlacer(this);
-	private ActionExecutor executor = new ActionExecutor(doQueue, magazine, placer);
+	private List<IAction> doQueue = null;
+	private ShapeMagazine magazine = null;
+	private ShapePlacer placer = null;
+	private ActionExecutor executor = null;
 	/**
 	 * Navigation-Items
 	 */
@@ -123,11 +120,14 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	private JTextArea logPanel;
 	private JScrollPane logScrollPanel;
 
+	/**
+	 * standard constructor
+	 */
 	public StockCutterGUI() {
 		super("The Stock-Cutting-Problem");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		setLocation(250, 100);
+		setLocation(100, 50);
 		setResizable(false);
 
 		menuBar = new JMenuBar();
@@ -142,17 +142,12 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		fileMenu.addSeparator();
 		fileMenu.add(closeItem);
 
-		extrasMenu = new JMenu("Extras");
-		extrasItem = new JMenuItem("...");
-		extrasMenu.add(extrasItem);
-
 		aboutMenu = new JMenu("?");
 		aboutItem = new JMenuItem("About", 'b');
 		aboutItem.addActionListener(this);
 		aboutMenu.add(aboutItem);
 
 		menuBar.add(fileMenu);
-		menuBar.add(extrasMenu);
 		menuBar.add(aboutMenu);
 
 		setJMenuBar(menuBar);
@@ -204,7 +199,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		slider.setPaintTicks(true);
 		slider.addChangeListener(this);
 
-		frequency = new JLabel("place period:");
+		frequency = new JLabel("placement period:");
 		msec = new JLabel(slider.getValue() + "ms");
 
 		navigationPanel.add(skipToStart);
@@ -262,18 +257,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		loggerPanel.add(logScrollPanel, BorderLayout.CENTER);
 		loggerPanel.add(logButtons, BorderLayout.WEST);
 
-		timer = new Timer(slider.getValue(), new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				if (executor.hasNextAction()) {
-					executor.executeNextAction();
-				} else {
-					playStop.doClick();
-				}
-			}
-		});
-
-		setLayout(new BorderLayout());
+		timer = new Timer(slider.getValue(), this);
 
 		add(leftPanel, BorderLayout.WEST);
 		add(rightScrollPanel, BorderLayout.CENTER);
@@ -284,24 +268,22 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == openItem) {
+		if (e.getSource() == timer) {
+			if (executor.hasNextAction()) {
+				executor.executeNextAction();
+			} else {
+				playStop.doClick();
+			}
+		} else if (e.getSource() == openItem) {
 			final JFileChooser fc = new JFileChooser("./src/");
 
-			fc.setFileFilter(new FileFilter() {
-
-				@Override
-				public boolean accept(File f) {
-					return f.isDirectory() || f.getName().toLowerCase().endsWith(".xml") || f.getName().toLowerCase().endsWith(".scp");
-				}
-
-				@Override
-				public String getDescription() {
-					return "SCP Dateien (*.scp, *.xml)";
-				}
-			});
+			fc.setFileFilter(new ExtensionFilter());
 
 			int returnVal = fc.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				// clear all lists
+				resetAll();
+
 				File xmlFile = fc.getSelectedFile();
 				System.out.println("Opening: " + xmlFile.getAbsolutePath());
 
@@ -312,19 +294,25 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 					ActionGenerator generator = new ActionGenerator(bridge.getShapeList(), bridge.getSortedShapeList(), bridge.getPlacementsList(), bridge.getOptimizeList());
 
+					magazine = new ShapeMagazine(this);
+					placer = new ShapePlacer(this);
+
+					doQueue = new ArrayList<IAction>();
 					doQueue.addAll(generator.getDoQueue());
+
+					executor = new ActionExecutor(doQueue, magazine, placer);
 
 					// first action (load list)
 					executor.executeNextAction();
 
 				} catch (JAXBException ex) {
-					ex.printStackTrace();
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR);
 				}
 			}
 		} else if (e.getSource() == closeItem) {
 			System.exit(0);
 		} else if (e.getSource() == aboutItem) {
-			JOptionPane.showMessageDialog(null, "(c)2008 by Simon Stiefel & Benjamin Clauss", "Über", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "(c)2008 by Simon Stiefel & Benjamin Clauss", "About", JOptionPane.INFORMATION_MESSAGE);
 		} else if (e.getSource() == next) {
 			executor.executeNextAction();
 		} else if (e.getSource() == playStop) {
@@ -350,6 +338,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 				skipToStart.setEnabled(true);
 			}
 		} else if (e.getSource() == previous) {
+			unhighlightAllGaps();
 			executor.executePreviousAction();
 		} else if (e.getSource() == skipToEnd) {
 			while (executor.hasNextAction()) {
@@ -398,7 +387,6 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 	/**
 	 * loads a list of shapes into the magazine
-	 * 
 	 * @param shapelist list of shapes
 	 */
 	public void loadMagazine(List<Shape> shapelist) {
@@ -414,23 +402,15 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 	/**
 	 * highlights a shape in the magazine
-	 * 
 	 * @param s shape to be highlighted
 	 */
 	public void highlightMagazineShape(Shape s) {
-		int cnt = 0;
 		for (ColoredShape shape : leftList) {
 			if (shape.getId() == s.getId()) {
 				shape.setColor(Color.red);
-				if (cnt == leftList.size() - 1) {
-					cnt = cnt * 90 + 90;
-				} else {
-					cnt = cnt * 90;
-				}
-				leftShapeList.scrollRectToVisible(new Rectangle(new Point(0, cnt)));
 			}
-			cnt++;
 		}
+		leftShapeList.revalidate();
 		leftShapeList.repaint();
 	}
 
@@ -448,7 +428,6 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 	/**
 	 * inserts a shape into the magazine
-	 * 
 	 * @param s shape to be inserted
 	 */
 	public void insertShapeIntoMagazine(Shape s) {
@@ -465,7 +444,6 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 	/**
 	 * removes a shape from the magazine
-	 * 
 	 * @param s shape to be removed
 	 */
 	public void removeShapeFromMagazine(Shape s) {
@@ -483,7 +461,6 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 	/**
 	 * places a shape on the stockroll
-	 * 
 	 * @param s shape to be placed
 	 */
 	public void placeShape(PlacedShape s) {
@@ -513,14 +490,12 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 	/**
 	 * highlights a shape on the stockroll
-	 * 
 	 * @param s shape to be highlighted
 	 */
 	public void highlightPlacedShape(Shape s) {
 		for (IPlaceableObject obj : rightList) {
 			if ((obj instanceof ColoredPlacedShape) && (obj.getId() == s.getId())) {
 				((ColoredPlacedShape) obj).setColor(Color.red);
-				rightShapeList.scrollRectToVisible(new Rectangle(new Point(obj.getX(), obj.getY() + obj.getHeight())));
 			}
 		}
 		rightShapeList.repaint();
@@ -540,7 +515,6 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 	/**
 	 * highlights a gap on the stockroll
-	 * 
 	 * @param g gap to be highlighted
 	 */
 	public void highlightGap(Gap g) {
@@ -564,7 +538,6 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 	/**
 	 * appends a string to the logger
-	 * 
 	 * @param s string to be appended
 	 */
 	public void printToLogger(String s) {
@@ -572,8 +545,20 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	}
 
 	/**
+	 * resets the GUI
+	 */
+	public void resetAll() {
+		leftList.clear();
+		leftShapeList.revalidate();
+		leftShapeList.repaint();
+		rightList.clear();
+		rightShapeList.revalidate();
+		rightShapeList.repaint();
+		logPanel.setText("");
+	}
+
+	/**
 	 * main method
-	 * 
 	 * @param args not used in a swing-application
 	 */
 	public static void main(String[] args) {
