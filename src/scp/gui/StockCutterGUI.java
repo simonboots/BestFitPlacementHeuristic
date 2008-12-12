@@ -412,6 +412,8 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		}
 		leftShapeList.revalidate();
 		leftShapeList.repaint();
+		
+		((LeftDrawingPane) leftShapeList).setScrollToRed(true);
 	}
 
 	/**
@@ -499,6 +501,8 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 			}
 		}
 		rightShapeList.repaint();
+
+		((RightDrawingPane) rightShapeList).setScrollToRed(true);
 	}
 
 	/**

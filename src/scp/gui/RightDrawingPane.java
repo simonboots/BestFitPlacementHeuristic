@@ -3,6 +3,8 @@ package scp.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
@@ -17,6 +19,10 @@ import scp.common.PlacedShape;
 @SuppressWarnings("serial")
 public class RightDrawingPane extends JPanel {
 
+	private static final int BOTTOMGAP = 50;
+	
+	private boolean scrollToRed;
+	private IPlaceableObject scrollToObj = null;
 	private ArrayList<IPlaceableObject> rightList = new ArrayList<IPlaceableObject>();
 
 	/**
@@ -31,11 +37,22 @@ public class RightDrawingPane extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		// AffineTransform at = new AffineTransform();
+		//		
+		// at.translate(0, 446);
+		// at.scale(1, -1);
+		//		
+		// Graphics2D g2d = (Graphics2D)g;
+		// g2d.setTransform(at);
+
 		int maxY = 0;
 
 		for (IPlaceableObject obj : rightList) {
 			// check if obj is a shape or a gap
 			if (obj instanceof PlacedShape) {
+				if (((ColoredPlacedShape) obj).getColor().equals(Color.red)) {
+					scrollToObj = obj;
+				}
 				g.setColor(((ColoredPlacedShape) obj).getColor());
 				g.fillRect(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight());
 				g.setColor(Color.black);
@@ -50,7 +67,19 @@ public class RightDrawingPane extends JPanel {
 				maxY = obj.getY() + obj.getHeight();
 			}
 		}
-		setPreferredSize(new Dimension(0, maxY + 200));
+
+		setPreferredSize(new Dimension(0, maxY + BOTTOMGAP));
+
 		revalidate();
+
+		if ((scrollToRed) && (scrollToObj != null)) {
+			scrollRectToVisible(new Rectangle(new Point(0, scrollToObj.getY() + scrollToObj.getHeight() + BOTTOMGAP)));
+			setScrollToRed(false);
+			revalidate();
+		}
+	}
+
+	public void setScrollToRed(boolean scrollToRed) {
+		this.scrollToRed = scrollToRed;
 	}
 }
