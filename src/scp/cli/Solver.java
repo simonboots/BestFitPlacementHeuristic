@@ -129,7 +129,7 @@ public class Solver implements IHeuristicResultCallback {
 		options.addOption("p", "policy", true, "use placement policy (leftmost (default), rightmost, shortest, tallest)");
 		options.addOption(OptionBuilder.withArgName("file")
 				                       .hasArg()
-				                       .withDescription("Output file (will use stdout if not set)")
+				                       .withDescription("Output file (will use input file if not set)")
 				                       .isRequired(false)
 				                       .withLongOpt("output")
 				                       .create("o"));
@@ -206,7 +206,7 @@ public class Solver implements IHeuristicResultCallback {
 			return;
 		} catch (NoArgumentsException e) {
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("java -cp scp.jar scp.cli.CommandLineHeuristic INPUTFILE [options]", clh.options);
+			formatter.printHelp("java -cp scp.jar scp.cli.Solver INPUTFILE [options]", clh.options);
 			return;
 		}
 		
