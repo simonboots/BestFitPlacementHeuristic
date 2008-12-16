@@ -501,8 +501,6 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 			}
 		}
 		rightShapeList.repaint();
-
-		((RightDrawingPane) rightShapeList).setScrollToRed(true);
 	}
 
 	/**
