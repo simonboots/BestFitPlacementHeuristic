@@ -46,7 +46,15 @@ public class XMLBridge {
 	 * @throws JAXBException
 	 */
 	public void loadFile(File document) throws JAXBException {
+		SchemaFactory sf = SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		Schema schema = null;
+		try {
+			schema = sf.newSchema(new File("StockCuttingProblem.xsd"));
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+		unmarshaller.setSchema(schema);
 		rootElement = (JAXBElement<Problem>) unmarshaller.unmarshal(document);
 	}
 	
