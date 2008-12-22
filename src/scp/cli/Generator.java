@@ -3,6 +3,7 @@ package scp.cli;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import javax.xml.bind.JAXBException;
@@ -84,7 +85,7 @@ public class Generator {
 	 * Starts generation of random shapes
 	 */
 	public void generate() {
-		Random generator = new Random(4711);
+		Random generator = new Random(Calendar.getInstance().get(Calendar.SECOND));
 		
 		for (int i = 0; i < numOfShapes; i++) {
 			int height = generator.nextInt(maxDimension + 1);
