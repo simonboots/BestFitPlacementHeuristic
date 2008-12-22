@@ -45,4 +45,12 @@ class ShapePlacer implements IShapePlacer {
 	public void unhighlightAllGaps() {
 		gui.unhighlightAllGaps();
 	}
+
+	public void highlightSkyline() {
+		gui.highlightSkyline();
+	}
+
+	public void unhighlightSkyline() {
+		gui.unhighlightSkyline();
+	}
 }

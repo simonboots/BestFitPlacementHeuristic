@@ -44,5 +44,15 @@ public interface IShapePlacer {
 	 * Unhighlights all gaps
 	 */
 	public void unhighlightAllGaps();
+	
+	/**
+	 * Highlight skyline
+	 */
+	public void highlightSkyline();
+	
+	/**
+	 * UnhighlightSkyline
+	 */
+	public void unhighlightSkyline();
 
 }

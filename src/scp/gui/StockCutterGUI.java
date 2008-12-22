@@ -525,7 +525,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	}
 
 	/**
-	 * unhighlights all gapa on the stockroll
+	 * unhighlights all gaps on the stockroll
 	 */
 	public void unhighlightAllGaps() {
 		Gap gapToRemove = null;
@@ -544,6 +544,41 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	 */
 	public void printToLogger(String s) {
 		logPanel.append(s + "\n");
+	}
+	
+	/**
+	 * highlights the skyline
+	 */
+	public void highlightSkyline() {
+		int maxHeight = 0;
+		
+		for(IPlaceableObject obj : rightList) {
+			if(obj instanceof ColoredPlacedShape) {
+				if((obj.getY() + obj.getHeight()) > maxHeight) {
+					maxHeight = (obj.getY() + obj.getHeight());
+				}
+			}
+		}
+		
+		printToLogger("highlighted\tskyline\tnoID\t@ 0," + maxHeight);
+		
+		rightList.add(new Skyline(maxHeight));
+		rightShapeList.repaint();
+	}
+	
+	/**
+	 * unhighlights the skyline
+	 */
+	public void unhighlightSkyline() {
+		Skyline skyToRemove = null;
+		for (IPlaceableObject obj : rightList) {
+			if (obj instanceof Skyline) {
+				skyToRemove = (Skyline) obj;
+			}
+		}
+		printToLogger("unhighlighted\tskyline\tnoID\t@ 0," + skyToRemove.getMaxHeight());
+		rightList.remove(skyToRemove);
+		rightShapeList.repaint();
 	}
 
 	/**

@@ -34,17 +34,17 @@ public class RightDrawingPane extends JPanel {
 
 		int maxY = 0;
 		int yCoord = 446;
-		
+
 		for (IPlaceableObject obj : rightList) {
 			if ((obj.getHeight() + obj.getY()) > maxY) {
 				maxY = obj.getHeight() + obj.getY();
 			}
 		}
-		
-		if(maxY > yCoord) {
+
+		if (maxY > yCoord) {
 			yCoord += maxY - yCoord + TOPGAP;
 		}
-		
+
 		setPreferredSize(new Dimension(0, maxY + TOPGAP));
 
 		for (IPlaceableObject obj : rightList) {
@@ -59,6 +59,10 @@ public class RightDrawingPane extends JPanel {
 				int[] xPoints = { obj.getX(), obj.getX(), obj.getX() + ((Gap) obj).getWidth() - 1, obj.getX() + ((Gap) obj).getWidth() - 1 };
 				int[] yPoints = { yCoord - obj.getY() - ((Gap) obj).getLeftHeight() - 1, yCoord - obj.getY() - 1, yCoord - obj.getY() - 1, yCoord - obj.getY() - ((Gap) obj).getRightHeight() - 1 };
 				g.drawPolyline(xPoints, yPoints, 4);
+			} else if (obj instanceof Skyline) {
+				g.setColor(Color.red);
+				g.drawLine(0, yCoord - ((Skyline) obj).getMaxHeight() - 1, 400, yCoord - ((Skyline) obj).getMaxHeight() - 1);
+				g.drawLine(0, yCoord - ((Skyline) obj).getMaxHeight() - 2, 400, yCoord - ((Skyline) obj).getMaxHeight() - 2);
 			}
 		}
 

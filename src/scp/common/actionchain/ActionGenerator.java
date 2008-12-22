@@ -84,6 +84,9 @@ public class ActionGenerator {
 
 			optimizedShape = null;
 		}
+		
+		// highlight skyline
+		doQueue.add(new HighlightSkylineAction());
 
 		return doQueue;
 	}
