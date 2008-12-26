@@ -57,8 +57,8 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * Icons/Buttons
 	 */
-	URLClassLoader cl = (URLClassLoader)this.getClass().getClassLoader();	
-	
+	URLClassLoader cl = (URLClassLoader) this.getClass().getClassLoader();
+
 	private ImageIcon stop = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("stop.gif")));
 	private ImageIcon play = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("play.gif")));
 	private ImageIcon previousStep = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("previous.gif")));
@@ -267,6 +267,8 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		add(leftPanel, BorderLayout.WEST);
 		add(rightScrollPanel, BorderLayout.CENTER);
 		add(loggerPanel, BorderLayout.SOUTH);
+		
+		activateAllButtons(false);
 
 		pack();
 		setVisible(true);
@@ -309,6 +311,8 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 					// first action (load list)
 					executor.executeNextAction();
+					
+					activateAllButtons(true);
 
 				} catch (JAXBException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR);
@@ -417,7 +421,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		}
 		leftShapeList.revalidate();
 		leftShapeList.repaint();
-		
+
 		((LeftDrawingPane) leftShapeList).setScrollToRed(true);
 	}
 
@@ -550,27 +554,27 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	public void printToLogger(String s) {
 		logPanel.append(s + "\n");
 	}
-	
+
 	/**
 	 * highlights the skyline
 	 */
 	public void highlightSkyline() {
 		int maxHeight = 0;
-		
-		for(IPlaceableObject obj : rightList) {
-			if(obj instanceof ColoredPlacedShape) {
-				if((obj.getY() + obj.getHeight()) > maxHeight) {
+
+		for (IPlaceableObject obj : rightList) {
+			if (obj instanceof ColoredPlacedShape) {
+				if ((obj.getY() + obj.getHeight()) > maxHeight) {
 					maxHeight = (obj.getY() + obj.getHeight());
 				}
 			}
 		}
-		
+
 		printToLogger("highlighted\tskyline\tnoID\t@ 0," + maxHeight);
-		
+
 		rightList.add(new Skyline(maxHeight));
 		rightShapeList.repaint();
 	}
-	
+
 	/**
 	 * unhighlights the skyline
 	 */
@@ -597,6 +601,17 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		rightShapeList.revalidate();
 		rightShapeList.repaint();
 		logPanel.setText("");
+	}
+
+	/**
+	 * deactivate all buttons in navigation
+	 */
+	private void activateAllButtons(boolean toggle) {
+		skipToStart.setEnabled(toggle);
+		previous.setEnabled(toggle);
+		playStop.setEnabled(toggle);
+		next.setEnabled(toggle);
+		skipToEnd.setEnabled(toggle);
 	}
 
 	/**
