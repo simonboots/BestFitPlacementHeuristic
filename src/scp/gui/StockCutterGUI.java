@@ -6,12 +6,14 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -55,15 +57,18 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	/**
 	 * Icons/Buttons
 	 */
-	private ImageIcon stop = new ImageIcon("icons/stop.gif");
-	private ImageIcon play = new ImageIcon("icons/play.gif");
-	private ImageIcon previousStep = new ImageIcon("icons/previous.gif");
-	private ImageIcon nextStep = new ImageIcon("icons/next.gif");
-	private ImageIcon skipStart = new ImageIcon("icons/skipStart.gif");
-	private ImageIcon skipEnd = new ImageIcon("icons/skipEnd.gif");
-	private ImageIcon save = new ImageIcon("icons/save.gif");
-	private ImageIcon scrollUp = new ImageIcon("icons/scrollUp.gif");
-	private ImageIcon clear = new ImageIcon("icons/clear.gif");
+	URLClassLoader cl = (URLClassLoader)this.getClass().getClassLoader();	
+	
+	private ImageIcon stop = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("stop.gif")));
+	private ImageIcon play = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("play.gif")));
+	private ImageIcon previousStep = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("previous.gif")));
+	private ImageIcon nextStep = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("next.gif")));
+	private ImageIcon skipStart = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("skipStart.gif")));
+	private ImageIcon skipEnd = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("skipEnd.gif")));
+	private ImageIcon save = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("save.gif")));
+	private ImageIcon scrollUp = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("scrollUp.gif")));
+	private ImageIcon clear = new ImageIcon(Toolkit.getDefaultToolkit().getImage(cl.findResource("clear.gif")));
+
 	/**
 	 * MenuBar-Items
 	 */
