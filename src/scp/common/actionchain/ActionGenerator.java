@@ -66,8 +66,8 @@ public class ActionGenerator {
 			}
 			if (po instanceof PlacedShape) {
 				if (optimizedShape != null) {
-					doQueue.add(new HighlightMagazineShapeAction(optimizedShape));
-					doQueue.add(new OptimizeShapeAction(optimizedShape));
+					doQueue.add(new HighlightPlacedShapeAction(optimizedShape));
+					doQueue.add(new OptimizeShapeAction(optimizedShape, placedlist));
 					doQueue.add(new UnhighlightPlacedShapeAction(optimizedShape));
 
 					optimizedShape = null;
@@ -78,8 +78,8 @@ public class ActionGenerator {
 
 		// insert last optimizedShape
 		if (optimizedShape != null) {
-			doQueue.add(new HighlightMagazineShapeAction(optimizedShape));
-			doQueue.add(new OptimizeShapeAction(optimizedShape));
+			doQueue.add(new HighlightPlacedShapeAction(optimizedShape));
+			doQueue.add(new OptimizeShapeAction(optimizedShape, placedlist));
 			doQueue.add(new UnhighlightPlacedShapeAction(optimizedShape));
 
 			optimizedShape = null;
