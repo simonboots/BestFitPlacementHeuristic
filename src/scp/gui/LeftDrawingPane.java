@@ -55,7 +55,7 @@ public class LeftDrawingPane extends JPanel {
 				if (cs.getHeight() > MAX) {
 					scaledHeight = MAX;
 					scaledWidth = MAX;
-				} else if (cs.getHeight() >= MAX) {
+				} else if (cs.getHeight() <= MAX) {
 					scaledHeight = cs.getHeight();
 					scaledWidth = cs.getWidth();
 				}
