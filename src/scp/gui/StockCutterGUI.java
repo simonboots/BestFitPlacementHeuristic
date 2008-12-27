@@ -129,7 +129,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 	 * standard constructor
 	 */
 	public StockCutterGUI() {
-		super("The Stock-Cutting-Problem");
+		super("The Stock-Cutting Problem");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		setLocation(100, 50);
@@ -321,7 +321,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		} else if (e.getSource() == closeItem) {
 			System.exit(0);
 		} else if (e.getSource() == aboutItem) {
-			JOptionPane.showMessageDialog(null, "(c)2008 by Simon Stiefel & Benjamin Clauss", "About", JOptionPane.INFORMATION_MESSAGE);
+			new AboutScreen();
 		} else if (e.getSource() == next) {
 			executor.executeNextAction();
 		} else if (e.getSource() == playStop) {
