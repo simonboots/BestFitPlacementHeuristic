@@ -315,7 +315,8 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 					activateAllButtons(true);
 
 				} catch (JAXBException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR);
+					JOptionPane.showMessageDialog(null, "invalid XML-File!", "Error", JOptionPane.ERROR_MESSAGE);
+					activateAllButtons(false);
 				}
 			}
 		} else if (e.getSource() == closeItem) {
