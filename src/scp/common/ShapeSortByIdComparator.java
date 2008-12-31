@@ -3,8 +3,8 @@ package scp.common;
 import java.util.Comparator;
 
 /**
- * Comparator to sort shapes by id (lower to higher)
- * @author sst
+ * Comparator to sort Shapes by id (lower to higher)
+ * @author Simon Stiefel
  *
  */
 public class ShapeSortByIdComparator implements Comparator<Shape> {

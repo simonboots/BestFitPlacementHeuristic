@@ -24,8 +24,11 @@ import org.xml.sax.SAXException;
 import scp.common.xml.bindings.*;
 
 /**
- * Bridge to XML
- * @author sst
+ * Bridge to XML files
+ * 
+ * Prepares XML content to be accessible through lists
+ * 
+ * @author Simon Stiefel
  *
  */
 public class XMLBridge {
@@ -49,7 +52,7 @@ public class XMLBridge {
 		SchemaFactory sf = SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = null;
 		try {
-			schema = sf.newSchema(new File("StockCuttingProblem.xsd"));
+			schema = sf.newSchema(new File("src/StockCuttingProblem.xsd"));
 		} catch (SAXException e) {
 			e.printStackTrace();
 		}
@@ -155,9 +158,9 @@ public class XMLBridge {
 	}
 	
 	/**
-	 * All shapes in sorted state (rotation)
+	 * All shapes in sorted state (with rotation)
 	 * 
-	 * @return all shapes in sorted state (rotation)
+	 * @return all shapes in sorted state (with rotation)
 	 * @throws JAXBException
 	 */
 	public Map<Integer, scp.common.Shape> getSortedShapeMap() throws JAXBException {

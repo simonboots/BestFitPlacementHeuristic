@@ -4,7 +4,8 @@ import scp.common.*;
 
 /**
  * Interface to Heuristic callback methods
- * @author sst
+ * 
+ * @author Simon Stiefel
  *
  */
 public interface IHeuristicResultCallback {

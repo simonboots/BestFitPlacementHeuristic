@@ -6,7 +6,9 @@ import java.util.List;
 import scp.common.actionchain.actions.UnhighlightGapAction;
 
 /**
- * @author sst
+ * Executes Actions on ShapeMagazine and ShapePlacer
+ * 
+ * @author Simon Stiefel
  * 
  */
 public class ActionExecutor {

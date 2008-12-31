@@ -2,7 +2,7 @@ package scp.common;
 
 /**
  * Gap on StockRoll
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class Gap implements IPlaceableObject {

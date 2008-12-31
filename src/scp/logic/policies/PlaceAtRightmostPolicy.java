@@ -9,7 +9,7 @@ import scp.common.Shape;
  * 
  * Places shape at the rightmost location in gap
  * 
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class PlaceAtRightmostPolicy implements INichePlacementPolicy {

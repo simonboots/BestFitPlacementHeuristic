@@ -1,5 +1,9 @@
 package scp.cli;
 
+/**
+ * @author Simon Stiefel
+ *
+ */
 public class NoFileSpecifiedException extends Exception {
 
 	private static final long serialVersionUID = 1L;

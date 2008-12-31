@@ -1,7 +1,7 @@
 package scp.logic;
 
 /**
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class WrongPlacementException extends Exception {

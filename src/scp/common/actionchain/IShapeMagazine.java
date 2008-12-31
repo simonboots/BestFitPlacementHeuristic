@@ -5,7 +5,7 @@ import scp.common.*;
 
 /**
  * Interface for ShapeManagzine
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public interface IShapeMagazine {

@@ -2,7 +2,7 @@ package scp.common;
 
 /**
  * Placed Shape (Shape with coordinates)
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class PlacedShape extends Shape implements IPlaceableObject {
@@ -11,6 +11,8 @@ public class PlacedShape extends Shape implements IPlaceableObject {
     private Integer y = null;
 
 	/**
+	 * Constructor for PlacedShape
+	 * 
 	 * @param id ID of placed shape
 	 * @param height height of placed shape
 	 * @param width width of placed shape
@@ -24,6 +26,8 @@ public class PlacedShape extends Shape implements IPlaceableObject {
 	}
 	
 	/**
+	 * Constructor for PlacedShape (using existing Shape as reference)
+	 * 
 	 * @param shape (non-placed) template shape
 	 * @param x location on x axis
 	 * @param y location on y axis

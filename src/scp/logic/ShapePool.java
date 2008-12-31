@@ -11,7 +11,7 @@ import scp.common.ShapeSortBySizeComparator;
 /**
  * Shape pool
  * 
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class ShapePool implements Iterable<Shape> {

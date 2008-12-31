@@ -2,7 +2,7 @@ package scp.common;
 
 /**
  * Interface for placeable objects
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public interface IPlaceableObject {

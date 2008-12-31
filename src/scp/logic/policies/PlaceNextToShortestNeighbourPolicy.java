@@ -9,7 +9,7 @@ import scp.common.Shape;
  * 
  * Places shape next to shortest neighbour
  * 
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class PlaceNextToShortestNeighbourPolicy implements INichePlacementPolicy {

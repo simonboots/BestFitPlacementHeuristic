@@ -2,7 +2,7 @@ package scp.common.actionchain;
 
 /**
  * Interface for Action
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public interface IAction {

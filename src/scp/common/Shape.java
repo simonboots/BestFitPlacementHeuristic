@@ -1,7 +1,7 @@
 package scp.common;
 
 /**
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class Shape implements Cloneable {
@@ -13,6 +13,8 @@ public class Shape implements Cloneable {
     private Boolean rotated;
 
     /**
+     * Constructor of Shape
+     * 
      * @param id ID of shape
      * @param height height of shape
      * @param width width of shape
@@ -45,14 +47,14 @@ public class Shape implements Cloneable {
     }
     
     /**
-     * @return area of shape
+     * @return Area of shape
      */
     public int getArea() {
     	return getWidth() * getHeight();
     }
 
     /**
-     * rotates shape by 90 degrees
+     * Rotates shape by 90 degrees
      */
     public void rotate() {
         Integer oldWidth = this.getWidth();

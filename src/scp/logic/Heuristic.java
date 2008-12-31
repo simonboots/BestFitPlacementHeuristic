@@ -7,7 +7,7 @@ import scp.logic.policies.*;
 
 /**
  * Implemtation of Best-Fit Heuristic
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class Heuristic {
@@ -19,6 +19,8 @@ public class Heuristic {
 	private IHeuristicResultCallback callback = null;
 
 	/**
+	 * Constructor of Heuristic
+	 * 
 	 * @param stockrollwidth width of stockroll
 	 */
 	public Heuristic(int stockrollwidth) {

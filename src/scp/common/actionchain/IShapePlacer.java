@@ -5,7 +5,7 @@ import scp.common.PlacedShape;
 
 /**
  * Interface for ShapePlacer
- * @author sst
+ * @author Simon Stiefel
  *
  */
 

@@ -15,7 +15,7 @@ import scp.logic.policies.*;
 
 /**
  * Command Line Solver
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class Solver implements IHeuristicResultCallback {
@@ -27,7 +27,7 @@ public class Solver implements IHeuristicResultCallback {
 	protected List<IPlaceableObject> placementList = null;
 	protected List<IPlaceableObject> optimizedPlacementList = null;
 	protected File outputFile = null;
-	public Options options = null;
+	protected Options options = null;
 	
 	
 	/**
@@ -184,7 +184,7 @@ public class Solver implements IHeuristicResultCallback {
 	}
 
 	/**
-	 * Entry point for command line solver
+	 * Entry point (main function) for command line solver
 	 * 
 	 * @param args command line arguments
 	 */

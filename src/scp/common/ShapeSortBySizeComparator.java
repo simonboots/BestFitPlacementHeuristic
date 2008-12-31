@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 /**
  * Comparator to sort Shapes by size (big to small)
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class ShapeSortBySizeComparator implements Comparator<Shape> {

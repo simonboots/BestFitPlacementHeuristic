@@ -10,31 +10,26 @@ public class Skyline implements IPlaceableObject {
 		this.setMaxHeight(maxHeight);
 	}
 
-	@Override
 	public int getHeight() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public int getId() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public int getWidth() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public int getX() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public int getY() {
 		// TODO Auto-generated method stub
 		return 0;

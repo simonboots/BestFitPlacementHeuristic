@@ -9,7 +9,7 @@ import scp.common.Shape;
  * 
  * Places shape next to tallest neighbour policy
  * 
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class PlaceNextToTallestNeighbourPolicy implements INichePlacementPolicy {

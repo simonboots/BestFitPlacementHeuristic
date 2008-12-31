@@ -20,7 +20,7 @@ import scp.common.xml.XMLBridge;
 
 /**
  * Command Line Generator for XML file with random sized shapes
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class Generator {
@@ -30,7 +30,7 @@ public class Generator {
 	protected List<Shape> shapeList = null;
 	protected XMLBridge bridge = null;
 	protected File outputFile = null;
-	public Options options = null;
+	protected Options options = null;
 	
 	
 	/**
@@ -122,7 +122,7 @@ public class Generator {
 	}
 
 	/**
-	 * Entry point for command line generator
+	 * Entry point (main function) for command line generator
 	 * 
 	 * @param args command line arguments
 	 */

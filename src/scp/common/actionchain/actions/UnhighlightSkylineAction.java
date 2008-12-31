@@ -6,12 +6,10 @@ import scp.common.actionchain.IShapePlacer;
 
 public class UnhighlightSkylineAction implements IAction {
 
-	@Override
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {
 		placer.unhighlightSkyline();
 	}
 
-	@Override
 	public IAction getReverseAction() {
 		return new HighlightSkylineAction();
 	}

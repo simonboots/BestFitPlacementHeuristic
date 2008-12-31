@@ -8,7 +8,7 @@ import scp.common.Shape;
  * Leftmost policy
  * 
  * Places shape at the leftmost location in gap
- * @author sst
+ * @author Simon Stiefel
  *
  */
 public class PlaceAtLeftmostPolicy implements INichePlacementPolicy {

@@ -8,7 +8,8 @@ import scp.common.*;
 
 /**
  * Stock Roll
- * @author sst
+ * 
+ * @author Simon Stiefel
  *
  */
 public class StockRoll {
