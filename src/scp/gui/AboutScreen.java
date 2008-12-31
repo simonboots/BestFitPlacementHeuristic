@@ -15,6 +15,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
+/**
+ * About screen with some information about the program
+ * @author Benjamin Clauss
+ */
 @SuppressWarnings("serial")
 public class AboutScreen extends JWindow {
 

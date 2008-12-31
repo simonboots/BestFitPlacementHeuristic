@@ -4,6 +4,10 @@ import scp.common.actionchain.IAction;
 import scp.common.actionchain.IShapeMagazine;
 import scp.common.actionchain.IShapePlacer;
 
+/**
+ * highlight skyline on stockroll
+ * @author Benjamin Clauss
+ */
 public class HighlightSkylineAction implements IAction {
 
 	public void execute(IShapeMagazine magazine, IShapePlacer placer) {

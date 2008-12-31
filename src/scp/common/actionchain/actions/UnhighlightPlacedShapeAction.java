@@ -6,7 +6,7 @@ import scp.common.actionchain.IShapeMagazine;
 import scp.common.actionchain.IShapePlacer;
 
 /**
- * unhighlight PlacedShape
+ * unhighlight PlacedShape on stockroll
  * @author Benjamin Clauss
  */
 public class UnhighlightPlacedShapeAction implements IAction {

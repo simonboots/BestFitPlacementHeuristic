@@ -5,6 +5,8 @@ import scp.common.Shape;
 import scp.common.actionchain.IShapeMagazine;
 
 /**
+ * ShapeMagazin
+ * 
  * @author Benjamin Clauss
  */
 class ShapeMagazine implements IShapeMagazine {
@@ -12,7 +14,6 @@ class ShapeMagazine implements IShapeMagazine {
 	private StockCutterGUI gui;
 
 	/**
-	 * 
 	 * @param gui instance of the main-class to get access to the methods
 	 */
 	public ShapeMagazine(StockCutterGUI gui) {

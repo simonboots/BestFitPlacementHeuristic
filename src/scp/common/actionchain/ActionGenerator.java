@@ -7,8 +7,8 @@ import scp.common.*;
 import scp.common.actionchain.actions.*;
 
 /**
- * action generator for the doQueue
- * @author BennyC
+ * Generates Actions for doQueue
+ * @author Benjamin Clauss
  */
 public class ActionGenerator {
 
@@ -84,7 +84,7 @@ public class ActionGenerator {
 
 			optimizedShape = null;
 		}
-		
+
 		// highlight skyline
 		doQueue.add(new HighlightSkylineAction());
 

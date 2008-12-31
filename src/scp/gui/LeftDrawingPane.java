@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 /**
- * JPanel for the magazine
+ * ShapeMagazine-Panel
+ * 
  * @author Benjamin Clauss
  */
 @SuppressWarnings("serial")
@@ -109,6 +110,10 @@ public class LeftDrawingPane extends JPanel {
 		}
 	}
 
+	/**
+	 * sets a flag when a shape is highlighted
+	 * @param scrollToRed flag: highlighted or not
+	 */
 	public void setScrollToRed(boolean scrollToRed) {
 		this.scrollToRed = scrollToRed;
 	}

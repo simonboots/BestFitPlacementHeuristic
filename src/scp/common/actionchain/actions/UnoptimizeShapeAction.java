@@ -9,7 +9,7 @@ import scp.common.actionchain.IShapeMagazine;
 import scp.common.actionchain.IShapePlacer;
 
 /**
- * unoptimize Shape
+ * unoptimize Shape on stockroll
  * @author Benjamin Clauss
  */
 public class UnoptimizeShapeAction implements IAction {

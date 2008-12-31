@@ -11,7 +11,8 @@ import scp.common.IPlaceableObject;
 import scp.common.PlacedShape;
 
 /**
- * JPanel for the stockroll
+ * StockRoll-Panel
+ * 
  * @author Benjamin Clauss
  */
 @SuppressWarnings("serial")

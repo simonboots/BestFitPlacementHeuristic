@@ -49,6 +49,7 @@ import scp.common.actionchain.IAction;
 import scp.common.xml.XMLBridge;
 
 /**
+ * Graphical User Interface
  * @author Benjamin Clauss
  */
 @SuppressWarnings("serial")
@@ -274,6 +275,9 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		setVisible(true);
 	}
 
+	/**
+	 * button-handler
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == timer) {
 			if (executor.hasNextAction()) {
@@ -388,6 +392,9 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 		}
 	}
 
+	/**
+	 * slider-handler
+	 */
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == slider) {
 			timer.setDelay(slider.getValue());
@@ -485,7 +492,6 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 	/**
 	 * removes a shape from the stockroll
-	 * 
 	 * @param s shape to be removed
 	 */
 	public void removePlacedShape(Shape s) {
@@ -617,7 +623,7 @@ public class StockCutterGUI extends JFrame implements ActionListener, ChangeList
 
 	/**
 	 * main method
-	 * @param args not used in a swing-application
+	 * @param args not used
 	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {

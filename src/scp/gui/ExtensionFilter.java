@@ -19,5 +19,4 @@ public class ExtensionFilter extends FileFilter {
 	public String getDescription() {
 		return "SCP Dateien (*.scp, *.xml)";
 	}
-
 }
